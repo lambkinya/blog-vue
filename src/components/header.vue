@@ -12,7 +12,7 @@
               <el-submenu index="/Share">
                 <template slot="title"><i class="fa fa-wa fa-archive"></i> 分类</template>
                 <el-menu-item v-for="(item,index) in classListObj" :key="'class1'+index"
-                  :index="'/Share?classId='+item.id">{{item.name}}</el-menu-item>
+                  :index="'/Share?categoryNo='+item.no">{{item.name}}</el-menu-item>
               </el-submenu>
               <el-menu-item index="/Reward"><i class="fa fa-wa fa-cny"></i> 赞赏</el-menu-item>
               <el-menu-item index="/Friendslink"><i class="fa fa-wa fa-users"></i>友链</el-menu-item>
@@ -40,7 +40,7 @@
       </el-row>
     </div>
     <div class="headImgBox"
-      :style="{backgroundImage:this.$store.state.themeObj.top_image?'url('+this.$store.state.themeObj.top_image+')':'url(static/img/headbg05.jpg)'}">
+      :style="{backgroundImage:this.$store.state.themeObj.top_image?'url('+this.$store.state.themeObj.top_image+')':'url(static/img/img007.jpg)'}">
       <div class="scene">
         <div><span id="luke"></span></div>
       </div>
