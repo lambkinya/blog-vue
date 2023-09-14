@@ -34,7 +34,7 @@ export function register(data: UserForm): AxiosPromise<Result<null>> {
  */
 export function getUserInfo(): AxiosPromise<Result<UserInfo>> {
   return request({
-    url: "/user/getUserInfo",
+    url: "/info",
     method: "get",
   });
 }
