@@ -63,9 +63,9 @@ export interface ArticlePagination {
  */
 export interface ArticleInfo {
   /**
-   * 文章id
+   * 文章编号
    */
-  id: number;
+  no: string;
   /**
    * 文章缩略图
    */
@@ -73,11 +73,11 @@ export interface ArticleInfo {
   /**
    * 文章标题
    */
-  articleTitle: string;
+  title: string;
   /**
    * 文章内容
    */
-  articleContent: string;
+  content: string;
   /**
    * 文章类型 (1原创 2转载 3翻译)
    */

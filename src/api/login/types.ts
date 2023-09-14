@@ -3,9 +3,9 @@
  */
 export interface LoginForm {
   /**
-   * 用户名
+   * 账号
    */
-  username: string;
+  account: string;
   /**
    * 密码
    */

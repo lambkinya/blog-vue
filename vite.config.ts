@@ -67,6 +67,7 @@ export default defineConfig({
       "/yapi": {
         // http://127.0.0.1:12139/api/test/... ==>  http://127.0.0.1:12138/test/...
         target: "http://127.0.0.1:12138",
+        // 允许跨域
         changeOrigin: true,
         rewrite: (path) => path.replace(/^\/yapi/, ""),
       },

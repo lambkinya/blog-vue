@@ -22,7 +22,7 @@ export function getArticleList(params: PageQuery): AxiosPromise<Result<PageResul
  */
 export function getArticle(articleId: number): AxiosPromise<Result<ArticleInfo>> {
   return request({
-    url: `/article/${articleId}`,
+    url: `/articles/${articleId}`,
     method: "get",
   });
 }

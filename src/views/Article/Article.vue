@@ -1,7 +1,7 @@
 <template>
   <div class="page-header" v-if="article">
     <div class="page-title">
-      <h1 class="article-title">{{ article.articleTitle }}</h1>
+      <h1 class="article-title">{{ article.title }}</h1>
       <div class="article-meta">
         <div class="first-meta">
           <span><svg-icon icon-class="calendar" style="margin-right:0.15rem;"></svg-icon>
@@ -23,13 +23,13 @@
           </span>
           <span class="item">
             <svg-icon icon-class="category" style="margin-right:0.15rem;"></svg-icon>{{
-              article.category.categoryName
+            article.category.categoryName
             }}
           </span>
         </div>
       </div>
     </div>
-    <img class="page-cover" :src="article.articleCover" alt="">
+    <img class="page-cover" :src="article.thumbnail" alt="">
     <!-- 波浪 -->
     <Waves></Waves>
   </div>
@@ -44,10 +44,10 @@
                 <svg-icon icon-class="tag" size="0.8rem"></svg-icon>
                 {{ tag.tagName }}
               </router-link>
-              <Share class="share-info" :url="articleHref" :title="article.articleTitle"></Share>
+              <Share class="share-info" :url="articleHref" :title="article.title"></Share>
             </div>
             <div class="reward">
-              <button class="btn" :class="isLike(article.id)" @click="like">
+              <button class="btn" :class="isLike(article.no)" @click="like">
                 <svg-icon icon-class="like" size="0.9rem"></svg-icon> 点赞
                 <span>{{ article.likeCount }}</span>
               </button>
@@ -122,249 +122,250 @@
 </template>
 
 <script setup lang="ts">
-import { getArticle, likeArticle } from "@/api/article";
-import { ArticleInfo, ArticlePagination } from "@/api/article/types";
-import { CategoryVO } from "@/api/category/types";
-import useStore from "@/store";
-import { formatDate } from "@/utils/date";
-import { Share } from 'vue3-social-share';
-import 'vue3-social-share/lib/index.css';
-const { app, blog, user } = useStore();
-const articleRef = ref();
-const route = useRoute();
-const articleHref = window.location.href;
-const data = reactive({
-  articleLoaded: false,
-  wordNum: 0,
-  readTime: 0,
-  commentType: 1,
-  article: {
-    id: 0,
-    articleCover: "",
-    articleTitle: "",
-    articleContent: "",
-    articleType: 0,
-    viewCount: 0,
-    likeCount: 0,
-    category: {} as CategoryVO,
-    tagVOList: [],
-    createTime: "",
-    lastArticle: {} as ArticlePagination,
-    nextArticle: {} as ArticlePagination,
-    updateTime: ""
-  } as ArticleInfo,
-});
-const { articleLoaded, wordNum, readTime, commentType, article } = toRefs(data);
-const articleCover = computed(() => (cover: string) => 'background-image:url(' + cover + ')');
-const isLike = computed(() => (id: number) => user.articleLikeSet.indexOf(id) != -1 ? "like-btn-active" : "like-btn");
-const count = (value: number) => {
-  if (value >= 1000) {
-    return (value / 1000).toFixed(1) + "k";
-  }
-  return value;
-};
-const deleteHTMLTag = (content: string) => {
-  return content
-    .replace(/<\/?[^>]*>/g, "")
-    .replace(/[|]*\n/, "")
-    .replace(/&npsp;/gi, "");
-};
-const like = () => {
-  if (!user.id) {
-    app.setLoginFlag(true);
-    return;
-  }
-  let id = article.value.id;
-  likeArticle(id).then(({ data }) => {
-    if (data.flag) {
-      //判断是否点赞
-      if (user.articleLikeSet.indexOf(id) != -1) {
-        article.value.likeCount -= 1;
-      } else {
-        article.value.likeCount += 1;
-      }
-      user.articleLike(id);
-    }
+  import { getArticle, likeArticle } from "@/api/article";
+  import { ArticleInfo, ArticlePagination } from "@/api/article/types";
+  import { CategoryVO } from "@/api/category/types";
+  import useStore from "@/store";
+  import { formatDate, formatDateTime } from "@/utils/date";
+  import { Share } from 'vue3-social-share';
+  import 'vue3-social-share/lib/index.css';
+  const { app, blog, user } = useStore();
+  const articleRef = ref();
+  const route = useRoute();
+  const articleHref = window.location.href;
+  const data = reactive({
+    articleLoaded: false,
+    wordNum: 0,
+    readTime: 0,
+    commentType: 1,
+    article: {
+      no: 0,
+      thumbnail: "",
+      title: "",
+      articleContent: "",
+      articleType: 0,
+      viewCount: 0,
+      likeCount: 0,
+      category: {} as CategoryVO,
+      tagVOList: [],
+      createTime: "",
+      lastArticle: {} as ArticlePagination,
+      nextArticle: {} as ArticlePagination,
+      updateTime: ""
+    } as ArticleInfo,
   });
-};
-onMounted(() => {
-  getArticle(Number(route.params.id)).then(({ data }) => {
-    article.value = data.data;
-    document.title = article.value.articleTitle;
-    wordNum.value = deleteHTMLTag(article.value.articleContent).length;
-    readTime.value = Math.round(wordNum.value / 400);
-    articleLoaded.value = true;
+  const { articleLoaded, wordNum, readTime, commentType, article } = toRefs(data);
+  const articleCover = computed(() => (cover: string) => 'background-image:url(' + cover + ')');
+  const isLike = computed(() => (id: number) => user.articleLikeSet.indexOf(id) != -1 ? "like-btn-active" : "like-btn");
+  const count = (value: number) => {
+    if (value >= 1000) {
+      return (value / 1000).toFixed(1) + "k";
+    }
+    return value;
+  };
+  const deleteHTMLTag = (content: string) => {
+    return content
+      .replace(/<\/?[^>]*>/g, "")
+      .replace(/[|]*\n/, "")
+      .replace(/&npsp;/gi, "");
+  };
+  const like = () => {
+    if (!user.id) {
+      app.setLoginFlag(true);
+      return;
+    }
+    let id = article.value.id;
+    likeArticle(id).then(({ data }) => {
+      if (data.flag) {
+        //判断是否点赞
+        if (user.articleLikeSet.indexOf(id) != -1) {
+          article.value.likeCount -= 1;
+        } else {
+          article.value.likeCount += 1;
+        }
+        user.articleLike(id);
+      }
+    });
+  };
+  onMounted(() => {
+    getArticle(route.params.id).then(({ data }) => {
+      console.log("article...", data.data);
+      article.value = data.data;
+      document.title = article.value.title;
+      wordNum.value = deleteHTMLTag(article.value.content).length;
+      readTime.value = Math.round(wordNum.value / 400);
+      articleLoaded.value = true;
+    })
   })
-})
 </script>
 
 <style lang="scss" scoped>
-@import "@/assets/styles/mixin.scss";
+  @import "@/assets/styles/mixin.scss";
 
-.article-container {
-  border-radius: 0.5rem;
-  overflow: hidden;
-  box-shadow: 0 0 1rem var(--box-bg-shadow);
-}
-
-.article-post {
-  margin: 0 2rem;
-  padding-bottom: 1rem;
-}
-
-.article-title {
-  font-weight: 500;
-  font-size: 2.5rem;
-  letter-spacing: 0.125rem;
-  text-align: center;
-  color: var(--header-text-color);
-}
-
-.article-meta {
-  @include flex;
-  flex-direction: column;
-  font-size: 0.875rem;
-
-  .item {
-    margin-left: 0.625rem;
-  }
-}
-
-.tag-share {
-  display: flex;
-  align-items: center;
-
-  .share-info {
-    margin-left: auto;
-  }
-}
-
-.reward {
-  margin: 1.25rem auto;
-  padding: 0.625rem 0;
-  text-align: center;
-
-  .btn {
-    border-radius: 0.3125rem;
-    color: var(--grey-0);
-    cursor: pointer !important;
-    padding: 0 0.9375rem;
-    font: inherit;
-  }
-
-  .like-btn-active {
-    background: var(--primary-color);
-  }
-
-  .like-btn {
-    background: #999;
-  }
-
-  .reward-btn {
-    position: relative;
-    margin-left: 1rem;
-    background: var(--primary-color);
-  }
-
-  .tea {
-    font-size: 0.8125em;
-    color: var(--grey-5);
-    margin-top: 0.5rem;
-  }
-}
-
-.reward-all {
-  display: flex;
-  align-items: center;
-}
-
-.reward-img {
-  width: 130px;
-  height: 130px;
-  display: block;
-}
-
-.reward-desc {
-  margin: -5px 0;
-  color: #858585;
-  text-align: center;
-}
-
-.copyright {
-  font-size: 0.75em;
-  padding: 1rem 2rem;
-  margin-bottom: 2.5rem;
-  border-radius: 0.625rem;
-  background: var(--grey-2);
-  color: var(--grey-6);
-}
-
-.post-nav {
-  display: flex;
-  margin-bottom: 2.5rem;
-  border-radius: 0.625rem;
-  overflow: hidden;
-
-  .item {
-    width: 50%;
-  }
-
-  .post-cover {
-    display: flex;
-    flex-direction: column;
-    color: var(--header-text-color);
-    padding: 1.25rem 2.5rem;
-    background-size: cover;
-    animation: blur 0.8s ease-in-out forwards;
-
-    &:before {
-      content: "";
-      position: absolute;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #434343, #000);
-      opacity: 0.5;
-      transition: all 0.2s ease-in-out 0s;
-      z-index: -1;
-      top: 0;
-      left: 0;
-    }
-  }
-
-  .post-last-next {
-    font-size: 0.8125rem;
-  }
-}
-
-.post-cover:hover::before {
-  opacity: 0.4;
-}
-
-@media (max-width: 767px) {
-  .article-title {
-    font-size: 1.5rem;
-  }
-
-  .article-meta .text {
-    display: none;
+  .article-container {
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 0 1rem var(--box-bg-shadow);
   }
 
   .article-post {
-    margin: 0 0.5rem;
+    margin: 0 2rem;
+    padding-bottom: 1rem;
   }
 
-  .post-nav {
+  .article-title {
+    font-weight: 500;
+    font-size: 2.5rem;
+    letter-spacing: 0.125rem;
+    text-align: center;
+    color: var(--header-text-color);
+  }
+
+  .article-meta {
+    @include flex;
     flex-direction: column;
+    font-size: 0.875rem;
+
+    .item {
+      margin-left: 0.625rem;
+    }
   }
 
-  .post-nav .item {
-    width: 100%;
+  .tag-share {
+    display: flex;
+    align-items: center;
+
+    .share-info {
+      margin-left: auto;
+    }
+  }
+
+  .reward {
+    margin: 1.25rem auto;
+    padding: 0.625rem 0;
+    text-align: center;
+
+    .btn {
+      border-radius: 0.3125rem;
+      color: var(--grey-0);
+      cursor: pointer !important;
+      padding: 0 0.9375rem;
+      font: inherit;
+    }
+
+    .like-btn-active {
+      background: var(--primary-color);
+    }
+
+    .like-btn {
+      background: #999;
+    }
+
+    .reward-btn {
+      position: relative;
+      margin-left: 1rem;
+      background: var(--primary-color);
+    }
+
+    .tea {
+      font-size: 0.8125em;
+      color: var(--grey-5);
+      margin-top: 0.5rem;
+    }
+  }
+
+  .reward-all {
+    display: flex;
+    align-items: center;
   }
 
   .reward-img {
-    width: 105px;
-    height: 105px;
+    width: 130px;
+    height: 130px;
+    display: block;
   }
 
-}
+  .reward-desc {
+    margin: -5px 0;
+    color: #858585;
+    text-align: center;
+  }
+
+  .copyright {
+    font-size: 0.75em;
+    padding: 1rem 2rem;
+    margin-bottom: 2.5rem;
+    border-radius: 0.625rem;
+    background: var(--grey-2);
+    color: var(--grey-6);
+  }
+
+  .post-nav {
+    display: flex;
+    margin-bottom: 2.5rem;
+    border-radius: 0.625rem;
+    overflow: hidden;
+
+    .item {
+      width: 50%;
+    }
+
+    .post-cover {
+      display: flex;
+      flex-direction: column;
+      color: var(--header-text-color);
+      padding: 1.25rem 2.5rem;
+      background-size: cover;
+      animation: blur 0.8s ease-in-out forwards;
+
+      &:before {
+        content: "";
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(135deg, #434343, #000);
+        opacity: 0.5;
+        transition: all 0.2s ease-in-out 0s;
+        z-index: -1;
+        top: 0;
+        left: 0;
+      }
+    }
+
+    .post-last-next {
+      font-size: 0.8125rem;
+    }
+  }
+
+  .post-cover:hover::before {
+    opacity: 0.4;
+  }
+
+  @media (max-width: 767px) {
+    .article-title {
+      font-size: 1.5rem;
+    }
+
+    .article-meta .text {
+      display: none;
+    }
+
+    .article-post {
+      margin: 0 0.5rem;
+    }
+
+    .post-nav {
+      flex-direction: column;
+    }
+
+    .post-nav .item {
+      width: 100%;
+    }
+
+    .reward-img {
+      width: 105px;
+      height: 105px;
+    }
+
+  }
 </style>

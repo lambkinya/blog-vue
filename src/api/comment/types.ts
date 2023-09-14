@@ -91,17 +91,17 @@ export interface Reply {
  */
 export interface Comment {
   /**
-   * 评论id
+   * 评论编号
    */
-  id: number;
+  no: string;
   /**
-   * 评论用户id
+   * 评论用户编号
    */
-  fromUid: number;
+  coderNo: string;
   /**
    * 昵称
    */
-  fromNickname: string;
+  nickname: string;
   /**
    * 头像
    */
@@ -109,7 +109,11 @@ export interface Comment {
   /**
    * 评论内容
    */
-  commentContent: string;
+  content: string;
+  /**
+   * 所回复的目标评论的用户编号
+   */
+  toUserNo: string;
   /**
    * 点赞数
    */
@@ -121,11 +125,16 @@ export interface Comment {
   /**
    * 回复列表
    */
-  replyVOList: Reply[];
+  childrenCommentList: Comment[];
   /**
    * 评论时间
    */
   createTime: string;
+
+  /**
+   * 当前评论位于第几页
+   */
+  pageNo: string;
 }
 
 /**

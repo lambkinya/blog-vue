@@ -31,7 +31,7 @@ export function addComment(data: CommentForm): AxiosPromise<Result<null>> {
  */
 export function getCommentList(params: CommentQuery): AxiosPromise<Result<PageResult<Comment[]>>> {
   return request({
-    url: "/comment/list",
+    url: "/comments/list",
     method: "get",
     params,
   });
@@ -39,15 +39,14 @@ export function getCommentList(params: CommentQuery): AxiosPromise<Result<PageRe
 
 /**
  * 查看回复评论
- * @param commentId 评论id
- * @param params 分页参数
+ * @param commentNo 评论编号
+ * @param pageNo 分页参数
  * @returns 回复评论列表
  */
-export function getReplyList(commentId: number, params: PageQuery): AxiosPromise<Result<Reply[]>> {
+export function getReplyList(commentNo: string, pageNo: number ): AxiosPromise<Result<Reply[]>> {
   return request({
-    url: `/comment/${commentId}/reply`,
+    url: `/comments/${commentNo}/reply?pageNo=${pageNo}`,
     method: "get",
-    params,
   });
 }
 
