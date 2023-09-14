@@ -5,13 +5,13 @@ import { UserState } from "../types";
 
 const useUserStore = defineStore("useUserStore", {
   state: (): UserState => ({
-    id: undefined,
+    no: "",
     avatar: "",
     nickname: "",
     email: "",
-    username: "",
+    account: "",
     webSite: "",
-    intro: "",
+    saying: "",
     loginType: undefined,
     path: "",
     articleLikeSet: [],
@@ -24,19 +24,19 @@ const useUserStore = defineStore("useUserStore", {
         getUserInfo()
           .then(({ data }) => {
             if (data.flag) {
-              this.id = data.data.id;
+              this.no = data.data.no;
               this.avatar = data.data.avatar;
               this.nickname = data.data.nickname;
               this.email = data.data.email;
-              this.username = data.data.username;
+              this.account = data.data.account;
               this.webSite = data.data.webSite;
-              this.intro = data.data.intro;
+              this.saying = data.data.saying;
               this.loginType = data.data.loginType;
               this.articleLikeSet = data.data.articleLikeSet;
               this.commentLikeSet = data.data.commentLikeSet;
               this.talkLikeSet = data.data.talkLikeSet;
             }
-            resolve(data);
+            resolve(data);           
           })
           .catch((error) => {
             reject(error);

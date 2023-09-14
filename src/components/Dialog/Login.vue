@@ -105,19 +105,24 @@
       window.$message?.warning("密码不能为空");
       return;
     }
+    // 按钮显示加载中
     loading.value = true;
     login(loginForm.value).then(({ data }) => {
       if (data.flag) {
+        // 将token存入Cookie
         setToken(data.data);
+        // 获取登录用户信息
         user.GetUserInfo();
-        window.$message?.success("登录成功");
+        // window.$message?.success("登录成功");
         loginForm.value = {
           account: "",
           password: "",
         };
+        // 设置登录状态
         app.setLoginFlag(false);
       }
       loading.value = false;
+      console.log("login-ok");
     });
   };
 </script>

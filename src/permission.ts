@@ -14,17 +14,18 @@ NProgress.configure({
 router.beforeEach((to, from, next) => {
   NProgress.start();
   const { user } = useStore();
+  
   if (to.meta.title) {
     document.title = to.meta.title as string;
   }
   if (getToken()) {    
-    if (user.id === undefined) {
+    if (user.no === undefined) {
       user
         .GetUserInfo()
         .then(() => next())
         .catch(() => {
           user.LogOut().then(() => {
-            window.$message?.warning("凭证失效，请重新登录");
+            // window.$message?.warning("凭证失效，请重新登录");
             next();
           });
         });

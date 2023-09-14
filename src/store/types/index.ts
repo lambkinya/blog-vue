@@ -39,9 +39,9 @@ export interface AppState {
  */
 export interface UserState {
   /**
-   * 用户id
+   * 用户编号
    */
-  id?: number;
+  no?: string;
   /**
    * 头像
    */
@@ -51,9 +51,9 @@ export interface UserState {
    */
   nickname: string;
   /**
-   * 用户名
+   * 用户账号
    */
-  username: string;
+  account: string;
   /**
    * 邮箱
    */
@@ -65,7 +65,7 @@ export interface UserState {
   /**
    * 个人简介
    */
-  intro: string;
+  saying: string;
   /**
    * 登录方式
    */
