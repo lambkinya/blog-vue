@@ -51,7 +51,7 @@ export interface Reply {
   /**
    * 父级评论id
    */
-  parentId: number;
+  root_comment_no: number;
   /**
    * 评论用户id
    */
@@ -150,19 +150,19 @@ export interface CommentForm {
    */
   commentType: number;
   /**
-   * 父评论id
+   * 父评论编号
    */
-  parentId?: number;
+  root_comment_no?: string;
   /**
-   * 被回复评论id
+   * 被回复评论编号
    */
-  replyId?: number;
+  to_comment_no?: string;
   /**
-   * 被回复用户id
+   * 被回复用户编号
    */
-  toUid?: number;
+  to_coder_no?: string;
   /**
    * 评论内容
    */
-  commentContent: string;
+  content: string;
 }

@@ -113,7 +113,7 @@
         setToken(data.data);
         // 获取登录用户信息
         user.GetUserInfo();
-        // window.$message?.success("登录成功");
+        window.$message?.success("登录成功");
         loginForm.value = {
           account: "",
           password: "",

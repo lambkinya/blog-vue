@@ -148,14 +148,21 @@
     });
   };
   const handleReply = (index: number, target: Comment | Reply) => {
+    console.log("回复的评论", target);
     replyRef.value.forEach((element: any) => {
       element.setReply(false);
     });
     const currentReply = replyRef.value[index];
-    currentReply.nickname = target.fromNickname;
-    currentReply.commentForm.replyId = target.id;
-    currentReply.commentForm.toUid = target.fromUid;
-    currentReply.commentForm.parentId = commentList.value[index].id;
+    // currentReply.nickname = target.fromNickname;
+    // currentReply.commentForm.replyId = target.id;
+    // currentReply.commentForm.toUid = target.fromUid;
+    // currentReply.commentForm.parentId = commentList.value[index].id;
+    // currentReply.toCoderNickname = target.nickname;
+    currentReply.commentForm.coderNo = user.no;
+    currentReply.commentForm.articleNo = queryParams.value.articleNo;
+    currentReply.commentForm.toCommentNo = target.no;
+    currentReply.commentForm.toCoderNo = target.coderNo;
+    currentReply.commentForm.rootCommentNo = target.rootCommentNo == "-1" ? target.no : target.rootCommentNo;
     currentReply.setReply(true);
   };
   const getList = () => {

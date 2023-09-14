@@ -19,7 +19,7 @@ export function getRecentComment(): AxiosPromise<Result<RecentComment[]>> {
  */
 export function addComment(data: CommentForm): AxiosPromise<Result<null>> {
   return request({
-    url: "/comment/add",
+    url: "/comments/add",
     method: "post",
     data,
   });
