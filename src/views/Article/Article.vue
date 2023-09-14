@@ -23,7 +23,7 @@
           </span>
           <span class="item">
             <svg-icon icon-class="category" style="margin-right:0.15rem;"></svg-icon>{{
-            article.category.categoryName
+            article.categoryName
             }}
           </span>
         </div>
@@ -37,12 +37,12 @@
     <div class="main-container" v-if="article">
       <div class="left-container" :class="app.sideFlag ? 'test' : ''">
         <div class="article-container">
-          <v-md-preview ref="articleRef" class="md" v-viewer :text="article.articleContent"></v-md-preview>
+          <v-md-preview ref="articleRef" class="md" v-viewer :text="article.content"></v-md-preview>
           <div class="article-post">
             <div class="tag-share">
-              <router-link :to="`/tag/${tag.id}`" class="article-tag" v-for="tag in article.tagVOList" :key="tag.id">
+              <router-link :to="`/tag/${tag.no}`" class="article-tag" v-for="tag in article.tagList" :key="tag.no">
                 <svg-icon icon-class="tag" size="0.8rem"></svg-icon>
-                {{ tag.tagName }}
+                {{ tag.name }}
               </router-link>
               <Share class="share-info" :url="articleHref" :title="article.title"></Share>
             </div>
@@ -146,8 +146,9 @@
       articleType: 0,
       viewCount: 0,
       likeCount: 0,
-      category: {} as CategoryVO,
-      tagVOList: [],
+      categoryNo: "",
+      categoryName: "",
+      tagList: [],
       createTime: "",
       lastArticle: {} as ArticlePagination,
       nextArticle: {} as ArticlePagination,

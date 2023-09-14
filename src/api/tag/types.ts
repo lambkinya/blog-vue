@@ -1,15 +1,15 @@
 /**
  * 标签
  */
-export interface Tag {
+export interface Tags {
   /**
-   * 标签id
+   * 标签编号
    */
-  id: number;
+  no: string;
   /**
    * 标签名
    */
-  tagName: string;
+  name: string;
   /**
    * 文章数量
    */
@@ -17,15 +17,15 @@ export interface Tag {
 }
 
 /**
- * 标签VO
+ * 标签
  */
-export interface TagVO {
+export interface Tag {
   /**
    * 标签id
    */
-  id: number;
+  no: string;
   /**
    * 标签名
    */
-  tagName: string;
+  name: string;
 }

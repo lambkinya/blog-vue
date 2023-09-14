@@ -1,6 +1,6 @@
 import { PageQuery } from "@/model";
 import { CategoryVO } from "../category/types";
-import { TagVO } from "../tag/types";
+import { Tag } from "../tag/types";
 
 /**
  * 文章
@@ -29,7 +29,7 @@ export interface Article {
   /**
    * 文章标签
    */
-  tagVOList: TagVO[];
+  tagList: Tag[];
   /**
    * 是否置顶 (0否 1是)
    */
@@ -91,13 +91,17 @@ export interface ArticleInfo {
    */
   likeCount: number;
   /**
-   * 文章分类
+   * 文章分类编号
    */
-  category: CategoryVO;
+  categoryNo: string;
+  /**
+   * 文章名称
+   */
+  categoryName: string;
   /**
    * 文章标签
    */
-  tagVOList: TagVO[];
+  tagList: Tag[];
   /**
    * 发表时间
    */
@@ -161,7 +165,7 @@ export interface ArticleCondition {
   /**
    * 文章标签
    */
-  tagVOList: TagVO[];
+  tagList: TagVo[];
   /**
    * 发布时间
    */
