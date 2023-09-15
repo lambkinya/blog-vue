@@ -23,9 +23,13 @@ export interface UserInfo {
   /**
    * 个人网站
    */
-  webSite: string;
+  website: string;
   /**
    * 个人简介
    */
-  intro: string;
+  saying: string;
+  /**
+   * 头像
+   */
+  avatar: string;
 }

@@ -39,7 +39,7 @@ export interface UserInfo {
   /**
    * 个人网站
    */
-  webSite: string;
+  website: string;
   /**
    * 个人简介
    */

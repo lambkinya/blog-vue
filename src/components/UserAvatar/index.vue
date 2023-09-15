@@ -24,51 +24,57 @@
 </template>
 
 <script setup lang="ts">
-import { updateUserAvatar } from "@/api/user";
-import useStore from "@/store";
-import { UploadCustomRequestOptions } from "naive-ui";
-import { VueCropper } from 'vue-cropper';
-import 'vue-cropper/dist/index.css';
-const { user } = useStore();
-const dialogVisible = ref(false);
-const cropperRef = ref();
-const options = reactive({
-  img: user.avatar, // 裁剪图片的地址
-  autoCrop: true, // 是否默认生成截图框
-  autoCropWidth: 200, // 默认生成截图框宽度
-  autoCropHeight: 200, // 默认生成截图框高度
-  fixedBox: true, // 固定截图框大小 不允许改变
-  outputType: "png", // 默认生成截图为PNG格式
-});
-const customUpload = ({ file }: UploadCustomRequestOptions) => {
-  const reader = new FileReader();
-  reader.readAsDataURL(file.file as File);
-  reader.onload = () => {
-    options.img = reader.result as string;
-  };
-};
-const handleClose = () => {
-  options.img = user.avatar;
-};
-const hanleUpload = () => {
-  cropperRef.value.getCropBlob((data: string | Blob) => {
-    let formData = new FormData();
-    formData.append("file", data);
-    updateUserAvatar(formData).then(({ data }) => {
-      if (data.flag) {
-        options.img = data.data;
-        user.avatar = options.img;
-        dialogVisible.value = false;
-      }
-    });
+  import { updateUserAvatar } from "@/api/user";
+  import useStore from "@/store";
+  import { UploadCustomRequestOptions } from "naive-ui";
+  import { VueCropper } from 'vue-cropper';
+  import 'vue-cropper/dist/index.css';
+  const { user } = useStore();
+  const dialogVisible = ref(false);
+  const cropperRef = ref();
+  const options = reactive({
+    img: user.avatar, // 裁剪图片的地址
+    autoCrop: true, // 是否默认生成截图框
+    autoCropWidth: 200, // 默认生成截图框宽度
+    autoCropHeight: 200, // 默认生成截图框高度
+    fixedBox: true, // 固定截图框大小 不允许改变
+    outputType: "png", // 默认生成截图为PNG格式
   });
-};
+  const customUpload = ({ file }: UploadCustomRequestOptions) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file.file as File);
+    reader.onload = () => {
+      options.img = reader.result as string;
+    };
+  };
+  const handleClose = () => {
+    options.img = user.avatar;
+  };
+  const hanleUpload = () => {
+
+    // 获取图片剪裁后的Blob数据--data
+    cropperRef.value.getCropBlob((data: string | Blob) => {
+      let formData = new FormData();
+      // 给文件名加后缀 data.type=image/png
+      let fileName = user.no + '.' + data.type.substr(6);
+
+      formData.append("file", data, fileName);
+
+      updateUserAvatar(formData).then(({ data }) => {
+        if (data.flag) {
+          options.img = data.data;
+          user.avatar = options.img;
+          dialogVisible.value = false;
+        }
+      });
+    });
+  };
 </script>
 
 <style scoped>
-.user-avatar {
-  width: 140px;
-  height: 140px;
-  border-radius: 50%;
-}
+  .user-avatar {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+  }
 </style>

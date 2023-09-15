@@ -10,7 +10,7 @@ const useUserStore = defineStore("useUserStore", {
     nickname: "",
     email: "",
     account: "",
-    webSite: "",
+    website: "",
     saying: "",
     loginType: undefined,
     path: "",
@@ -29,7 +29,7 @@ const useUserStore = defineStore("useUserStore", {
               this.nickname = data.data.nickname;
               this.email = data.data.email;
               this.account = data.data.account;
-              this.webSite = data.data.webSite;
+              this.website = data.data.website;
               this.saying = data.data.saying;
               this.loginType = data.data.loginType;
               this.articleLikeSet = data.data.articleLikeSet;
@@ -89,8 +89,9 @@ const useUserStore = defineStore("useUserStore", {
     },
     updateUserInfo(user: UserInfo) {
       this.nickname = user.nickname;
-      this.webSite = user.webSite;
-      this.intro = user.intro;
+      this.website = user.website;
+      this.saying = user.saying;
+      this.avatar = user.avatar;
     },
   },
   getters: {},

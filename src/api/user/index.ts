@@ -21,7 +21,7 @@ export function updateUserPassword(data: UserForm): AxiosPromise<Result<null>> {
  */
 export function updateUserAvatar(data: FormData): AxiosPromise<Result<string>> {
   return request({
-    url: "/user/avatar",
+    url: "/upload",
     method: "post",
     headers: { "content-type": "multipart/form-data" },
     data,
@@ -46,8 +46,8 @@ export function updateUserEmail(data: EmailForm): AxiosPromise<Result<null>> {
  */
 export function updateUserInfo(data: UserInfo): AxiosPromise<Result<null>> {
   return request({
-    url: "/user/info",
-    method: "put",
+    url: "/coders/updateCoderSimpleInfo",
+    method: "post",
     data,
   });
 }
