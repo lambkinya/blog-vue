@@ -4,7 +4,8 @@
       <svg-icon icon-class="comment" size="1.4rem" style="margin-right: 5px;"></svg-icon>
       评论
     </div>
-    <ReplyBox @reload="reloadComments" :comment-type="commentType" :type-id="typeId"></ReplyBox>
+    <ReplyBox @reload="reloadComments" :comment-type="commentType" :article-no="articleNo" :coder-no="coderNo">
+    </ReplyBox>
     <div v-if="count > 0 && reFresh">
       <div class="reply-item" v-for="(comment, index) of commentList" :key="comment.no">
         <div class="reply-box-avatar">
@@ -29,11 +30,11 @@
             <div class="sub-user-info">
               <img class="sub-reply-avatar" :src="reply.avatar" />
               <div class="sub-user-name">{{ reply.nickname }}</div>
-              <svg-icon v-if="reply.no == 'YA251651564'" icon-class="badge" style="margin-left: 5px;"></svg-icon>
+              <svg-icon v-if="reply.coderNo == 'YA251651564'" icon-class="badge" style="margin-left: 5px;"></svg-icon>
             </div>
             <span class="reply-content">
-              <template v-if="reply.coderNo !== reply.toUserNo">回复 <span style="color: #008ac5">@{{
-                  reply.nickname
+              <template v-if="reply.coderNo !== reply.toCoderNo">回复 <span style="color: #008ac5">@{{
+                  reply.toNickname
                   }}</span> :</template>
               <span v-html="reply.content"></span>
             </span>
@@ -51,10 +52,10 @@
             <span>共{{ comment.replyCount }}条回复, </span>
             <span class="view-more-btn" @click="readMoreComment(index, comment)">点击查看</span>
           </div>
-          <Paging ref="pageRef" :total="comment.replyCount" :index="index" :commentId="comment.no"
+          <Paging ref="pageRef" :total="comment.replyCount" :index="index" :commentNo="comment.no"
             @get-current-page="getCurrentPage"></Paging>
-          <ReplyBox ref="replyRef" class="mt-4" :show="false" :comment-type="commentType" :type-id="typeId"
-            @reload="reloadReplies(index)">
+          <ReplyBox ref="replyRef" class="mt-4" :show="false" :comment-type="commentType" :article-no="comment.no"
+            :type-id="typeId" @reload="reloadReplies(index)">
           </ReplyBox>
           <div class="bottom-line"></div>
         </div>
@@ -70,7 +71,7 @@
 </template>
 
 <script setup lang="ts">
-  import { getCommentList, getReplyList, likeComment } from '@/api/comment';
+  import { queryChildrenCommentPage, getCommentList, getReplyList, likeComment } from '@/api/comment';
   import { Comment, CommentQuery, Reply } from '@/api/comment/types';
   import useStore from "@/store";
   import { formatDateTime } from '@/utils/date';
@@ -82,10 +83,14 @@
   const props = defineProps({
     commentType: {
       type: Number,
+    },
+    articleNo: {
+      type: String
     }
   });
   const emit = defineEmits(["getCommentCount"]);
-  const typeId = computed(() => Number(useRoute().params.id) ? Number(useRoute().params.id) : undefined);
+  const articleNo = computed(() => useRoute().params.id);
+  const coderNo = computed(() => useStore().user.no);
   const isLike = computed(() => (id: number) => user.commentLikeSet.indexOf(id) != -1 ? "like-flag" : "");
   const data = reactive({
     count: 0,
@@ -131,24 +136,25 @@
   // 查看更多评论
   const readMoreComment = (index: number, comment: Comment) => {
     getReplyList(comment.no, comment.pageNo + 1).then(({ data }) => {
-      // comment.replyVOList = data.data;
-      comment.replyVOList = comment.replyVOList.concat(data.data);
+      comment.childrenCommentList = comment.childrenCommentList.concat(data.data.records);
       // 回复大于5条展示分页
-      if (comment.replyCount > 6) {
+      if (comment.childrenCommentList.length > 5) {
         pageRef.value[index].setPaging(true);
+        // 当前页面元素有六个，删除末尾元素
+        comment.childrenCommentList.pop();
       }
       // 隐藏查看更多
       readMoreRef.value[index].style.display = "none";
     });
   };
   // 查看当前页的回复评论
-  const getCurrentPage = (pageNo: number, index: number, commentId: number) => {
-    getReplyList(commentId, { pageNo: pageNo, size: 5 }).then(({ data }) => {
-      commentList.value[index].replyVOList = data.data;
+  const getCurrentPage = (pageNo: number, index: number, commentNo: string) => {
+    commentNo = commentList.value[index].no;
+    queryChildrenCommentPage(commentNo, pageNo).then(({ data }) => {
+      commentList.value[index].childrenCommentList = data.data.records;
     });
   };
   const handleReply = (index: number, target: Comment | Reply) => {
-    console.log("回复的评论", target);
     replyRef.value.forEach((element: any) => {
       element.setReply(false);
     });
@@ -166,7 +172,6 @@
     currentReply.setReply(true);
   };
   const getList = () => {
-    console.log("param", queryParams.value);
     getCommentList(queryParams.value).then(({ data }) => {
       if (queryParams.value.pageNo == 1) {
         commentList.value = data.data.records;
@@ -176,6 +181,7 @@
       }
       queryParams.value.pageNo++;
       count.value = data.data.total;
+      console.log("param", commentList.value);
       emit("getCommentCount", count.total);
     });
   };
@@ -186,11 +192,8 @@
   };
   // 重新加载回复评论
   const reloadReplies = (index: number) => {
-    getReplyList(commentList.value[index].id, {
-      pageNo: pageRef.value[index].pageNo,
-      size: 5,
-    }).then(({ data }) => {
-      commentList.value[index].replyVOList = data.data;
+    queryChildrenCommentPage(commentList.value[index].no, pageRef.value[index].current).then(({ data }) => {
+      commentList.value[index].childrenCommentList = data.data.records;
       commentList.value[index].replyCount++;
       // 隐藏回复框
       replyRef.value[index].setReply(false);

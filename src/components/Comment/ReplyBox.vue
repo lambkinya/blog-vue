@@ -40,9 +40,12 @@
       type: Boolean,
       default: true,
     },
-    typeId: {
-      type: Number,
+    coderNo: {
+      type: String,
     },
+    articleNo: {
+      type: String
+    }
   });
   const data = reactive({
     nickname: "",
@@ -51,8 +54,9 @@
     commentContent: "",
     emojiType: 0,
     commentForm: {
-      typeId: props.typeId,
+      coderNo: props.coderNo,
       commentType: props.commentType,
+      articleNo: props.articleNo,
       parentId: undefined,
       replyId: undefined,
       toUid: undefined,
@@ -110,6 +114,7 @@
       }
       return str;
     });
+    console.log("comment", commentForm.value);
     addComment(commentForm.value).then(({ data }) => {
       if (data.flag) {
         sendActive.value = false;

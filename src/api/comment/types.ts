@@ -44,30 +44,18 @@ export interface CommentQuery extends PageQuery {
  * 回复
  */
 export interface Reply {
-  /**
-   * 评论id
+/**
+   * 评论编号
    */
-  id: number;
+  no: string;
   /**
-   * 父级评论id
+   * 评论用户编号
    */
-  root_comment_no: number;
+  coderNo: string;
   /**
-   * 评论用户id
+   * 昵称
    */
-  fromUid: number;
-  /**
-   * 被评论用户id
-   */
-  toUid: number;
-  /**
-   * 评论用户昵称
-   */
-  fromNickname: string;
-  /**
-   * 被评论用户昵称
-   */
-  toNickname: string;
+  nickname: string;
   /**
    * 头像
    */
@@ -75,7 +63,15 @@ export interface Reply {
   /**
    * 评论内容
    */
-  commentContent: string;
+  content: string;
+  /**
+   * 所回复的目标评论的用户编号
+   */
+  toCoderNo: string;
+  /**
+   * 所回复的目标评论的用户名
+   */
+  toNickname: String;
   /**
    * 点赞数
    */
@@ -113,7 +109,7 @@ export interface Comment {
   /**
    * 所回复的目标评论的用户编号
    */
-  toUserNo: string;
+  toCoderNo: string;
   /**
    * 点赞数
    */

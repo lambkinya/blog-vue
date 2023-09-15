@@ -50,6 +50,22 @@ export function getReplyList(commentNo: string, pageNo: number ): AxiosPromise<R
   });
 }
 
+
+/**
+ * 分页查询子评论接口
+ * @param commentNo 评论编号
+ * @param pageNo 分页参数
+ * @returns 回复评论列表
+ */
+export function queryChildrenCommentPage(commentNo: string, pageNo: number ): AxiosPromise<Result<Reply[]>> {
+  return request({
+    url: `/comments/${commentNo}/children?pageNo=${pageNo}`,
+    method: "get",
+  });
+}
+
+
+
 /**
  * 点赞评论
  * @param commentId 评论id
