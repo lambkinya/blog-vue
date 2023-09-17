@@ -7,13 +7,11 @@
 
     <div style="background: var(--background);padding-top: 40px;" class="my-animation-slide-bottom">
       <!-- 标签 -->
-      <div class="sort-warp shadow-box" v-if="!$common.isEmpty(sort) && !$common.isEmpty(sort.labels)">
-        <div v-for="(label, index) in sort.labels" :key="index"
-             :class="{isActive: !$common.isEmpty(labelId) && parseInt(labelId) === label.id}"
-             @click="listArticle(label)">
-          <proTag :info="label.labelName+' '+label.countOfLabel"
-                  :color="$constant.before_color_list[Math.floor(Math.random() * 6)]"
-                  style="margin: 12px">
+      <div class="sort-warp shadow-box" v-if="!$common.isEmpty(sort) && !$common.isEmpty(sort.tagInfoList)">
+        <div v-for="(label, index) in sort.tagInfoList" :key="index"
+          :class="{isActive: !$common.isEmpty(labelId) && labelId === label.no}" @click="listArticle(label)">
+          <proTag :info="label.name+' '+label.articleCount"
+            :color="$constant.before_color_list[Math.floor(Math.random() * 6)]" style="margin: 12px">
           </proTag>
         </div>
       </div>
@@ -37,10 +35,10 @@
 </template>
 
 <script>
-  const twoPoem = () => import( "./common/twoPoem");
-  const proTag = () => import( "./common/proTag");
-  const articleList = () => import( "./articleList");
-  const myFooter = () => import( "./common/myFooter");
+  const twoPoem = () => import("./common/twoPoem");
+  const proTag = () => import("./common/proTag");
+  const articleList = () => import("./articleList");
+  const myFooter = () => import("./common/myFooter");
 
   export default {
     components: {
@@ -50,9 +48,9 @@
       myFooter
     },
 
-    data() {
+    data () {
       return {
-        sortId: this.$route.query.sortId,
+        categoryNo: this.$route.query.categoryNo,
         labelId: this.$route.query.labelId,
         sort: null,
         pagination: {
@@ -60,7 +58,7 @@
           size: 10,
           total: 0,
           searchKey: "",
-          sortId: this.$route.query.sortId,
+          categoryNo: this.$route.query.categoryNo,
           labelId: this.$route.query.labelId
         },
         articles: []
@@ -70,56 +68,57 @@
     computed: {},
 
     watch: {
-      $route() {
+      $route () {
         this.pagination = {
           current: 1,
           size: 10,
           total: 0,
           searchKey: "",
-          sortId: this.$route.query.sortId,
+          categoryNo: this.$route.query.categoryNo,
           labelId: this.$route.query.labelId
         };
         this.articles.splice(0, this.articles.length);
-        this.sortId = this.$route.query.sortId;
+        this.categoryNo = this.$route.query.categoryNo;
         this.labelId = this.$route.query.labelId;
         this.getSort();
         this.getArticles();
       }
     },
 
-    created() {
+    created () {
       this.getSort();
       this.getArticles();
     },
 
-    mounted() {
+    mounted () {
     },
 
     methods: {
-      pageArticles() {
+      pageArticles () {
         this.pagination.current = this.pagination.current + 1;
         this.getArticles();
       },
 
-      getSort() {
+      getSort () {
         let sortInfo = this.$store.state.sortInfo;
+
         if (!this.$common.isEmpty(sortInfo)) {
           let sortArray = sortInfo.filter(f => {
-            return f.id === parseInt(this.sortId);
+            return f.no === this.categoryNo;
           });
           if (!this.$common.isEmpty(sortArray)) {
             this.sort = sortArray[0];
           }
         }
       },
-      listArticle(label) {
+      listArticle (label) {
         this.labelId = label.id;
         this.pagination = {
           current: 1,
           size: 10,
           total: 0,
           searchKey: "",
-          sortId: this.$route.query.sortId,
+          categoryNo: this.$route.query.categoryNo,
           labelId: label.id
         };
         this.articles.splice(0, this.articles.length);
@@ -127,8 +126,8 @@
           this.getArticles();
         });
       },
-      getArticles() {
-        this.$http.post(this.$constant.baseURL + "/article/listArticle", this.pagination)
+      getArticles () {
+        this.$http.post(this.$constant.baseURL + "/articles/list", this.pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.articles = this.articles.concat(res.data.records);
@@ -147,7 +146,6 @@
 </script>
 
 <style scoped>
-
   .sort-warp {
     width: 70%;
     max-width: 780px;

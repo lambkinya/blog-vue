@@ -1,3 +1,4 @@
+
 import Vue from 'vue'
 import Vuex from 'vuex'
 
@@ -9,7 +10,7 @@ export default new Vuex.Store({
     sortInfo: JSON.parse(localStorage.getItem("sortInfo") || '[]'),
     currentUser: JSON.parse(localStorage.getItem("currentUser") || '{}'),
     currentAdmin: JSON.parse(localStorage.getItem("currentAdmin") || '{}'),
-    webInfo: JSON.parse(localStorage.getItem("webInfo") || '{"webName": "", "webTitle": [], "notices": [], "footer": "", "backgroundImage": "", "avatar": ""}')
+    webInfo: JSON.parse(localStorage.getItem("webInfo") || '{"name": "", "title": [], "notices": [], "footer": "", "backgroundImage": "", "avatar": ""}')
   },
   getters: {
     articleTotal: state => {
@@ -56,8 +57,9 @@ export default new Vuex.Store({
       state.currentAdmin = user;
       localStorage.setItem("currentAdmin", JSON.stringify(user));
     },
-    loadWebInfo(state, webInfo) {
-      webInfo.webTitle = webInfo.webTitle.split('');
+    loadWebInfo (state, webInfo) {
+      // log-ya-website info-bug
+      // webInfo.title = webInfo.webTitle.split('');
       webInfo.notices = JSON.parse(webInfo.notices);
       state.webInfo = webInfo;
       localStorage.setItem("webInfo", JSON.stringify(webInfo));

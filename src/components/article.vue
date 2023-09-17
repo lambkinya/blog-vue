@@ -3,18 +3,16 @@
     <!-- 封面 -->
     <div class="article-head my-animation-slide-top">
       <!-- 背景图片 -->
-      <el-image class="article-image my-el-image"
-                v-once
-                lazy
-                :src="!$common.isEmpty(article.articleCover)?article.articleCover:$constant.random_image+new Date()+Math.floor(Math.random()*10)"
-                fit="cover">
+      <el-image class="article-image my-el-image" v-once lazy
+        :src="!$common.isEmpty(article.thumbnail)?article.thumbnail:$constant.random_image+new Date()+Math.floor(Math.random()*10)"
+        fit="cover">
         <div slot="error" class="image-slot">
           <div class="article-image"></div>
         </div>
       </el-image>
       <!-- 文章信息 -->
       <div class="article-info-container">
-        <div class="article-title">{{ article.articleTitle }}</div>
+        <div class="article-title">{{ article.title }}</div>
         <div class="article-info">
           <svg viewBox="0 0 1024 1024" width="14" height="14" style="vertical-align: -2px;">
             <path
@@ -48,8 +46,8 @@
           <span>&nbsp;{{ article.createTime }}</span>
           <span>·</span>
           <svg viewBox="0 0 1024 1024" width="14" height="14" style="vertical-align: -2px;">
-            <path d="M14.656 512a497.344 497.344 0 1 0 994.688 0 497.344 497.344 0 1 0-994.688 0z"
-                  fill="#FF0000"></path>
+            <path d="M14.656 512a497.344 497.344 0 1 0 994.688 0 497.344 497.344 0 1 0-994.688 0z" fill="#FF0000">
+            </path>
             <path
               d="M374.976 872.64c-48.299-100.032-22.592-157.44 14.421-211.37 40.448-58.966 51.115-117.611 51.115-117.611s31.659 41.386 19.115 106.005c56.149-62.72 66.816-162.133 58.325-200.405 127.317 88.746 181.59 281.002 108.181 423.381C1016 652.501 723.093 323.2 672.277 285.867c16.939 37.333 20.054 100.032-14.101 130.474-58.027-219.84-201.664-265.002-201.664-265.002 16.96 113.536-61.781 237.397-137.344 330.24-2.816-45.163-5.632-76.544-29.483-119.808-5.333 82.176-68.373 149.269-85.29 231.445-22.912 111.637 17.237 193.173 170.581 279.424z"
               fill="#FFFFFF"></path>
@@ -69,8 +67,8 @@
             <path
               d="M619.008 632.32l101.888-35.157333-131.754667-76.117334 29.866667 111.274667zM891.904 148.992a61.44 61.44 0 0 0-84.138667 22.528l-19.968 34.133333 106.666667 61.610667 19.968-34.133333a61.781333 61.781333 0 0 0-22.528-84.138667z"
               fill="#69BAF9"></path>
-            <path d="M775.338667 198.775467l131.669333 76.032-186.026667 322.218666-131.6864-76.032z"
-                  fill="#F7FBFF"></path>
+            <path d="M775.338667 198.775467l131.669333 76.032-186.026667 322.218666-131.6864-76.032z" fill="#F7FBFF">
+            </path>
             <path
               d="M775.168 198.826667l-5.290667 9.216 59.221334 34.133333a34.133333 34.133333 0 0 1 12.458666 46.592l-139.946666 242.346667a34.133333 34.133333 0 0 1-46.762667 12.629333l-59.050667-34.133333-6.656 11.434666 88.746667 51.2L720.896 597.333333l186.026667-322.56z"
               fill="#D8E3F0"></path>
@@ -98,9 +96,8 @@
         </div>
       </div>
 
-      <div class="article-info-news"
-           @click="weiYanDialogVisible = true"
-           v-if="!$common.isEmpty($store.state.currentUser) && $store.state.currentUser.id === article.userId">
+      <div class="article-info-news" @click="weiYanDialogVisible = true"
+        v-if="!$common.isEmpty($store.state.currentUser) && $store.state.currentUser.no === article.coderNo">
         <svg width="30" height="30" viewBox="0 0 1024 1024">
           <path d="M0 0h1024v1024H0V0z" fill="#202425" opacity=".01"></path>
           <path
@@ -134,12 +131,14 @@
         </div>
         <!-- 分类 -->
         <div class="article-sort">
-          <span @click="$router.push({path: '/sort', query: {sortId: article.sortId, labelId: article.labelId}})">{{ article.sort.sortName +" ▶ "+ article.label.labelName}}</span>
+          <span
+            @click="$router.push({path: '/sort', query: {categoryNo: article.categoryInfo.no, tagNo: article.tagInfo.no}})">{{
+            article.categoryInfo.name +" ▶ "+ article.tagInfo.name}}</span>
         </div>
         <!-- 作者信息 -->
         <blockquote>
           <div>
-            作者：{{article.username}}
+            作者：{{article.coderName}}
           </div>
           <div>
             版权声明：转载请注明文章出处
@@ -151,8 +150,8 @@
         </div>
 
         <!-- 评论 -->
-        <div v-if="article.commentStatus === true">
-          <comment :type="'article'" :source="article.id" :userId="article.userId"></comment>
+        <div v-if="article.commentStatus === 1">
+          <comment :type="'article'" :source="article.no" :coderNo="article.coderNo"></comment>
         </div>
       </div>
 
@@ -163,24 +162,15 @@
       <myFooter></myFooter>
     </div>
 
-    <el-dialog title="最新进展"
-               :visible.sync="weiYanDialogVisible"
-               width="40%"
-               :append-to-body="true"
-               destroy-on-close
-               center>
+    <el-dialog title="最新进展" :visible.sync="weiYanDialogVisible" width="40%" :append-to-body="true" destroy-on-close
+      center>
       <div>
         <div class="myCenter" style="margin-bottom: 20px">
-          <el-date-picker
-            v-model="newsTime"
-            value-format="yyyy-MM-dd HH:mm:ss"
-            type="datetime"
-            align="center"
+          <el-date-picker v-model="newsTime" value-format="yyyy-MM-dd HH:mm:ss" type="datetime" align="center"
             placeholder="选择日期时间">
           </el-date-picker>
         </div>
-        <commentBox :disableGraffiti="true"
-                    @submitComment="submitWeiYan">
+        <commentBox :disableGraffiti="true" @submitComment="submitWeiYan">
         </commentBox>
       </div>
     </el-dialog>
@@ -188,10 +178,10 @@
 </template>
 
 <script>
-  const myFooter = () => import( "./common/myFooter");
-  const comment = () => import( "./comment/comment");
-  const process = () => import( "./common/process");
-  const commentBox = () => import( "./comment/commentBox");
+  const myFooter = () => import("./common/myFooter");
+  const comment = () => import("./comment/comment");
+  const process = () => import("./common/process");
+  const commentBox = () => import("./comment/commentBox");
   import MarkdownIt from 'markdown-it';
 
   export default {
@@ -202,9 +192,9 @@
       process
     },
 
-    data() {
+    data () {
       return {
-        id: this.$route.query.id,
+        no: this.$route.query.no,
         article: {},
         articleContentHtml: "",
         treeHoleList: [],
@@ -212,14 +202,14 @@
         newsTime: ""
       };
     },
-    created() {
+    created () {
       this.getArticle();
     },
-    mounted() {
+    mounted () {
       // window.addEventListener("scroll", this.onScrollPage);
     },
     methods: {
-      deleteTreeHole(id) {
+      deleteTreeHole (id) {
         if (this.$common.isEmpty(this.$store.state.currentUser)) {
           this.$message({
             message: "请先登录！",
@@ -234,7 +224,7 @@
           type: 'success',
           center: true
         }).then(() => {
-          this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", {id: id})
+          this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", { id: id })
             .then((res) => {
               this.$message({
                 type: 'success',
@@ -255,7 +245,8 @@
           });
         });
       },
-      submitWeiYan(content) {
+
+      submitWeiYan (content) {
         let weiYan = {
           content: content,
           createTime: this.newsTime,
@@ -275,7 +266,8 @@
             });
           });
       },
-      getNews() {
+
+      getNews () {
         this.$http.post(this.$constant.baseURL + "/weiYan/listNews", {
           current: 1,
           size: 9999,
@@ -299,7 +291,8 @@
             });
           });
       },
-      onScrollPage() {
+
+      onScrollPage () {
         let scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
         if (scrollTop < (window.innerHeight / 4)) {
           $(".toc").css("top", window.innerHeight / 2);
@@ -311,7 +304,8 @@
           $(".toc").css("display", "none");
         }
       },
-      getTocbot() {
+
+      getTocbot () {
         let script = document.createElement('script');
         script.type = 'text/javascript';
         script.src = this.$constant.tocbot;
@@ -330,18 +324,20 @@
           });
         }
       },
-      addId() {
+
+      addId () {
         let headings = $(".entry-content").find("h1, h2, h3, h4, h5, h6");
         headings.attr('id', (i, id) => id || 'toc-' + i);
       },
-      getArticle() {
-        this.$http.get(this.$constant.baseURL + "/article/getArticleById", {id: this.id, flag: true})
+
+      getArticle () {
+        this.$http.get(this.$constant.baseURL + "/articles/detail", { no: this.no })
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.article = res.data;
               this.getNews();
-              const md = new MarkdownIt({breaks: true});
-              this.articleContentHtml = md.render(this.article.articleContent);
+              const md = new MarkdownIt({ breaks: true });
+              this.articleContentHtml = md.render(this.article.content);
               this.$nextTick(() => {
                 this.highlight();
                 this.addId();
@@ -357,7 +353,8 @@
             });
           });
       },
-      highlight() {
+
+      highlight () {
         let attributes = {
           autocomplete: "off",
           autocorrect: "off",
@@ -427,7 +424,6 @@
 </script>
 
 <style scoped>
-
   .article-head {
     height: 40vh;
     position: relative;
@@ -563,14 +559,14 @@
     left: calc(95% - 20px);
   }
 
-  .process-wrap >>> .el-collapse-item__header {
+  .process-wrap>>>.el-collapse-item__header {
     border-bottom: unset;
     font-size: 20px;
     background-color: var(--background);
     color: var(--lightGreen);
   }
 
-  .process-wrap >>> .el-collapse-item__wrap {
+  .process-wrap>>>.el-collapse-item__wrap {
     background-color: var(--background);
   }
 
@@ -579,7 +575,7 @@
     border-bottom: unset;
   }
 
-  .process-wrap >>> .el-collapse-item__wrap {
+  .process-wrap>>>.el-collapse-item__wrap {
     border-bottom: unset;
   }
 

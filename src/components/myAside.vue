@@ -3,7 +3,7 @@
     <!-- 网站信息 -->
     <div class="card-content1 shadow-box background-opacity">
       <el-avatar style="margin-top: 20px" class="user-avatar" :size="120" :src="webInfo.avatar"></el-avatar>
-      <div class="web-name">{{webInfo.webName}}</div>
+      <div class="web-name">{{webInfo.name}}</div>
       <div class="web-info">
         <div class="blog-info-box">
           <span>文章</span>
@@ -25,14 +25,12 @@
 
     <!-- 搜索 -->
     <div style="padding: 15px;border-radius: 10px;margin-top: 40px;animation: hideToShow 1s ease-in-out"
-         class="shadow-box background-opacity wow">
+      class="shadow-box background-opacity wow">
       <div style="color: var(--lightGreen);font-size: 20px;font-weight: bold;margin-bottom: 10px">
         搜索
       </div>
       <div style="display: flex">
-        <input class="ais-SearchBox-input" type="text"
-               v-model="articleSearch"
-               placeholder="搜索文章" maxlength="32">
+        <input class="ais-SearchBox-input" type="text" v-model="articleSearch" placeholder="搜索文章" maxlength="32">
         <div class="ais-SearchBox-submit" @click="selectArticle()">
           <svg style="margin-top: 3.5px;margin-left: 18px" viewBox="0 0 1024 1024" width="20" height="20">
             <path
@@ -48,15 +46,14 @@
 
     <!-- 推荐文章 -->
     <div v-if="!$common.isEmpty(recommendArticles)"
-         style="padding: 25px;border-radius: 10px;margin-top: 40px;animation: hideToShow 1s ease-in-out"
-         class="shadow-box background-opacity wow">
+      style="padding: 25px;border-radius: 10px;margin-top: 40px;animation: hideToShow 1s ease-in-out"
+      class="shadow-box background-opacity wow">
       <div class="card-content2-title">
         <i class="el-icon-reading card-content2-icon"></i>
         <span>推荐文章</span>
       </div>
-      <div v-for="(article, index) in recommendArticles"
-           :key="index"
-           @click="$router.push({path: '/article', query: {id: article.id}})">
+      <div v-for="(article, index) in recommendArticles" :key="index"
+        @click="$router.push({path: '/article', query: {id: article.id}})">
         <div class="aside-post-detail">
           <div class="aside-post-image">
             <el-image lazy class="my-el-image" :src="article.articleCover" fit="cover">
@@ -78,14 +75,11 @@
     </div>
 
     <!-- 赞赏 -->
-    <div class="shadow-box-mini background-opacity wow admire-box"
-         v-if="!$common.isEmpty(admires)">
+    <div class="shadow-box-mini background-opacity wow admire-box" v-if="!$common.isEmpty(admires)">
       <div style="font-weight: bold;margin-bottom: 20px">🧨赞赏名单</div>
       <div>
         <vue-seamless-scroll :data="admires" style="height: 200px;overflow: hidden">
-          <div v-for="(item, i) in admires"
-               style="display: flex;justify-content: space-between"
-               :key="i">
+          <div v-for="(item, i) in admires" style="display: flex;justify-content: space-between" :key="i">
             <div style="display: flex">
               <el-avatar style="margin-bottom: 10px" :size="36" :src="item.avatar"></el-avatar>
               <div style="margin-left: 10px;height: 36px;line-height: 36px;overflow: hidden;max-width: 80px">
@@ -104,45 +98,36 @@
     </div>
 
     <!-- 速览 -->
-    <div v-for="(sort, index) in sortInfo"
-         @click="selectSort(sort)"
-         :key="index"
-         :style="{background: $constant.sortColor[index % $constant.sortColor.length]}"
-         class="shadow-box-mini background-opacity wow"
-         style="position: relative;padding: 20px 25px 40px;border-radius: 10px;animation: hideToShow 1s ease-in-out;margin-top: 40px;cursor: pointer;color: var(--white)">
+    <div v-for="(sort, index) in sortInfo" @click="selectSort(sort)" :key="index"
+      :style="{background: $constant.sortColor[index % $constant.sortColor.length]}"
+      class="shadow-box-mini background-opacity wow"
+      style="position: relative;padding: 20px 25px 40px;border-radius: 10px;animation: hideToShow 1s ease-in-out;margin-top: 40px;cursor: pointer;color: var(--white)">
       <div>速览</div>
       <div class="sort-name">
-        {{sort.sortName}}
+        {{sort.name}}
       </div>
       <div style="font-weight: bold;margin-top: 15px;white-space: nowrap;text-overflow: ellipsis;overflow: hidden">
-        {{sort.sortDescription}}
+        {{sort.description}}
       </div>
     </div>
 
     <!-- 分类 -->
     <div class="shadow-box background-opacity wow"
-         style="margin-top: 40px;padding: 25px 25px 5px;border-radius: 10px;animation: hideToShow 1s ease-in-out">
+      style="margin-top: 40px;padding: 25px 25px 5px;border-radius: 10px;animation: hideToShow 1s ease-in-out">
       <div class="card-content2-title">
         <i class="el-icon-folder-opened card-content2-icon"></i>
         <span>分类</span>
       </div>
-      <div v-for="(sort, index) in sortInfo"
-           :key="index"
-           class="post-sort"
-           @click="$router.push({path: '/sort', query: {sortId: sort.id}})">
+      <div v-for="(sort, index) in sortInfo" :key="index" class="post-sort"
+        @click="$router.push({path: '/sort', query: {categoryNo: sort.no}})">
         <div>
-          <span v-for="(s, i) in sort.sortName.split('')" :key="i">{{ s }}</span>
+          <span v-for="(s, i) in sort.name.split('')" :key="i">{{ s }}</span>
         </div>
       </div>
     </div>
 
     <!-- 微信 -->
-    <el-dialog title="赞赏"
-               :visible.sync="showAdmireDialog"
-               width="25%"
-               :append-to-body="true"
-               destroy-on-close
-               center>
+    <el-dialog title="赞赏" :visible.sync="showAdmireDialog" width="25%" :append-to-body="true" destroy-on-close center>
       <div>
         <div class="admire-image"></div>
         <div>
@@ -161,7 +146,7 @@
     components: {
       vueSeamlessScroll
     },
-    data() {
+    data () {
       return {
         pagination: {
           current: 1,
@@ -175,25 +160,25 @@
       }
     },
     computed: {
-      webInfo() {
+      webInfo () {
         return this.$store.state.webInfo;
       },
-      sortInfo() {
+      sortInfo () {
         return this.$store.state.sortInfo;
       }
     },
-    created() {
+    created () {
       this.getRecommendArticles();
       this.getAdmire();
     },
     methods: {
-      selectSort(sort) {
+      selectSort (sort) {
         this.$emit("selectSort", sort);
       },
-      selectArticle() {
+      selectArticle () {
         this.$emit("selectArticle", this.articleSearch);
       },
-      showAdmire() {
+      showAdmire () {
         if (this.$common.isEmpty(this.$store.state.currentUser)) {
           this.$message({
             message: "请先登录！",
@@ -204,7 +189,7 @@
 
         this.showAdmireDialog = true;
       },
-      getAdmire() {
+      getAdmire () {
         this.$http.get(this.$constant.baseURL + "/webInfo/getAdmire")
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
@@ -218,7 +203,7 @@
             });
           });
       },
-      getRecommendArticles() {
+      getRecommendArticles () {
         this.$http.post(this.$constant.baseURL + "/article/listArticle", this.pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
@@ -232,8 +217,8 @@
             });
           });
       },
-      showTip() {
-        this.$router.push({path: '/weiYan'});
+      showTip () {
+        this.$router.push({ path: '/weiYan' });
       }
     }
   }
@@ -458,5 +443,4 @@
     background: var(--white);
     cursor: pointer;
   }
-
 </style>

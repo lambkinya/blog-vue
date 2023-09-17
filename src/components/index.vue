@@ -10,18 +10,15 @@
       <!-- 内容页面 -->
       <template slot="body">
         <!-- 首页图片 -->
-        <el-image style="animation: header-effect 2s"
-                  class="background-image"
-                  v-once
-                  lazy
-                  :src="!$common.isEmpty($store.state.webInfo.backgroundImage)?$store.state.webInfo.backgroundImage:$constant.random_image+new Date()+Math.floor(Math.random()*10)"
-                  fit="cover">
+        <el-image style="animation: header-effect 2s" class="background-image" v-once lazy
+          :src="!$common.isEmpty($store.state.webInfo.backgroundImage)?$store.state.webInfo.backgroundImage:$constant.random_image+new Date()+Math.floor(Math.random()*10)"
+          fit="cover">
           <div slot="error" class="image-slot background-image-error"></div>
         </el-image>
         <!-- 首页文字 -->
         <div class="signature-wall myCenter my-animation-hideToShow">
           <h1 class="playful">
-            <span v-for="(a, index) in $store.state.webInfo.webTitle" :key="index">{{a}}</span>
+            <span v-for="(a, index) in $store.state.webInfo.title" :key="index">{{a}}</span>
           </h1>
           <div class="printer" @click="getGuShi()">
             <printer :printerInfo="printerInfo">
@@ -51,7 +48,10 @@
                   </div>
                 </div>
               </div>
+
+              <!-- 文章列表 -->
               <articleList :articleList="articles"></articleList>
+
               <div class="pagination-wrap">
                 <div @click="pageArticles()" class="pagination" v-if="pagination.total !== articles.length">
                   下一页
@@ -72,12 +72,12 @@
   </div>
 </template>
 <script>
-  const loader = () => import( "./common/loader");
-  const zombie = () => import( "./common/zombie");
-  const printer = () => import( "./common/printer");
-  const articleList = () => import( "./articleList");
-  const myFooter = () => import( "./common/myFooter");
-  const myAside = () => import( "./myAside");
+  const loader = () => import("./common/loader");
+  const zombie = () => import("./common/zombie");
+  const printer = () => import("./common/printer");
+  const articleList = () => import("./articleList");
+  const myFooter = () => import("./common/myFooter");
+  const myAside = () => import("./myAside");
 
   export default {
     components: {
@@ -89,7 +89,7 @@
       myAside
     },
 
-    data() {
+    data () {
       return {
         loading: false,
         showAside: true,
@@ -114,16 +114,16 @@
 
     watch: {},
 
-    created() {
+    created () {
       this.getGuShi();
       this.getArticles();
     },
 
-    mounted() {
+    mounted () {
     },
 
     methods: {
-      async selectSort(sort) {
+      async selectSort (sort) {
         this.pagination = {
           current: 1,
           size: 10,
@@ -142,7 +142,8 @@
           });
         });
       },
-      async selectArticle(articleSearch) {
+
+      async selectArticle (articleSearch) {
         this.pagination = {
           current: 1,
           size: 10,
@@ -161,13 +162,14 @@
           });
         });
       },
-      pageArticles() {
+
+      pageArticles () {
         this.pagination.current = this.pagination.current + 1;
         this.getArticles();
       },
 
-      async getArticles() {
-        await this.$http.post(this.$constant.baseURL + "/article/listArticle", this.pagination)
+      async getArticles () {
+        await this.$http.post(this.$constant.baseURL + "/articles/list", this.pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.articles = this.articles.concat(res.data.records);
@@ -181,14 +183,16 @@
             });
           });
       },
-      navigation(selector) {
+
+      navigation (selector) {
         let pageId = document.querySelector(selector);
         window.scrollTo({
           top: pageId.offsetTop,
           behavior: "smooth"
         });
       },
-      getGuShi() {
+
+      getGuShi () {
         let that = this;
         let xhr = new XMLHttpRequest();
         xhr.open('get', this.$constant.jinrishici);
@@ -205,7 +209,6 @@
 </script>
 
 <style scoped>
-
   .signature-wall {
     /* 向下排列 */
     display: flex;

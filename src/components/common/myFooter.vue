@@ -2,7 +2,7 @@
   <div class="myFooter-wrap" v-show="showFooter">
     <div class="myFooter">
       <div class="footer-title">{{$store.state.webInfo.footer}}</div>
-      <div class="icp">本网站由 <a href="https://poetize.cn" target="_blank">Poetize</a> 强力支持</div>
+      <div class="icp">本网站由 <a href="http://lambkinya.com" target="_blank">Lambkin</a> 强力支持</div>
     </div>
   </div>
 </template>
@@ -15,10 +15,10 @@
         default: true
       }
     },
-    data() {
+    data () {
       return {}
     },
-    created() {
+    created () {
     }
   }
 </script>
@@ -43,7 +43,8 @@
     font-size: 16px;
   }
 
-  .icp, .icp a {
+  .icp,
+  .icp a {
     color: var(--maxGreyFont);
     font-size: 13px;
   }
@@ -61,5 +62,4 @@
   .icp a:hover {
     color: var(--themeBackground);
   }
-
 </style>

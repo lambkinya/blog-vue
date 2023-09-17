@@ -3,21 +3,17 @@
     <!-- el过渡动画 -->
     <transition name="el-fade-in-linear">
       <!-- 导航栏 -->
-      <div v-show="toolbar.visible"
-           @mouseenter="hoverEnter = true"
-           @mouseleave="hoverEnter = false"
-           :class="[{ enter: toolbar.enter }, { hoverEnter: (hoverEnter || this.$route.path === '/favorite' || this.$route.path === '/travel') && !toolbar.enter }]"
-           class="toolbar-content myBetween">
+      <div v-show="toolbar.visible" @mouseenter="hoverEnter = true" @mouseleave="hoverEnter = false"
+        :class="[{ enter: toolbar.enter }, { hoverEnter: (hoverEnter || this.$route.path === '/favorite' || this.$route.path === '/travel') && !toolbar.enter }]"
+        class="toolbar-content myBetween">
         <!-- 网站名称 -->
         <div class="toolbar-title">
-          <h2 @click="$router.push({path: '/'})">{{$store.state.webInfo.webName}}</h2>
+          <h2 @click="$router.push({path: '/'})">{{$store.state.webInfo.name}}</h2>
         </div>
 
         <!-- 手机导航按钮 -->
-        <div v-if="$common.mobile() || mobile"
-             class="toolbar-mobile-menu"
-             @click="toolbarDrawer = !toolbarDrawer"
-             :class="{ enter: toolbar.enter }">
+        <div v-if="$common.mobile() || mobile" class="toolbar-mobile-menu" @click="toolbarDrawer = !toolbarDrawer"
+          :class="{ enter: toolbar.enter }">
           <i class="el-icon-s-operation"></i>
         </div>
 
@@ -30,13 +26,13 @@
               </div>
             </li>
 
-<!--            <li v-for="(menu, index) in $store.getters.navigationBar"-->
-<!--                @click="$router.push({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"-->
-<!--                :key="index">-->
-<!--              <div class="my-menu">-->
-<!--                📒 <span>{{ menu.sortName }}</span>-->
-<!--              </div>-->
-<!--            </li>-->
+            <!--            <li v-for="(menu, index) in $store.getters.navigationBar"-->
+            <!--                @click="$router.push({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"-->
+            <!--                :key="index">-->
+            <!--              <div class="my-menu">-->
+            <!--                📒 <span>{{ menu.sortName }}</span>-->
+            <!--              </div>-->
+            <!--            </li>-->
 
             <!-- 爱情买卖 -->
             <li @click="$router.push({path: '/love'})">
@@ -46,18 +42,18 @@
             </li>
 
             <!-- 旅拍 -->
-            <li @click="$router.push({path: '/travel'})">
+            <!-- <li @click="$router.push({path: '/travel'})">
               <div class="my-menu">
                 🌏 <span>旅拍</span>
               </div>
-            </li>
+            </li> -->
 
             <!-- 百宝箱 -->
-            <li @click="$router.push({path: '/favorite'})">
+            <!-- <li @click="$router.push({path: '/favorite'})">
               <div class="my-menu">
                 🧰 <span>百宝箱</span>
               </div>
-            </li>
+            </li> -->
 
             <!-- 聊天室 -->
             <li @click="goIm()">
@@ -66,11 +62,11 @@
               </div>
             </li>
             <!-- 音乐 -->
-            <li @click="$router.push({path: '/funny'})">
+            <!-- <li @click="$router.push({path: '/funny'})">
               <div class="my-menu">
                 🎺 <span>曲乐</span>
               </div>
-            </li>
+            </li> -->
             <!-- 留言 -->
             <li @click="$router.push({path: '/message'})">
               <div class="my-menu">
@@ -93,22 +89,21 @@
             <!-- 个人中心 -->
             <li>
               <el-dropdown placement="bottom">
-                <el-avatar class="user-avatar" :size="36"
-                           style="margin-top: 12px"
-                           :src="!$common.isEmpty($store.state.currentUser)?$store.state.currentUser.avatar:$store.state.webInfo.avatar">
+                <el-avatar class="user-avatar" :size="36" style="margin-top: 12px"
+                  :src="!$common.isEmpty($store.state.currentUser)?$store.state.currentUser.avatar:$store.state.webInfo.avatar">
                 </el-avatar>
 
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item @click.native="$router.push({path: '/user'})"
-                                    v-if="!$common.isEmpty($store.state.currentUser)">
+                    v-if="!$common.isEmpty($store.state.currentUser)">
                     <i class="fa fa-user-circle" aria-hidden="true"></i> <span>个人中心</span>
                   </el-dropdown-item>
                   <el-dropdown-item @click.native="logout()" v-if="!$common.isEmpty($store.state.currentUser)">
                     <i class="fa fa-sign-out" aria-hidden="true"></i> <span>退出</span>
                   </el-dropdown-item>
                   <el-dropdown-item @click.native="$router.push({path: '/user'})"
-                                    v-if="$common.isEmpty($store.state.currentUser)">
-                    <i class="fa fa-sign-in" aria-hidden="true"></i> <span>登陆</span>
+                    v-if="$common.isEmpty($store.state.currentUser)">
+                    <i class="fa fa-sign-in" aria-hidden="true"></i> <span>登录</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
@@ -138,9 +133,7 @@
         </svg>
       </div>
 
-      <el-popover placement="left"
-                  :close-delay="500"
-                  trigger="hover">
+      <el-popover placement="left" :close-delay="500" trigger="hover">
         <div slot="reference">
           <i class="fa fa-cog iconRotate" aria-hidden="true"></i>
         </div>
@@ -159,16 +152,11 @@
     </div>
 
     <!-- 点击动画 -->
-    <canvas v-if="mouseAnimation" id="mousedown"
-            style="position:fixed;left:0;top:0;pointer-events:none;z-index: 1000">
+    <canvas v-if="mouseAnimation" id="mousedown" style="position:fixed;left:0;top:0;pointer-events:none;z-index: 1000">
     </canvas>
 
-    <el-drawer :visible.sync="toolbarDrawer"
-               :show-close="false"
-               size="65%"
-               custom-class="toolbarDrawer"
-               title="欢迎光临"
-               direction="ltr">
+    <el-drawer :visible.sync="toolbarDrawer" :show-close="false" size="65%" custom-class="toolbarDrawer" title="欢迎光临"
+      direction="ltr">
       <div>
         <ul class="small-menu">
           <li @click="smallMenu({path: '/'})">
@@ -177,13 +165,13 @@
             </div>
           </li>
 
-<!--          <li v-for="(menu, index) in $store.getters.navigationBar"-->
-<!--              @click="smallMenu({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"-->
-<!--              :key="index">-->
-<!--            <div>-->
-<!--              📒 <span>{{ menu.sortName }}</span>-->
-<!--            </div>-->
-<!--          </li>-->
+          <!--          <li v-for="(menu, index) in $store.getters.navigationBar"-->
+          <!--              @click="smallMenu({path: '/sort', query: {sortId: menu.id, labelId: menu.labels[0].id}})"-->
+          <!--              :key="index">-->
+          <!--            <div>-->
+          <!--              📒 <span>{{ menu.sortName }}</span>-->
+          <!--            </div>-->
+          <!--          </li>-->
 
           <!-- 爱情买卖 -->
           <li @click="smallMenu({path: '/love'})">
@@ -270,7 +258,7 @@
   import mousedown from '../utils/mousedown';
 
   export default {
-    data() {
+    data () {
       return {
         toolButton: false,
         hoverEnter: false,
@@ -281,7 +269,7 @@
         mobile: false
       }
     },
-    mounted() {
+    mounted () {
       if (this.mouseAnimation) {
         mousedown();
       }
@@ -299,11 +287,11 @@
         root.style.setProperty("--favoriteBg", "#1e1e1e");
       }
     },
-    destroyed() {
+    destroyed () {
       window.removeEventListener("scroll", this.onScrollPage);
     },
     watch: {
-      scrollTop(scrollTop, oldScrollTop) {
+      scrollTop (scrollTop, oldScrollTop) {
         //如果滑动距离超过屏幕高度三分之一视为进入页面，背景改为白色
         let enter = scrollTop > window.innerHeight / 2;
         const top = scrollTop - oldScrollTop < 0;
@@ -327,7 +315,7 @@
         this.$store.commit("changeToolbarStatus", toolbarStatus);
       },
     },
-    created() {
+    created () {
       let toolbarStatus = {
         enter: false,
         visible: true,
@@ -348,22 +336,22 @@
       });
     },
     computed: {
-      toolbar() {
+      toolbar () {
         return this.$store.state.toolbar;
       }
     },
     methods: {
-      smallMenu(data) {
+      smallMenu (data) {
         this.$router.push(data)
         this.toolbarDrawer = false;
       },
 
-      smallMenuLogout() {
+      smallMenuLogout () {
         this.logout();
         this.toolbarDrawer = false;
       },
 
-      goIm() {
+      goIm () {
         if (this.$common.isEmpty(this.$store.state.currentUser)) {
           this.$message({
             message: "请先登录！",
@@ -374,7 +362,8 @@
           window.open(this.$constant.imBaseURL + "?userToken=" + userToken);
         }
       },
-      logout() {
+
+      logout () {
         this.$http.get(this.$constant.baseURL + "/user/logout")
           .then((res) => {
           })
@@ -386,12 +375,16 @@
           });
         this.$store.commit("loadCurrentUser", {});
         localStorage.removeItem("userToken");
-        this.$router.push({path: '/'});
+        this.$router.push({ path: '/' });
       },
-      getWebInfo() {
-        this.$http.get(this.$constant.baseURL + "/webInfo/getWebInfo")
+
+      // 获取网站配置信息
+      getWebInfo () {
+        this.$http.get(this.$constant.baseURL + "/websiteInfos/getWebsiteInfo")
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
+              // log-ya-websiteInfo
+              console.log("website", res.data);
               this.$store.commit("loadWebInfo", res.data);
             }
           })
@@ -402,10 +395,13 @@
             });
           });
       },
-      getSortInfo() {
-        this.$http.get(this.$constant.baseURL + "/webInfo/getSortInfo")
+
+      // 获取分类信息
+      getSortInfo () {
+        this.$http.get(this.$constant.baseURL + "/categories/list")
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
+              console.log("category-info", res.data);
               this.$store.commit("loadSortInfo", res.data);
             }
           })
@@ -416,7 +412,8 @@
             });
           });
       },
-      changeColor() {
+
+      changeColor () {
         this.isDark = !this.isDark;
         let root = document.querySelector(":root");
 
@@ -440,16 +437,19 @@
           root.style.setProperty("--favoriteBg", "#f7f9fe");
         }
       },
-      toTop() {
+
+      toTop () {
         window.scrollTo({
           top: 0,
           behavior: "smooth"
         });
       },
-      onScrollPage() {
+
+      onScrollPage () {
         this.scrollTop = document.documentElement.scrollTop || document.body.scrollTop;
       },
-      isDaylight() {
+
+      isDaylight () {
         let currDate = new Date();
         if (currDate.getHours() > 22 || currDate.getHours() < 7) {
           return true;
@@ -457,7 +457,8 @@
           return false;
         }
       },
-      changeMouseAnimation() {
+
+      changeMouseAnimation () {
         this.mouseAnimation = !this.mouseAnimation;
         if (this.mouseAnimation) {
           this.$nextTick(() => {
@@ -470,7 +471,6 @@
 </script>
 
 <style scoped>
-
   .toolbar-content {
     width: 100%;
     height: 60px;
@@ -512,7 +512,7 @@
     padding: 0;
   }
 
-  .scroll-menu > li {
+  .scroll-menu>li {
     list-style: none;
     margin: 0 12px;
     font-size: 17px;
@@ -522,16 +522,16 @@
     cursor: pointer;
   }
 
-  .scroll-menu > li:hover .my-menu span {
+  .scroll-menu>li:hover .my-menu span {
     color: var(--themeBackground);
   }
 
-  .scroll-menu > li:hover .my-menu i {
+  .scroll-menu>li:hover .my-menu i {
     color: var(--themeBackground);
     animation: scale 1.5s ease-in-out infinite;
   }
 
-  .scroll-menu > li .my-menu:after {
+  .scroll-menu>li .my-menu:after {
     content: "";
     display: block;
     position: absolute;
@@ -543,7 +543,7 @@
     transition: max-width 0.25s ease-in-out;
   }
 
-  .scroll-menu > li:hover .my-menu:after {
+  .scroll-menu>li:hover .my-menu:after {
     max-width: 100%;
   }
 
