@@ -6,6 +6,8 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
+    loginCoder: JSON.parse(localStorage.getItem("loginCoder") || '{}'),
+
     toolbar: JSON.parse(localStorage.getItem("toolbar") || '{"visible": false, "enter": true}'),
     sortInfo: JSON.parse(localStorage.getItem("sortInfo") || '[]'),
     currentUser: JSON.parse(localStorage.getItem("currentUser") || '{}'),
@@ -49,9 +51,9 @@ export default new Vuex.Store({
         localStorage.setItem("sortInfo", JSON.stringify(sortInfo.sort((s1, s2) => s1.priority - s2.priority)));
       }
     },
-    loadCurrentUser(state, user) {
-      state.currentUser = user;
-      localStorage.setItem("currentUser", JSON.stringify(user));
+    loadLoginCoder(state, loginCoder) {
+      state.loginCoder = loginCoder;
+      localStorage.setItem("loginCoder", JSON.stringify(loginCoder));
     },
     loadCurrentAdmin(state, user) {
       state.currentAdmin = user;

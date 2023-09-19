@@ -1,16 +1,11 @@
 <template>
   <div>
     <!-- 框 -->
-    <textarea
-      class="comment-textarea"
-      v-model="commentContent"
-      placeholder="写下点什么..."
-      maxlength="1000"/>
+    <textarea class="comment-textarea" v-model="commentContent" placeholder="写下点什么..." maxlength="1000" />
     <!-- 按钮 -->
     <div class="myBetween" style="margin-bottom: 10px">
       <div style="display: flex">
-        <div :class="{'emoji-active':showEmoji}"
-             @click="showEmoji = !showEmoji">
+        <div :class="{'emoji-active':showEmoji}" @click="showEmoji = !showEmoji">
           <i class="el-icon-orange myEmoji"></i>
         </div>
         <div @click="openPicture()">
@@ -19,41 +14,33 @@
       </div>
 
       <div style="display: flex">
-<!--        <proButton :info="'涂鸦'"-->
-<!--                   v-show="!$common.mobile() && !disableGraffiti"-->
-<!--                   @click.native="showGraffiti()"-->
-<!--                   :before="$constant.before_color_1"-->
-<!--                   :after="$constant.after_color_1"-->
-<!--                   style="margin-right: 6px">-->
-<!--        </proButton>-->
-        <proButton :info="'提交'"
-                   @click.native="submitComment()"
-                   :before="$constant.before_color_2"
-                   :after="$constant.after_color_2">
+        <!--        <proButton :info="'涂鸦'"-->
+        <!--                   v-show="!$common.mobile() && !disableGraffiti"-->
+        <!--                   @click.native="showGraffiti()"-->
+        <!--                   :before="$constant.before_color_1"-->
+        <!--                   :after="$constant.after_color_1"-->
+        <!--                   style="margin-right: 6px">-->
+        <!--        </proButton>-->
+        <proButton :info="'提交'" @click.native="submitComment()" :before="$constant.before_color_2"
+          :after="$constant.after_color_2">
         </proButton>
       </div>
     </div>
     <!-- 表情 -->
     <emoji @addEmoji="addEmoji" :showEmoji="showEmoji"></emoji>
 
-    <el-dialog title="图片"
-               :visible.sync="showPicture"
-               width="25%"
-               :append-to-body="true"
-               destroy-on-close
-               center>
+    <el-dialog title="图片" :visible.sync="showPicture" width="25%" :append-to-body="true" destroy-on-close center>
       <div>
-        <uploadPicture :prefix="'commentPicture'" @addPicture="addPicture" :maxSize="5"
-                       :maxNumber="1"></uploadPicture>
+        <uploadPicture :prefix="'commentPicture'" @addPicture="addPicture" :maxSize="5" :maxNumber="1"></uploadPicture>
       </div>
     </el-dialog>
   </div>
 </template>
 
 <script>
-  const emoji = () => import( "../common/emoji");
-  const proButton = () => import( "../common/proButton");
-  const uploadPicture = () => import( "../common/uploadPicture");
+  const emoji = () => import("../common/emoji");
+  const proButton = () => import("../common/proButton");
+  const uploadPicture = () => import("../common/uploadPicture");
 
   export default {
     components: {
@@ -67,20 +54,20 @@
         default: false
       }
     },
-    data() {
+    data () {
       return {
         commentContent: "",
         showEmoji: false,
         showPicture: false,
         picture: {
-          name: this.$store.state.currentUser.username,
+          name: this.$store.state.loginCoder.username,
           url: ""
         }
       };
     },
     methods: {
-      openPicture() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
+      openPicture () {
+        if (this.$common.isEmpty(this.$store.state.loginCoder)) {
           this.$message({
             message: "请先登录！",
             type: "error"
@@ -91,21 +78,21 @@
         this.showPicture = true;
       },
 
-      addPicture(res) {
+      addPicture (res) {
         this.picture.url = res;
         this.savePicture();
       },
-      savePicture() {
+      savePicture () {
         let img = "<" + this.picture.name + "," + this.picture.url + ">";
         this.commentContent += img;
         this.picture.url = "";
         this.showPicture = false;
       },
-      addEmoji(key) {
+      addEmoji (key) {
         this.commentContent += key;
       },
-      showGraffiti() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
+      showGraffiti () {
+        if (this.$common.isEmpty(this.$store.state.loginCoder)) {
           this.$message({
             message: "请先登录！",
             type: "error"
@@ -116,8 +103,9 @@
         this.commentContent = "";
         this.$emit("showGraffiti");
       },
-      submitComment() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
+
+      submitComment () {
+        if (this.$common.isEmpty(this.$store.state.loginCoder)) {
           this.$message({
             message: "请先登录！",
             type: "error"

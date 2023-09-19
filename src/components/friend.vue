@@ -1,11 +1,7 @@
 <template>
   <div>
-    <el-image style="animation: header-effect 2s"
-              class="background-image"
-              v-once
-              lazy
-              :src="$constant.friendBG"
-              fit="cover">
+    <el-image style="animation: header-effect 2s" class="background-image" v-once lazy :src="$constant.friendBG"
+      fit="cover">
       <div slot="error" class="image-slot background-image-error"></div>
     </el-image>
 
@@ -19,11 +15,11 @@
         <!-- 添加友链 -->
         <div @click="clickLetter()" class="form-wrap">
           <!-- 信封上面 -->
-          <img class="before-img" :src="$constant.friendLetterTop" style="width: 100%"/>
+          <img class="before-img" :src="$constant.friendLetterTop" style="width: 100%" />
           <!-- 信 -->
           <div class="envelope" style="animation: hideToShow 2s">
             <div class="form-main">
-              <img :src="$constant.friendLetterMiddle" style="width: 100%"/>
+              <img :src="$constant.friendLetterMiddle" style="width: 100%" />
               <div>
                 <h3 style="text-align: center">有朋自远方来</h3>
                 <div>
@@ -36,7 +32,7 @@
                     </div>
                     <div class="user-content">
                       <div>
-                        <el-input maxlength="30" v-model="friend.title"></el-input>
+                        <el-input maxlength="30" v-model="friend.name"></el-input>
                       </div>
                       <div>
                         <el-input maxlength="120" v-model="friend.introduction"></el-input>
@@ -50,21 +46,19 @@
                     </div>
                   </div>
                   <div class="myCenter" style="margin-top: 20px">
-                    <proButton :info="'提交'"
-                               @click.native.stop="submitFriend()"
-                               :before="$constant.before_color_2"
-                               :after="$constant.after_color_2">
+                    <proButton :info="'提交'" @click.native.stop="submitFriend()" :before="$constant.before_color_2"
+                      :after="$constant.after_color_2">
                     </proButton>
                   </div>
                 </div>
                 <div>
-                  <img :src="$constant.friendLetterBiLi" style="width: 100%;margin: 5px auto"/>
+                  <img :src="$constant.friendLetterBiLi" style="width: 100%;margin: 5px auto" />
                 </div>
                 <p style="font-size: 12px;text-align: center;color: #999">欢迎交换友链</p>
               </div>
             </div>
           </div>
-          <img class="after-img" :src="$constant.friendLetterBottom" style="width: 100%"/>
+          <img class="after-img" :src="$constant.friendLetterBottom" style="width: 100%" />
         </div>
 
         <hr>
@@ -80,9 +74,9 @@
 </template>
 
 <script>
-  const myFooter = () => import( "./common/myFooter");
-  const card = () => import( "./common/card");
-  const proButton = () => import( "./common/proButton");
+  const myFooter = () => import("./common/myFooter");
+  const card = () => import("./common/card");
+  const proButton = () => import("./common/proButton");
 
   export default {
     components: {
@@ -91,7 +85,7 @@
       proButton
     },
 
-    data() {
+    data () {
       return {
         pagination: {
           current: 1,
@@ -101,7 +95,7 @@
         },
         friendList: [],
         friend: {
-          title: "",
+          name: "",
           introduction: "",
           cover: "",
           url: ""
@@ -113,24 +107,24 @@
 
     watch: {},
 
-    created() {
+    created () {
       this.getFriends();
     },
 
-    mounted() {
+    mounted () {
 
     },
 
     methods: {
-      clickLetter() {
+      clickLetter () {
         if (document.body.clientWidth < 700) {
-          $(".form-wrap").css({"height": "1000px", "top": "-200px"});
+          $(".form-wrap").css({ "height": "1000px", "top": "-200px" });
         } else {
-          $(".form-wrap").css({"height": "1150px", "top": "-200px"});
+          $(".form-wrap").css({ "height": "1150px", "top": "-200px" });
         }
       },
-      submitFriend() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
+      submitFriend () {
+        if (this.$common.isEmpty(this.$store.state.loginCoder)) {
           this.$message({
             message: "请先登录！",
             type: "error"
@@ -138,7 +132,7 @@
           return;
         }
 
-        if (this.friend.title.trim() === "") {
+        if (this.friend.name.trim() === "") {
           this.$message({
             message: "你还没写名称呢~",
             type: "warning"
@@ -170,12 +164,12 @@
           return;
         }
 
-        this.$http.post(this.$constant.baseURL + "/webInfo/saveFriend", this.friend)
+        this.$http.post(this.$constant.baseURL + "/friendLinks/apply", this.friend)
           .then((res) => {
-            $(".form-wrap").css({"height": "447px", "top": "0"});
+            $(".form-wrap").css({ "height": "447px", "top": "0" });
             this.$message({
               type: 'success',
-              message: '提交成功，待管理员审核！'
+              message: '提交成功，请耐心等待管理员审核！'
             });
           })
           .catch((error) => {
@@ -185,14 +179,14 @@
             });
           });
       },
-      clickFriend(path) {
+      clickFriend (path) {
         window.open(path);
       },
-      getFriends() {
-        this.$http.post(this.$constant.baseURL + "/webInfo/listResourcePath", this.pagination)
+      getFriends () {
+        this.$http.get(this.$constant.baseURL + "/friendLinks/list")
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
-              this.friendList = res.data.records;
+              this.friendList = res.data;
             }
           })
           .catch((error) => {
@@ -207,7 +201,6 @@
 </script>
 
 <style scoped>
-
   .friend-head {
     height: 300px;
     position: relative;
@@ -323,13 +316,13 @@
     text-align: center;
   }
 
-  .user-content > div {
+  .user-content>div {
     height: 55px;
     display: flex;
     align-items: center;
   }
 
-  .user-content >>> .el-input__inner {
+  .user-content>>>.el-input__inner {
     border: none;
     height: 35px;
     background: var(--whiteMask);

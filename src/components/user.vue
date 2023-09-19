@@ -1,15 +1,10 @@
 <template>
   <div>
-    <!-- 登陆和注册 -->
-    <div v-if="$common.isEmpty(currentUser)"
-         class="myCenter in-up-container my-animation-hideToShow">
+    <!-- 未登录：登录或注册 $common.isEmpty(loginCoder) -->
+    <div v-if="$common.isEmpty($store.state.loginCoder)" class="myCenter in-up-container my-animation-hideToShow">
       <!-- 背景图片 -->
-      <el-image class="my-el-image"
-                style="position: absolute"
-                v-once
-                lazy
-                :src="$constant.two_poem_image[Math.floor(Math.random() * $constant.two_poem_image.length)]"
-                fit="cover">
+      <el-image class="my-el-image" style="position: absolute" v-once lazy
+        :src="$constant.two_poem_image[Math.floor(Math.random() * $constant.two_poem_image.length)]" fit="cover">
         <div slot="error" class="image-slot"></div>
       </el-image>
       <div class="in-up" id="loginAndRegist">
@@ -50,22 +45,19 @@
       </div>
     </div>
 
-    <!-- 用户信息 -->
+
+    <!-- 已登录：用户信息 -->
     <div v-else class="user-container myCenter my-animation-hideToShow">
       <!-- 背景图片 -->
-      <el-image class="my-el-image"
-                style="position: absolute"
-                v-once
-                lazy
-                :src="$constant.two_poem_image[Math.floor(Math.random() * $constant.two_poem_image.length)]"
-                fit="cover">
+      <el-image class="my-el-image" style="position: absolute" v-once lazy
+        :src="$constant.two_poem_image[Math.floor(Math.random() * $constant.two_poem_image.length)]" fit="cover">
         <div slot="error" class="image-slot"></div>
       </el-image>
       <div class="shadow-box-mini user-info" style="display: flex">
         <div class="user-left">
           <div>
             <el-avatar class="user-avatar" @click.native="changeDialog('修改头像')" :size="60"
-                       :src="currentUser.avatar"></el-avatar>
+              :src="loginCoder.avatar"></el-avatar>
           </div>
           <div class="myCenter" style="margin-top: 12px">
             <div class="user-title">
@@ -77,40 +69,35 @@
             </div>
             <div class="user-content">
               <div>
-                <el-input maxlength="30" v-model="currentUser.username"></el-input>
+                <el-input maxlength="30" v-model="loginCoder.username"></el-input>
               </div>
               <div>
-                <div v-if="!$common.isEmpty(currentUser.phoneNumber)">
-                  {{ currentUser.phoneNumber }} <span class="changeInfo" @click="changeDialog('修改手机号')">修改（功能未接入）</span>
+                <div v-if="!$common.isEmpty(loginCoder.phone)">
+                  {{ loginCoder.phone }} <span class="changeInfo" @click="changeDialog('修改手机号')">修改（功能未接入）</span>
                 </div>
                 <div v-else><span class="changeInfo" @click="changeDialog('绑定手机号')">绑定手机号（功能未接入）</span></div>
               </div>
               <div>
-                <div v-if="!$common.isEmpty(currentUser.email)">
-                  {{ currentUser.email }} <span class="changeInfo" @click="changeDialog('修改邮箱')">修改</span>
+                <div v-if="!$common.isEmpty(loginCoder.email)">
+                  {{ loginCoder.email }} <span class="changeInfo" @click="changeDialog('修改邮箱')">修改</span>
                 </div>
                 <div v-else><span class="changeInfo" @click="changeDialog('绑定邮箱')">绑定邮箱</span></div>
               </div>
               <div>
-                <el-radio-group v-model="currentUser.gender">
+                <el-radio-group v-model="loginCoder.gender">
                   <el-radio :label="0" style="margin-right: 10px">薛定谔的猫</el-radio>
                   <el-radio :label="1" style="margin-right: 10px">男</el-radio>
                   <el-radio :label="2">女</el-radio>
                 </el-radio-group>
               </div>
               <div>
-                <el-input v-model="currentUser.introduction"
-                          maxlength="60"
-                          type="textarea"
-                          show-word-limit></el-input>
+                <el-input v-model="loginCoder.saying" maxlength="60" type="textarea" show-word-limit></el-input>
               </div>
             </div>
           </div>
           <div style="margin-top: 20px">
-            <proButton :info="'提交'"
-                       @click.native="submitUserInfo()"
-                       :before="$constant.before_color_2"
-                       :after="$constant.after_color_2">
+            <proButton :info="'提交'" @click.native="submitUserInfo()" :before="$constant.before_color_2"
+              :after="$constant.after_color_2">
             </proButton>
           </div>
         </div>
@@ -121,13 +108,8 @@
     </div>
 
 
-    <el-dialog :title="dialogTitle"
-               :visible.sync="showDialog"
-               width="30%"
-               :before-close="clearDialog"
-               :append-to-body="true"
-               :close-on-click-modal="false"
-               center>
+    <el-dialog :title="dialogTitle" :visible.sync="showDialog" width="30%" :before-close="clearDialog"
+      :append-to-body="true" :close-on-click-modal="false" center>
       <div class="myCenter" style="flex-direction: column">
         <div>
           <div v-if="dialogTitle === '修改手机号' || dialogTitle === '绑定手机号'">
@@ -147,8 +129,7 @@
             <el-input v-model="password"></el-input>
           </div>
           <div v-else-if="dialogTitle === '修改头像'">
-            <uploadPicture :prefix="'userAvatar'" @addPicture="addPicture" :maxSize="1"
-                           :maxNumber="1"></uploadPicture>
+            <uploadPicture :prefix="'userAvatar'" @addPicture="addPicture" :maxSize="1" :maxNumber="1"></uploadPicture>
           </div>
           <div v-else-if="dialogTitle === '找回密码'">
             <div class="myCenter" style="margin-bottom: 12px">
@@ -185,16 +166,12 @@
         </div>
         <div style="display: flex;margin-top: 30px" v-show="dialogTitle !== '修改头像'">
           <proButton :info="codeString"
-                     v-show="dialogTitle === '修改手机号' || dialogTitle === '绑定手机号' || dialogTitle === '修改邮箱' || dialogTitle === '绑定邮箱' || dialogTitle === '找回密码' || dialogTitle === '邮箱验证码'"
-                     @click.native="getCode()"
-                     :before="$constant.before_color_1"
-                     :after="$constant.after_color_1"
-                     style="margin-right: 20px">
+            v-show="dialogTitle === '修改手机号' || dialogTitle === '绑定手机号' || dialogTitle === '修改邮箱' || dialogTitle === '绑定邮箱' || dialogTitle === '找回密码' || dialogTitle === '邮箱验证码'"
+            @click.native="getCode()" :before="$constant.before_color_1" :after="$constant.after_color_1"
+            style="margin-right: 20px">
           </proButton>
-          <proButton :info="'提交'"
-                     @click.native="submitDialog()"
-                     :before="$constant.before_color_2"
-                     :after="$constant.after_color_2">
+          <proButton :info="'提交'" @click.native="submitDialog()" :before="$constant.before_color_2"
+            :after="$constant.after_color_2">
           </proButton>
         </div>
       </div>
@@ -203,17 +180,17 @@
 </template>
 
 <script>
-  const proButton = () => import( "./common/proButton");
-  const uploadPicture = () => import( "./common/uploadPicture");
+  const proButton = () => import("./common/proButton");
+  const uploadPicture = () => import("./common/uploadPicture");
 
   export default {
     components: {
       proButton,
       uploadPicture
     },
-    data() {
+    data () {
       return {
-        currentUser: this.$store.state.currentUser,
+        loginCoder: this.$store.state.loginCoder,
         username: "",
         account: "",
         password: "",
@@ -229,21 +206,23 @@
       }
     },
     computed: {},
-    created() {
+    created () {
 
     },
     methods: {
-      addPicture(res) {
+      addPicture (res) {
         this.avatar = res;
         this.submitDialog()
       },
-      signUp() {
+      signUp () {
         document.querySelector("#loginAndRegist").classList.add('right-panel-active');
       },
-      signIn() {
+      signIn () {
         document.querySelector("#loginAndRegist").classList.remove('right-panel-active');
       },
-      login() {
+
+      // 登录
+      login () {
         if (this.$common.isEmpty(this.account) || this.$common.isEmpty(this.password)) {
           this.$message({
             message: "请输入账号或密码！",
@@ -254,17 +233,25 @@
 
         let user = {
           account: this.account.trim(),
-          password: this.$common.encrypt(this.password.trim())
+          // 后续进行密码加密
+          // password: this.$common.encrypt(this.password.trim())
+          password: this.password.trim(),
         };
 
-        this.$http.post(this.$constant.baseURL + "/user/login", user, false, false)
+        this.$http.post(this.$constant.baseURL + "/login", user)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
-              this.$store.commit("loadCurrentUser", res.data);
-              localStorage.setItem("userToken", res.data.accessToken);
+
+              localStorage.setItem("token", res.data);
               this.account = "";
               this.password = "";
-              this.$router.push({path: '/'});
+              this.$router.push({ path: '/' });
+
+              this.$http.get(this.$constant.baseURL + "/coders/t-info").then((res) => {
+                if (res.flag) {
+                  this.$store.commit("loadLoginCoder", res.data);
+                }
+              })
             }
           })
           .catch((error) => {
@@ -274,7 +261,9 @@
             });
           });
       },
-      regist() {
+
+      // 注册
+      regist () {
         if (this.$common.isEmpty(this.username) || this.$common.isEmpty(this.password)) {
           this.$message({
             message: "请输入用户名或密码！",
@@ -324,7 +313,7 @@
               localStorage.setItem("userToken", res.data.accessToken);
               this.username = "";
               this.password = "";
-              this.$router.push({path: '/'});
+              this.$router.push({ path: '/' });
               let userToken = this.$common.encrypt(localStorage.getItem("userToken"));
               window.open(this.$constant.imBaseURL + "?userToken=" + userToken);
             }
@@ -336,18 +325,19 @@
             });
           });
       },
-      submitUserInfo() {
+
+      submitUserInfo () {
         if (!this.checkParameters()) {
           return;
         }
 
         let user = {
-          username: this.currentUser.username,
-          gender: this.currentUser.gender
+          username: this.loginCoder.username,
+          gender: this.loginCoder.gender
         };
 
-        if (!this.$common.isEmpty(this.currentUser.introduction)) {
-          user.introduction = this.currentUser.introduction.trim();
+        if (!this.$common.isEmpty(this.loginCoder.introduction)) {
+          user.introduction = this.loginCoder.introduction.trim();
         }
 
         this.$confirm('确认保存？', '提示', {
@@ -360,7 +350,7 @@
             .then((res) => {
               if (!this.$common.isEmpty(res.data)) {
                 this.$store.commit("loadCurrentUser", res.data);
-                this.currentUser = this.$store.state.currentUser;
+                this.loginCoder = this.$store.state.loginCoder;
                 this.$message({
                   message: "修改成功！",
                   type: "success"
@@ -380,7 +370,8 @@
           });
         });
       },
-      checkParams(params) {
+
+      checkParams (params) {
         if (this.dialogTitle === "修改手机号" || this.dialogTitle === "绑定手机号" || (this.dialogTitle === "找回密码" && this.passwordFlag === 1)) {
           params.flag = 1;
           if (this.$common.isEmpty(this.phoneNumber)) {
@@ -420,8 +411,9 @@
         }
         return false;
       },
-      checkParameters() {
-        if (this.$common.isEmpty(this.currentUser.username)) {
+
+      checkParameters () {
+        if (this.$common.isEmpty(this.loginCoder.username)) {
           this.$message({
             message: "请输入用户名！",
             type: "error"
@@ -429,7 +421,7 @@
           return false;
         }
 
-        if (this.currentUser.username.indexOf(" ") !== -1) {
+        if (this.loginCoder.username.indexOf(" ") !== -1) {
           this.$message({
             message: "用户名不能包含空格！",
             type: "error"
@@ -438,7 +430,8 @@
         }
         return true;
       },
-      changeDialog(value) {
+
+      changeDialog (value) {
         if (value === "邮箱验证码") {
           if (this.$common.isEmpty(this.email)) {
             this.$message({
@@ -459,7 +452,8 @@
         this.dialogTitle = value;
         this.showDialog = true;
       },
-      submitDialog() {
+
+      submitDialog () {
         if (this.dialogTitle === "修改头像") {
           if (this.$common.isEmpty(this.avatar)) {
             this.$message({
@@ -475,7 +469,7 @@
               .then((res) => {
                 if (!this.$common.isEmpty(res.data)) {
                   this.$store.commit("loadCurrentUser", res.data);
-                  this.currentUser = this.$store.state.currentUser;
+                  this.loginCoder = this.$store.state.loginCoder;
                   this.clearDialog();
                   this.$message({
                     message: "修改成功！",
@@ -505,7 +499,8 @@
           this.showDialog = false;
         }
       },
-      updateSecretInfo() {
+
+      updateSecretInfo () {
         if (this.$common.isEmpty(this.code)) {
           this.$message({
             message: "请输入验证码！",
@@ -548,7 +543,7 @@
             .then((res) => {
               if (!this.$common.isEmpty(res.data)) {
                 this.$store.commit("loadCurrentUser", res.data);
-                this.currentUser = this.$store.state.currentUser;
+                this.loginCoder = this.$store.state.loginCoder;
                 this.clearDialog();
                 this.$message({
                   message: "修改成功！",
@@ -564,7 +559,8 @@
             });
         }
       },
-      getCode() {
+
+      getCode () {
         if (this.codeString === "验证码") {
           // 获取验证码
           let params = {};
@@ -608,7 +604,8 @@
           });
         }
       },
-      clearDialog() {
+
+      clearDialog () {
         this.password = "";
         this.phoneNumber = "";
         this.email = "";
@@ -623,7 +620,6 @@
 </script>
 
 <style scoped>
-
   .in-up-container {
     height: 100vh;
     position: relative;
@@ -821,18 +817,19 @@
     text-align: center;
   }
 
-  .user-content > div {
+  .user-content>div {
     height: 55px;
     display: flex;
     align-items: center;
   }
 
-  .user-content >>> .el-input__inner, .user-content >>> .el-textarea__inner {
+  .user-content>>>.el-input__inner,
+  .user-content>>>.el-textarea__inner {
     border: none;
     background: var(--whiteMask);
   }
 
-  .user-content >>> .el-input__count {
+  .user-content>>>.el-input__count {
     background: var(--transparent);
     user-select: none;
   }

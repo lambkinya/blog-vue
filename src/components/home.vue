@@ -95,14 +95,14 @@
 
                 <el-dropdown-menu slot="dropdown">
                   <el-dropdown-item @click.native="$router.push({path: '/user'})"
-                    v-if="!$common.isEmpty($store.state.currentUser)">
+                    v-if="!$common.isEmpty($store.state.loginCoder)">
                     <i class="fa fa-user-circle" aria-hidden="true"></i> <span>个人中心</span>
                   </el-dropdown-item>
-                  <el-dropdown-item @click.native="logout()" v-if="!$common.isEmpty($store.state.currentUser)">
+                  <el-dropdown-item @click.native="logout()" v-if="!$common.isEmpty($store.state.loginCoder)">
                     <i class="fa fa-sign-out" aria-hidden="true"></i> <span>退出</span>
                   </el-dropdown-item>
                   <el-dropdown-item @click.native="$router.push({path: '/user'})"
-                    v-if="$common.isEmpty($store.state.currentUser)">
+                    v-if="$common.isEmpty($store.state.loginCoder)">
                     <i class="fa fa-sign-in" aria-hidden="true"></i> <span>登录</span>
                   </el-dropdown-item>
                 </el-dropdown-menu>
@@ -364,7 +364,7 @@
       },
 
       logout () {
-        this.$http.get(this.$constant.baseURL + "/user/logout")
+        this.$http.get(this.$constant.baseURL + "/logout")
           .then((res) => {
           })
           .catch((error) => {
@@ -373,8 +373,8 @@
               type: "error"
             });
           });
-        this.$store.commit("loadCurrentUser", {});
-        localStorage.removeItem("userToken");
+        this.$store.commit("loadLoginCoder", {});
+        localStorage.removeItem("token");
         this.$router.push({ path: '/' });
       },
 

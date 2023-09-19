@@ -1,15 +1,9 @@
 <template>
   <div class="card-container" v-if="!$common.isEmpty(resourcePathList)">
-    <div v-for="(resourcePath, index) in resourcePathList"
-         :key="index"
-         class="card-item shadow-box wow"
-         @click="clickResourcePath(resourcePath)">
+    <div v-for="(resourcePath, index) in resourcePathList" :key="index" class="card-item shadow-box wow"
+      @click="clickResourcePath(resourcePath)">
       <div class="card-image">
-        <el-image class="my-el-image"
-                  v-once
-                  lazy
-                  :src="resourcePath.cover"
-                  fit="cover">
+        <el-image class="my-el-image" v-once lazy :src="resourcePath.cover" fit="cover">
           <div slot="error" class="image-slot myCenter" style="background-color: var(--lightGreen)">
             <div class="error-text">
               <div>遇事不决，可问春风</div>
@@ -22,7 +16,7 @@
           <span v-if="resourcePath.recommendStatus">
             🔥
           </span>
-          {{resourcePath.title}}
+          {{resourcePath.name}}
         </div>
         <div class="card-desc">
           {{resourcePath.introduction}}
@@ -53,7 +47,7 @@
       }
     },
 
-    data() {
+    data () {
       return {}
     },
 
@@ -61,16 +55,16 @@
 
     watch: {},
 
-    created() {
+    created () {
 
     },
 
-    mounted() {
+    mounted () {
 
     },
 
     methods: {
-      clickResourcePath(resourcePath) {
+      clickResourcePath (resourcePath) {
         this.$emit("clickResourcePath", resourcePath.url);
       }
     }
@@ -78,7 +72,6 @@
 </script>
 
 <style scoped>
-
   .card-container {
     display: flex;
     flex-wrap: wrap;
@@ -102,11 +95,11 @@
     height: 180px;
   }
 
-  .card-image >>> .el-image__inner {
+  .card-image>>>.el-image__inner {
     transition: all 1s;
   }
 
-  .card-image >>> .el-image__inner:hover {
+  .card-image>>>.el-image__inner:hover {
     transform: scale(1.2);
   }
 
@@ -157,5 +150,4 @@
       width: calc(100% - 20px);
     }
   }
-
 </style>

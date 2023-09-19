@@ -53,19 +53,19 @@
         <span>推荐文章</span>
       </div>
       <div v-for="(article, index) in recommendArticles" :key="index"
-        @click="$router.push({path: '/article', query: {id: article.id}})">
+        @click="$router.push({path: '/article', query: {no: article.no}})">
         <div class="aside-post-detail">
           <div class="aside-post-image">
-            <el-image lazy class="my-el-image" :src="article.articleCover" fit="cover">
+            <el-image lazy class="my-el-image" :src="article.thumbnail" fit="cover">
               <div slot="error" class="image-slot">
                 <div class="error-aside-image">
-                  {{article.username}}
+                  {{article.categoryName}}
                 </div>
               </div>
             </el-image>
           </div>
           <div class="aside-post-title">
-            {{ article.articleTitle }}
+            {{article.categoryName}} <br> {{ article.title }}
           </div>
         </div>
         <div class="aside-post-date">
@@ -169,7 +169,8 @@
     },
     created () {
       this.getRecommendArticles();
-      this.getAdmire();
+      // 后续再做
+      // this.getAdmire();
     },
     methods: {
       selectSort (sort) {
@@ -204,7 +205,7 @@
           });
       },
       getRecommendArticles () {
-        this.$http.post(this.$constant.baseURL + "/article/listArticle", this.pagination)
+        this.$http.post(this.$constant.baseURL + "/articles/recommend", this.pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.recommendArticles = res.data.records;

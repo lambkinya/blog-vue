@@ -8,16 +8,15 @@
       <div>
         <!-- 文字评论 -->
         <div v-show="!isGraffiti">
-          <commentBox @showGraffiti="isGraffiti = !isGraffiti"
-                      @submitComment="submitComment">
+          <commentBox @showGraffiti="isGraffiti = !isGraffiti" @submitComment="submitComment">
           </commentBox>
         </div>
         <!-- 画笔 -->
-<!--        <div v-show="isGraffiti">-->
-<!--          <graffiti @showComment="isGraffiti = !isGraffiti"-->
-<!--                    @addGraffitiComment="addGraffitiComment">-->
-<!--          </graffiti>-->
-<!--        </div>-->
+        <!--        <div v-show="isGraffiti">-->
+        <!--          <graffiti @showComment="isGraffiti = !isGraffiti"-->
+        <!--                    @addGraffitiComment="addGraffitiComment">-->
+        <!--          </graffiti>-->
+        <!--        </div>-->
       </div>
     </div>
 
@@ -26,63 +25,65 @@
       <!-- 评论数量 -->
       <div class="commentInfo-title">
         <span style="font-size: 1.15rem">Comments | </span>
+        <!-- 显示此文章下的总评论数量，包括每条评论的子评论 -->
         <span>{{ total }} 条留言</span>
       </div>
       <!-- 评论详情 -->
-      <div id="comment-content" class="commentInfo-detail"
-           v-for="(item, index) in comments"
-           :key="index">
+      <div id="comment-content" class="commentInfo-detail" v-for="(item, index) in comments" :key="index">
         <!-- 头像 -->
-        <el-avatar shape="square" class="commentInfo-avatar" :size="35" :src="item.avatar"></el-avatar>
+        <el-avatar shape="square" class="commentInfo-avatar" :size="35" :src="item.coderAvatar"></el-avatar>
 
         <div style="flex: 1;padding-left: 12px">
           <!-- 评论信息 -->
           <div style="display: flex;justify-content: space-between">
             <div>
-              <span class="commentInfo-username">{{ item.username }}</span>
-              <span class="commentInfo-master" v-if="item.userId === userId">主人翁</span>
+              <span class="commentInfo-username">{{ item.coderName }}</span>
+              <span class="commentInfo-master"
+                v-if="item.coderNo === (userId === undefined ? 'YA238192378218' : userId)">主人翁</span>
               <span class="commentInfo-other">{{ $common.getDateDiff(item.createTime) }}</span>
             </div>
             <div class="commentInfo-reply" @click="replyDialog(item, item)">
-              <span v-if="item.childComments.total > 0">{{item.childComments.total}} </span><span>回复</span>
+              <span v-if="item.childrenCommentList.length > 0">{{item.childrenCommentTotal}} </span><span>回复</span>
             </div>
           </div>
           <!-- 评论内容 -->
           <div class="commentInfo-content">
-            <span v-html="item.commentContent"></span>
+            <span v-html="item.content"></span>
           </div>
-          <!-- 回复模块 -->
-          <div v-if="!$common.isEmpty(item.childComments) && !$common.isEmpty(item.childComments.records)">
-            <div class="commentInfo-detail" v-for="(childItem, i) in item.childComments.records" :key="i">
+          <!-- 子评论模块 -->
+          <div v-if="!$common.isEmpty(item.childrenCommentList) && !$common.isEmpty(item.childrenCommentList)">
+            <div class="commentInfo-detail" v-for="(childItem, i) in item.childrenCommentList" :key="i">
               <!-- 头像 -->
-              <el-avatar shape="square" class="commentInfo-avatar" :size="30" :src="childItem.avatar"></el-avatar>
+              <el-avatar shape="square" class="commentInfo-avatar" :size="30" :src="childItem.coderAvatar"></el-avatar>
 
               <div style="flex: 1;padding-left: 12px">
                 <!-- 评论信息 -->
                 <div style="display: flex;justify-content: space-between">
                   <div>
-                    <span class="commentInfo-username-small">{{ childItem.username }}</span>
-                    <span class="commentInfo-master" v-if="childItem.userId === userId">主人翁</span>
+                    <span class="commentInfo-username-small">{{ childItem.coderName }}</span>
+                    <span class="commentInfo-master"
+                      v-if="childItem.coderNo === (userId === undefined ? 'YA238192378218' : userId)">主人翁</span>
                     <span class="commentInfo-other">{{ $common.getDateDiff(childItem.createTime) }}</span>
                   </div>
                   <div>
-                    <span class="commentInfo-reply" @click="replyDialog(childItem, item)">回复</span>
+                    <span class="commentInfo-reply" @click="replyDialog(childItem, item)">
+                      <span v-if="childItem.childrenCommentTotal > 0">{{childItem.childrenCommentTotal}} </span>回复
+                    </span>
                   </div>
                 </div>
                 <!-- 评论内容 -->
                 <div class="commentInfo-content">
-                  <template v-if="childItem.parentCommentId !== item.id &&
-                                  childItem.parentUserId !== childItem.userId">
-                    <span style="color: var(--blue)">@{{ childItem.parentUsername }} </span>:
+                  <template v-if="childItem.toCommentNo !== item.no &&
+                                  childItem.toCoderNo !== childItem.coderNo">
+                    <span style="color: var(--blue)">@{{ childItem.toCoderName }} </span>:
                   </template>
-                  <span v-html="childItem.commentContent"></span>
+                  <span v-html="childItem.content"></span>
                 </div>
               </div>
             </div>
             <!-- 分页 -->
-            <div class="pagination-wrap" v-if="item.childComments.records.length < item.childComments.total">
-              <div class="pagination"
-                   @click="toChildPage(item)">
+            <div class="pagination-wrap" v-if="item.childrenCommentList.length < item.childrenCommentTotal">
+              <div class="pagination" @click="toChildPage(item)">
                 展开
               </div>
             </div>
@@ -90,29 +91,21 @@
         </div>
       </div>
       <!-- 分页 -->
-      <proPage :current="pagination.current"
-               :size="pagination.size"
-               :total="pagination.total"
-               :buttonSize="6"
-               :color="$constant.commentPageColor"
-               @toPage="toPage">
+      <proPage :current="pagination.current" :size="pagination.size" :total="pagination.total" :buttonSize="6"
+        :color="$constant.commentPageColor" @toPage="toPage">
       </proPage>
     </div>
 
+    <!-- 无评论显示 ‘来发第一个留言啦~’ -->
     <div v-else class="myCenter" style="color: var(--greyFont)">
       <i>来发第一个留言啦~</i>
     </div>
 
-    <el-dialog title="留言"
-               :visible.sync="replyDialogVisible"
-               width="30%"
-               :before-close="handleClose"
-               :append-to-body="true"
-               destroy-on-close
-               center>
+    <!-- 点击回复时弹出此 留言框 -->
+    <el-dialog title="留言" :visible.sync="replyDialogVisible" width="30%" :before-close="handleClose"
+      :append-to-body="true" destroy-on-close center>
       <div>
-        <commentBox :disableGraffiti="true"
-                    @submitComment="submitReply">
+        <commentBox :disableGraffiti="true" @submitComment="submitReply">
         </commentBox>
       </div>
     </el-dialog>
@@ -121,8 +114,8 @@
 
 <script>
   // const graffiti = () => import( "./graffiti");
-  const commentBox = () => import( "./commentBox");
-  const proPage = () => import( "../common/proPage");
+  const commentBox = () => import("./commentBox");
+  const proPage = () => import("../common/proPage");
 
   export default {
     components: {
@@ -132,16 +125,16 @@
     },
     props: {
       source: {
-        type: Number
+        type: String
       },
       type: {
         type: String
       },
       userId: {
-        type: Number
+        type: String
       }
     },
-    data() {
+    data () {
       return {
         isGraffiti: false,
         total: 0,
@@ -153,8 +146,8 @@
           current: 1,
           size: 10,
           total: 0,
-          source: this.source,
-          commentType: this.type,
+          articleNo: this.source,
+          type: this.type === "article" ? 1 : 2,
           floorCommentId: null
         }
       };
@@ -162,20 +155,22 @@
 
     computed: {},
 
-    created() {
+    created () {
       this.getComments(this.pagination);
       this.getTotal();
     },
     methods: {
-      toPage(page) {
+      toPage (page) {
         this.pagination.current = page;
         window.scrollTo({
           top: document.getElementById('comment-content').offsetTop
         });
         this.getComments(this.pagination);
       },
-      getTotal() {
-        this.$http.get(this.$constant.baseURL + "/comment/getCommentCount", {source: this.source, type: this.type})
+
+      // 计算该文章下总共有多少评论
+      getTotal () {
+        this.$http.get(this.$constant.baseURL + "/comments/total", { articleNo: this.source })
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.total = res.data;
@@ -188,7 +183,8 @@
             });
           });
       },
-      toChildPage(floorComment) {
+
+      toChildPage (floorComment) {
         floorComment.childComments.current += 1;
         let pagination = {
           current: floorComment.childComments.current,
@@ -200,24 +196,27 @@
         }
         this.getComments(pagination, floorComment, true);
       },
-      emoji(comments, flag) {
+
+      emoji (comments, flag) {
         comments.forEach(c => {
-          c.commentContent = c.commentContent.replace(/\n/g, '<br/>');
-          c.commentContent = this.$common.faceReg(c.commentContent);
-          c.commentContent = this.$common.pictureReg(c.commentContent);
+          c.content = c.content.replace(/\n/g, '<br/>');
+          c.content = this.$common.faceReg(c.content);
+          c.content = this.$common.pictureReg(c.content);
           if (flag) {
-            if (!this.$common.isEmpty(c.childComments) && !this.$common.isEmpty(c.childComments.records)) {
+            if (!this.$common.isEmpty(c.childrenCommentList) && !this.$common.isEmpty(c.childrenCommentList)) {
               c.childComments.records.forEach(cc => {
-                c.commentContent = c.commentContent.replace(/\n/g, '<br/>');
-                cc.commentContent = this.$common.faceReg(cc.commentContent);
-                cc.commentContent = this.$common.pictureReg(cc.commentContent);
+                c.content = c.content.replace(/\n/g, '<br/>');
+                cc.content = this.$common.faceReg(cc.content);
+                cc.content = this.$common.pictureReg(cc.content);
               });
             }
           }
         });
       },
-      getComments(pagination, floorComment = {}, isToPage = false) {
-        this.$http.post(this.$constant.baseURL + "/comment/listComment", pagination)
+
+      // 获取文章评论
+      getComments (pagination, floorComment = {}, isToPage = false) {
+        this.$http.post(this.$constant.baseURL + "/comments/list", pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data) && !this.$common.isEmpty(res.data.records)) {
               if (this.$common.isEmpty(floorComment)) {
@@ -226,12 +225,13 @@
                 this.emoji(this.comments, true);
               } else {
                 if (isToPage === false) {
-                  floorComment.childComments = res.data;
+                  // floorComment.childComments = res.data;
+                  this.comments = res.data.records;
                 } else {
-                  floorComment.childComments.total = res.data.total;
-                  floorComment.childComments.records = floorComment.childComments.records.concat(res.data.records);
+                  floorComment.childrenCommentList.total = res.data.total;
+                  floorComment.childrenCommentList.records = floorComment.childrenCommentList.concat(res.data.records);
                 }
-                this.emoji(floorComment.childComments.records, false);
+                this.emoji(floorComment.childrenCommentList, false);
               }
             }
           })
@@ -242,28 +242,32 @@
             });
           });
       },
-      addGraffitiComment(graffitiComment) {
+
+      addGraffitiComment (graffitiComment) {
         this.submitComment(graffitiComment);
       },
-      submitComment(commentContent) {
+
+      // 发布评论
+      submitComment (commentContent) {
         let comment = {
-          source: this.source,
-          type: this.type,
-          commentContent: commentContent
+          articleNo: this.source,
+          type: this.type == "article" ? 1 : 0,
+          content: commentContent,
+          coderNo: this.$store.state.loginCoder.no
         };
 
-        this.$http.post(this.$constant.baseURL + "/comment/saveComment", comment)
+        this.$http.post(this.$constant.baseURL + "/comments/publish", comment)
           .then((res) => {
             this.$message({
               type: 'success',
-              message: '保存成功！'
+              message: '文明发言你我他！'
             });
             this.pagination = {
               current: 1,
               size: 10,
               total: 0,
-              source: this.source,
-              commentType: this.type,
+              articleNo: this.source,
+              type: this.type === 'atricle' ? 1 : 0,
               floorCommentId: null
             }
             this.getComments(this.pagination);
@@ -276,27 +280,30 @@
             });
           });
       },
-      submitReply(commentContent) {
+
+      // 回复评论
+      submitReply (commentContent) {
         let comment = {
-          source: this.source,
-          type: this.type,
-          floorCommentId: this.floorComment.id,
-          commentContent: commentContent,
-          parentCommentId: this.replyComment.id,
-          parentUserId: this.replyComment.userId
+          articleNo: this.source,
+          type: this.type == "article" ? 1 : 0,
+          rootCommentNo: this.floorComment.no,
+          content: commentContent,
+          toCommentNo: this.replyComment.no,
+          toCoderNo: this.replyComment.coderNo,
+          coderNo: this.$store.state.loginCoder.no
         };
 
         let floorComment = this.floorComment;
 
-        this.$http.post(this.$constant.baseURL + "/comment/saveComment", comment)
+        this.$http.post(this.$constant.baseURL + "/comments/publish", comment)
           .then((res) => {
             let pagination = {
               current: 1,
               size: 5,
               total: 0,
-              source: this.source,
-              commentType: this.type,
-              floorCommentId: floorComment.id
+              articleNo: this.source,
+              type: this.type === 'atricle' ? 1 : 0,
+              rootCommentNo: floorComment.no
             }
             this.getComments(pagination, floorComment);
             this.getTotal();
@@ -309,12 +316,16 @@
           });
         this.handleClose();
       },
-      replyDialog(comment, floorComment) {
+
+      // 设置根评论和回复评论信息，打开回复评论窗口
+      replyDialog (comment, floorComment) {
         this.replyComment = comment;
         this.floorComment = floorComment;
         this.replyDialogVisible = true;
       },
-      handleClose() {
+
+      // 关闭回复评论窗口
+      handleClose () {
         this.replyDialogVisible = false;
         this.floorComment = {};
         this.replyComment = {};
@@ -324,7 +335,6 @@
 </script>
 
 <style scoped>
-
   .comment-head {
     display: flex;
     align-items: center;

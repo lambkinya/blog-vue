@@ -11,6 +11,10 @@ axios.defaults.baseURL = constant.baseURL;
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
+  let token = localStorage.getItem("token");
+  if (token !== null) { 
+    config.headers.Authorization = 'Bearer ' + token;
+  }
   // 在发送请求之前做些什么
   return config;
 }, function (error) {
@@ -44,15 +48,15 @@ axios.interceptors.response.use(function (response) {
 export default {
   post(url, params = {}, isAdmin = false, json = true) {
     let config;
-    if (isAdmin) {
-      config = {
-        headers: {"Authorization": localStorage.getItem("adminToken")}
-      };
-    } else {
-      config = {
-        headers: {"Authorization": localStorage.getItem("userToken")}
-      };
-    }
+    // if (isAdmin) {
+    //   config = {
+    //     headers: {"Authorization": localStorage.getItem("adminToken")}
+    //   };
+    // } else {
+    //   config = {
+    //     headers: {"Authorization": localStorage.getItem("userToken")}
+    //   };
+    // }
 
     return new Promise((resolve, reject) => {
       axios
@@ -68,11 +72,11 @@ export default {
 
   get(url, params = {}, isAdmin = false) {
     let headers;
-    if (isAdmin) {
-      headers = {"Authorization": localStorage.getItem("adminToken")};
-    } else {
-      headers = {"Authorization": localStorage.getItem("userToken")};
-    }
+    // if (isAdmin) {
+    //   headers = {"Authorization": localStorage.getItem("adminToken")};
+    // } else {
+    //   headers = {"Authorization": localStorage.getItem("userToken")};
+    // }
 
     return new Promise((resolve, reject) => {
       axios.get(url, {
@@ -88,13 +92,22 @@ export default {
 
   upload(url, param, isAdmin = false) {
     let config;
+    // if (isAdmin) {
+    //   config = {
+    //     headers: {"Authorization": localStorage.getItem("adminToken"), "Content-Type": "multipart/form-data"}
+    //   };
+    // } else {
+    //   config = {
+    //     headers: {"Authorization": localStorage.getItem("userToken"), "Content-Type": "multipart/form-data"}
+    //   };
+    // }
     if (isAdmin) {
       config = {
-        headers: {"Authorization": localStorage.getItem("adminToken"), "Content-Type": "multipart/form-data"}
+        headers: {"Content-Type": "multipart/form-data"}
       };
     } else {
       config = {
-        headers: {"Authorization": localStorage.getItem("userToken"), "Content-Type": "multipart/form-data"}
+        headers: {"Content-Type": "multipart/form-data"}
       };
     }
     return new Promise((resolve, reject) => {
