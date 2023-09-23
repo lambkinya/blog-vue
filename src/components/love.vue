@@ -5,7 +5,7 @@
       <!-- 背景图片 -->
       <el-image class="love-image my-el-image"
                 lazy
-                :src="love.bgCover"
+                :src="love.background"
                 fit="cover">
         <div slot="error" class="image-slot"></div>
       </el-image>
@@ -13,18 +13,18 @@
       <!-- 对象 -->
       <div class="love-wrap transformCenter">
         <div>
-          <el-avatar class="love-avatar" :src="love.manCover"></el-avatar>
+          <el-avatar class="love-avatar" :src="love.manAvatar"></el-avatar>
           <div class="love-title">
-            {{love.manName}}
+            {{ love.manPetName }}
           </div>
         </div>
         <div>
           <img class="love-img" :src="$constant.loveLike" alt="心心">
         </div>
         <div>
-          <el-avatar class="love-avatar" :src="love.womanCover"></el-avatar>
+          <el-avatar class="love-avatar" :src="love.womanAvatar"></el-avatar>
           <div class="love-title">
-            {{love.womanName}}
+            {{ love.wifePetName }}
           </div>
         </div>
       </div>
@@ -45,31 +45,31 @@
             </div>
             <div class="love-time1">
               第
-              <span class="love-time1-item">{{timing.year}}</span>
+              <span class="love-time1-item">{{ timing.year }}</span>
               年
-              <span class="love-time1-item">{{timing.month}}</span>
+              <span class="love-time1-item">{{ timing.month }}</span>
               月
-              <span class="love-time1-item">{{timing.day}}</span>
+              <span class="love-time1-item">{{ timing.day }}</span>
               日
-              <span class="love-time1-item">{{timing.hour}}</span>
+              <span class="love-time1-item">{{ timing.hour }}</span>
               时
-              <span class="love-time1-item">{{timing.minute}}</span>
+              <span class="love-time1-item">{{ timing.minute }}</span>
               分
-              <span class="love-time1-item">{{timing.second}}</span>
+              <span class="love-time1-item">{{ timing.second }}</span>
               秒
             </div>
           </div>
           <!-- 倒计时 -->
           <div class="love-time-title2"
                v-if="!$common.isEmpty(love.countdownTitle) || !$common.isEmpty(love.countdownTime)">
-            {{love.countdownTitle}}: {{countdownChange}}
+            {{ love.countdownTitle }}: {{ countdownChange }}
           </div>
         </div>
       </div>
 
       <div style="padding: 0 20px">
         <div class="family-button shadow-box-mini" @click="changeCard(4)">
-          <span class="family-button-title">{{card === 4 ? '回到主人家' : '开往表白墙'}}</span>
+          <span class="family-button-title">{{ card === 4 ? '回到主人家' : '开往表白墙' }}</span>
           <span class="family-button-car">
             <svg viewBox="0 0 1024 1024" width="40" height="40">
                 <path
@@ -126,21 +126,21 @@
             </div>
           </div>
 
-          <div class="card-content shadow-box-mini" @click="changeCard(2)">
-            <div>
-              <el-avatar :size="100"
-                         :src="$constant.lovePhoto">
-              </el-avatar>
-            </div>
-            <div class="card-right">
-              <div class="card-title">
-                时光相册
-              </div>
-              <div class="card-desc">
-                📸记录美好瞬间
-              </div>
-            </div>
-          </div>
+<!--          <div class="card-content shadow-box-mini" @click="changeCard(2)">-->
+<!--            <div>-->
+<!--              <el-avatar :size="100"-->
+<!--                         :src="$constant.lovePhoto">-->
+<!--              </el-avatar>-->
+<!--            </div>-->
+<!--            <div class="card-right">-->
+<!--              <div class="card-title">-->
+<!--                时光相册-->
+<!--              </div>-->
+<!--              <div class="card-desc">-->
+<!--                📸记录美好瞬间-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
 
           <div class="card-content shadow-box-mini" @click="changeCard(3)">
             <div>
@@ -181,7 +181,7 @@
             </div>
 
             <div class="photo-title">
-              {{photoPagination.classify}}
+              {{ photoPagination.classify }}
             </div>
 
             <photo :resourcePathList="photoList"></photo>
@@ -195,7 +195,7 @@
             </div>
           </div>
           <div v-show="card === 3" class="comment-content">
-            <comment :source="$constant.userId" :type="'love'" :userId="$constant.userId"></comment>
+            <comment :type="$constant.LOVE_COMMENT" :coder-no="'YA238192378218'"></comment>
           </div>
         </div>
 
@@ -204,20 +204,20 @@
             <div v-for="(item, index) in randomFamily" :key="index"
                  @click="changeFamily(item)">
               <div class="family-wrap"
-                   :style="{ background: 'url(' + item.bgCover + ') center center / cover no-repeat' }">
+                   :style="{ background: 'url(' + item.background + ') center center / cover no-repeat' }">
                 <div>
-                  <el-avatar class="family-avatar" :src="item.manCover"></el-avatar>
+                  <el-avatar class="family-avatar" :src="item.manAvatar"></el-avatar>
                   <div class="family-title">
-                    {{item.manName}}
+                    {{ item.manPetName }}
                   </div>
                 </div>
                 <div>
                   <img class="family-img" :src="$constant.loveLike" alt="心心">
                 </div>
                 <div>
-                  <el-avatar class="family-avatar" :src="item.womanCover"></el-avatar>
+                  <el-avatar class="family-avatar" :src="item.womanAvatar"></el-avatar>
                   <div class="family-title">
-                    {{item.womanName}}
+                    {{ item.wifePetName }}
                   </div>
                 </div>
               </div>
@@ -275,10 +275,10 @@
                         背景封面&nbsp;
                       </div>
                       <div style=" display: flex">
-                        <el-input maxlength="120" v-model="userLove.bgCover"></el-input>
+                        <el-input maxlength="120" v-model="userLove.background"></el-input>
                         <div style="margin: 3px 0 0 10px">
                           <proButton :info="'上传背景'"
-                                     @click.native="openPicture('bgCover')"
+                                     @click.native="openPicture('background')"
                                      :before="$constant.before_color_1"
                                      :after="$constant.after_color_1">
                           </proButton>
@@ -290,10 +290,10 @@
                         男生头像&nbsp;
                       </div>
                       <div style=" display: flex">
-                        <el-input maxlength="120" v-model="userLove.manCover"></el-input>
+                        <el-input maxlength="120" v-model="userLove.manAvatar"></el-input>
                         <div style="margin: 3px 0 0 10px">
                           <proButton :info="'上传头像'"
-                                     @click.native="openPicture('manCover')"
+                                     @click.native="openPicture('manAvatar')"
                                      :before="$constant.before_color_1"
                                      :after="$constant.after_color_1">
                           </proButton>
@@ -305,10 +305,10 @@
                         女生头像&nbsp;
                       </div>
                       <div style=" display: flex">
-                        <el-input maxlength="120" v-model="userLove.womanCover"></el-input>
+                        <el-input maxlength="120" v-model="userLove.womanAvatar"></el-input>
                         <div style="margin: 3px 0 0 10px">
                           <proButton :info="'上传头像'"
-                                     @click.native="openPicture('womanCover')"
+                                     @click.native="openPicture('womanAvatar')"
                                      :before="$constant.before_color_1"
                                      :after="$constant.after_color_1">
                           </proButton>
@@ -320,7 +320,7 @@
                         男生昵称&nbsp;
                       </div>
                       <div>
-                        <el-input maxlength="10" v-model="userLove.manName"></el-input>
+                        <el-input maxlength="10" v-model="userLove.manPetName"></el-input>
                       </div>
                     </div>
                     <div>
@@ -328,7 +328,7 @@
                         女生昵称&nbsp;
                       </div>
                       <div>
-                        <el-input maxlength="10" v-model="userLove.womanName"></el-input>
+                        <el-input maxlength="10" v-model="userLove.wifePetName"></el-input>
                       </div>
                     </div>
                     <div>
@@ -337,7 +337,7 @@
                       </div>
                       <div>
                         <el-date-picker
-                          v-model="userLove.timing"
+                          v-model="userLove.lovingTime"
                           value-format="yyyy-MM-dd HH:mm:ss"
                           type="datetime"
                           align="center"
@@ -419,360 +419,395 @@
 
 <script>
 
-  const treeHole = () => import( "./common/treeHole");
-  const comment = () => import( "./comment/comment");
-  const myFooter = () => import( "./common/myFooter");
-  const photo = () => import( "./common/photo");
-  const proTag = () => import( "./common/proTag");
-  const proButton = () => import( "./common/proButton");
-  const uploadPicture = () => import( "./common/uploadPicture");
+const treeHole = () => import( "./common/treeHole");
+const comment = () => import( "./comment/comment");
+const myFooter = () => import( "./common/myFooter");
+const photo = () => import( "./common/photo");
+const proTag = () => import( "./common/proTag");
+const proButton = () => import( "./common/proButton");
+const uploadPicture = () => import( "./common/uploadPicture");
 
-  export default {
-    components: {
-      comment,
-      photo,
-      treeHole,
-      myFooter,
-      proTag,
-      proButton,
-      uploadPicture
+export default {
+  components: {
+    comment,
+    photo,
+    treeHole,
+    myFooter,
+    proTag,
+    proButton,
+    uploadPicture
+  },
+
+  data() {
+    return {
+      userLove: {
+        background: "",
+        manAvatar: "",
+        womanAvatar: "",
+        manPetName: "",
+        wifePetName: "",
+        countdownTitle: "",
+        countdownTime: "",
+        lovingTime: "",
+        familyInfo: ""
+      },
+      loveDialogVisible: false,
+      addPictureDialog: false,
+      pictureType: "",
+      adminLove: {},
+      love: {
+        background: "",
+        manAvatar: "",
+        womanAvatar: "",
+        manPetName: "",
+        wifePetName: "",
+        countdownTitle: "",
+        countdownTime: "",
+        lovingTime: ""
+      },
+      weiYanPagination: {
+        current: 1,
+        size: 10,
+        total: 0
+      },
+      photoPagination: {
+        current: 1,
+        size: 10,
+        total: 0,
+        resourceType: "lovePhoto",
+        classify: ""
+      },
+      treeHoleList: [],
+      photoTitleList: [],
+      photoList: [],
+      randomFamily: [],
+      card: null,
+      countdownChange: "",
+      timing: {
+        year: 0,
+        month: 0,
+        day: 0,
+        hour: 0,
+        minute: 0,
+        second: 0
+      }
+    }
+  },
+
+  computed: {},
+
+  watch: {},
+
+  created() {
+    this.getAdminFamily();
+    this.card = 1;
+    this.getWeiYan();
+  },
+
+  mounted() {
+
+  },
+
+  methods: {
+    openPicture(type) {
+      this.pictureType = type;
+      this.addPictureDialog = true;
     },
+    addPicture(res) {
+      if (this.pictureType === "background") {
+        this.userLove.background = res;
+      } else if (this.pictureType === "manAvatar") {
+        this.userLove.manAvatar = res;
+      } else if (this.pictureType === "womanAvatar") {
+        this.userLove.womanAvatar = res;
+      }
 
-    data() {
-      return {
-        userLove: {
-          bgCover: "",
-          manCover: "",
-          womanCover: "",
-          manName: "",
-          womanName: "",
-          countdownTitle: "",
-          countdownTime: "",
-          timing: "",
-          familyInfo: ""
-        },
-        loveDialogVisible: false,
-        addPictureDialog: false,
-        pictureType: "",
-        adminLove: {},
-        love: {
-          bgCover: "",
-          manCover: "",
-          womanCover: "",
-          manName: "",
-          womanName: "",
-          countdownTitle: "",
-          countdownTime: "",
-          timing: ""
-        },
-        weiYanPagination: {
-          current: 1,
-          size: 10,
-          total: 0,
-          userId: this.$constant.userId
-        },
-        photoPagination: {
+      this.pictureType = "";
+      this.addPictureDialog = false;
+    },
+    submitLove() {
+      if (this.userLove.background.trim() === "") {
+        this.$message({
+          message: "你还没设置背景封面呢~",
+          type: "warning"
+        });
+        return;
+      }
+
+      if (this.userLove.manAvatar.trim() === "") {
+        this.$message({
+          message: "你还没设置男生头像呢~",
+          type: "warning"
+        });
+        return;
+      }
+
+      if (this.userLove.womanAvatar.trim() === "") {
+        this.$message({
+          message: "你还没设置女生头像呢~",
+          type: "warning"
+        });
+        return;
+      }
+
+      if (this.userLove.manPetName.trim() === "") {
+        this.$message({
+          message: "你还没写男生昵称呢~",
+          type: "warning"
+        });
+        return;
+      }
+
+      if (this.userLove.wifePetName.trim() === "") {
+        this.$message({
+          message: "你还没写女生昵称呢~",
+          type: "warning"
+        });
+        return;
+      }
+
+      if (this.userLove.lovingTime.trim() === "") {
+        this.$message({
+          message: "你还没设置计时时间呢~",
+          type: "warning"
+        });
+        return;
+      }
+
+      this.$http.post(this.$constant.baseURL + "/family/saveFamily", this.userLove)
+        .then((res) => {
+          this.$message({
+            type: 'success',
+            message: '提交成功，待管理员审核！'
+          });
+          this.userLove = {};
+          this.loveDialogVisible = false;
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    addFamily() {
+      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+        this.$message({
+          message: "请先登录！",
+          type: "error"
+        });
+        return;
+      }
+
+      this.$http.get(this.$constant.baseURL + "/family/getFamily")
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.userLove = res.data;
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+
+      this.loveDialogVisible = true;
+    },
+    changeFamily(family) {
+      this.love = family;
+    },
+    getPhotoTitles() {
+      this.$http.get(this.$constant.baseURL + "/webInfo/listAdminLovePhoto")
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.photoTitleList = res.data;
+            this.photoPagination = {
+              current: 1,
+              size: 10,
+              total: 0,
+              resourceType: "lovePhoto",
+              classify: this.photoTitleList[0].classify
+            };
+            this.changePhoto();
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    getAdminFamily() {
+      this.$http.get(this.$constant.baseURL + "/sweethearts/admin" +
+        "")
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.love = res.data;
+            this.adminLove = res.data;
+            this.getLove();
+            this.countdown();
+            setInterval(() => {
+              this.getLove();
+              this.countdown();
+            }, 1000);
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    getRandomFamily() {
+      this.$http.get(this.$constant.baseURL + "/family/listRandomFamily")
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.randomFamily = res.data;
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    changePhotoTitle(classify) {
+      if (classify !== this.photoPagination.classify) {
+        this.photoPagination = {
           current: 1,
           size: 10,
           total: 0,
           resourceType: "lovePhoto",
-          classify: ""
-        },
-        treeHoleList: [],
-        photoTitleList: [],
-        photoList: [],
-        randomFamily: [],
-        card: null,
-        countdownChange: "",
-        timing: {
-          year: 0,
-          month: 0,
-          day: 0,
-          hour: 0,
-          minute: 0,
-          second: 0
+          classify: classify
+        };
+        this.photoList = [];
+        this.changePhoto();
+      }
+    },
+    pagePhotos() {
+      this.photoPagination.current = this.photoPagination.current + 1;
+      this.changePhoto();
+    },
+    changePhoto() {
+      this.$http.post(this.$constant.baseURL + "/webInfo/listResourcePath", this.photoPagination)
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.photoList = this.photoList.concat(res.data.records);
+            this.photoPagination.total = res.data.total;
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
+    },
+    changeCard(card) {
+      if (card !== 4 || this.card !== card) {
+        this.card = card;
+      } else {
+        card = 1;
+        this.card = 1;
+        this.love = this.adminLove;
+      }
+
+      if (card === 1) {
+        if (this.$common.isEmpty(this.treeHoleList)) {
+          this.getWeiYan();
+        }
+      } else if (card === 2) {
+        if (this.$common.isEmpty(this.photoTitleList)) {
+          this.getPhotoTitles();
+        }
+      } else if (card === 4) {
+        if (this.$common.isEmpty(this.randomFamily)) {
+          this.getRandomFamily();
         }
       }
     },
 
-    computed: {},
-
-    watch: {},
-
-    created() {
-      this.getAdminFamily();
-      this.card = 1;
-      this.getWeiYan();
+    // 计算恋爱时间
+    getLove() {
+      if (this.$common.isEmpty(this.love.lovingTime)) {
+        return;
+      }
+      let diff = this.$common.timeDiff(this.love.lovingTime);
+      this.timing.year = diff.diffYear;
+      this.timing.month = diff.diffMonth;
+      this.timing.day = diff.diffDay;
+      this.timing.hour = diff.diffHour;
+      this.timing.minute = diff.diffMinute;
+      this.timing.second = diff.diffSecond;
     },
 
-    mounted() {
-
+    // 计算倒计时·
+    countdown() {
+      if (this.$common.isEmpty(this.love.countdownTime)) {
+        return;
+      }
+      let countdown = this.$common.countdown(this.love.countdownTime);
+      this.countdownChange = countdown.d + "天" + countdown.h + "时" + countdown.m + "分" + countdown.s + "秒";
     },
-
-    methods: {
-      openPicture(type) {
-        this.pictureType = type;
-        this.addPictureDialog = true;
-      },
-      addPicture(res) {
-        if (this.pictureType === "bgCover") {
-          this.userLove.bgCover = res;
-        } else if (this.pictureType === "manCover") {
-          this.userLove.manCover = res;
-        } else if (this.pictureType === "womanCover") {
-          this.userLove.womanCover = res;
-        }
-
-        this.pictureType = "";
-        this.addPictureDialog = false;
-      },
-      submitLove() {
-        if (this.userLove.bgCover.trim() === "") {
+    launch() {
+      if (this.weiYanPagination.total !== this.treeHoleList.length) {
+        this.weiYanPagination.current = this.weiYanPagination.current + 1;
+        this.getWeiYan();
+      } else {
+        this.$message({
+          message: "~~到底啦~~",
+          type: "warning"
+        });
+      }
+    },
+    getWeiYan() {
+      this.$http.post(this.$constant.baseURL + "/weiYan/list", this.weiYanPagination)
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            res.data.records.forEach(c => {
+              c.content = c.content.replace(/\n{2,}/g, '<div style="height: 12px"></div>');
+              c.content = c.content.replace(/\n/g, '<br/>');
+              c.content = this.$common.faceReg(c.content);
+              c.content = this.$common.pictureReg(c.content);
+            });
+            this.treeHoleList = this.treeHoleList.concat(res.data.records);
+            this.weiYanPagination.total = res.data.total;
+          }
+        })
+        .catch((error) => {
           this.$message({
-            message: "你还没设置背景封面呢~",
-            type: "warning"
+            message: error.message,
+            type: "error"
           });
-          return;
-        }
+        });
+    },
+    deleteTreeHole(id) {
+      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+        this.$message({
+          message: "请先登录！",
+          type: "error"
+        });
+        return;
+      }
 
-        if (this.userLove.manCover.trim() === "") {
-          this.$message({
-            message: "你还没设置男生头像呢~",
-            type: "warning"
-          });
-          return;
-        }
-
-        if (this.userLove.womanCover.trim() === "") {
-          this.$message({
-            message: "你还没设置女生头像呢~",
-            type: "warning"
-          });
-          return;
-        }
-
-        if (this.userLove.manName.trim() === "") {
-          this.$message({
-            message: "你还没写男生昵称呢~",
-            type: "warning"
-          });
-          return;
-        }
-
-        if (this.userLove.womanName.trim() === "") {
-          this.$message({
-            message: "你还没写女生昵称呢~",
-            type: "warning"
-          });
-          return;
-        }
-
-        if (this.userLove.timing.trim() === "") {
-          this.$message({
-            message: "你还没设置计时时间呢~",
-            type: "warning"
-          });
-          return;
-        }
-
-        this.$http.post(this.$constant.baseURL + "/family/saveFamily", this.userLove)
+      this.$confirm('确认删除？', '提示', {
+        confirmButtonText: '确定',
+        cancelButtonText: '取消',
+        type: 'success',
+        center: true
+      }).then(() => {
+        this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", {id: id})
           .then((res) => {
             this.$message({
               type: 'success',
-              message: '提交成功，待管理员审核！'
+              message: '删除成功!'
             });
-            this.userLove = {};
-            this.loveDialogVisible = false;
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      addFamily() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
-          this.$message({
-            message: "请先登录！",
-            type: "error"
-          });
-          return;
-        }
-
-        this.$http.get(this.$constant.baseURL + "/family/getFamily")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.userLove = res.data;
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-
-        this.loveDialogVisible = true;
-      },
-      changeFamily(family) {
-        this.love = family;
-      },
-      getPhotoTitles() {
-        this.$http.get(this.$constant.baseURL + "/webInfo/listAdminLovePhoto")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.photoTitleList = res.data;
-              this.photoPagination = {
-                current: 1,
-                size: 10,
-                total: 0,
-                resourceType: "lovePhoto",
-                classify: this.photoTitleList[0].classify
-              };
-              this.changePhoto();
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      getAdminFamily() {
-        this.$http.get(this.$constant.baseURL + "/family/getAdminFamily")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.love = res.data;
-              this.adminLove = res.data;
-              this.getLove();
-              this.countdown();
-              setInterval(() => {
-                this.getLove();
-                this.countdown();
-              }, 1000);
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      getRandomFamily() {
-        this.$http.get(this.$constant.baseURL + "/family/listRandomFamily")
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.randomFamily = res.data;
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      changePhotoTitle(classify) {
-        if (classify !== this.photoPagination.classify) {
-          this.photoPagination = {
-            current: 1,
-            size: 10,
-            total: 0,
-            resourceType: "lovePhoto",
-            classify: classify
-          };
-          this.photoList = [];
-          this.changePhoto();
-        }
-      },
-      pagePhotos() {
-        this.photoPagination.current = this.photoPagination.current + 1;
-        this.changePhoto();
-      },
-      changePhoto() {
-        this.$http.post(this.$constant.baseURL + "/webInfo/listResourcePath", this.photoPagination)
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.photoList = this.photoList.concat(res.data.records);
-              this.photoPagination.total = res.data.total;
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
-      },
-      changeCard(card) {
-        if (card !== 4 || this.card !== card) {
-          this.card = card;
-        } else {
-          card = 1;
-          this.card = 1;
-          this.love = this.adminLove;
-        }
-
-        if (card === 1) {
-          if (this.$common.isEmpty(this.treeHoleList)) {
+            this.weiYanPagination.current = 1;
             this.getWeiYan();
-          }
-        } else if (card === 2) {
-          if (this.$common.isEmpty(this.photoTitleList)) {
-            this.getPhotoTitles();
-          }
-        } else if (card === 4) {
-          if (this.$common.isEmpty(this.randomFamily)) {
-            this.getRandomFamily();
-          }
-        }
-      },
-      getLove() {
-        if (this.$common.isEmpty(this.love.timing)) {
-          return;
-        }
-        let diff = this.$common.timeDiff(this.love.timing);
-        this.timing.year = diff.diffYear;
-        this.timing.month = diff.diffMonth;
-        this.timing.day = diff.diffDay;
-        this.timing.hour = diff.diffHour;
-        this.timing.minute = diff.diffMinute;
-        this.timing.second = diff.diffSecond;
-      },
-      countdown() {
-        if (this.$common.isEmpty(this.love.countdownTime)) {
-          return;
-        }
-        let countdown = this.$common.countdown(this.love.countdownTime);
-        this.countdownChange = countdown.d + "天" + countdown.h + "时" + countdown.m + "分" + countdown.s + "秒";
-      },
-      launch() {
-        if (this.weiYanPagination.total !== this.treeHoleList.length) {
-          this.weiYanPagination.current = this.weiYanPagination.current + 1;
-          this.getWeiYan();
-        } else {
-          this.$message({
-            message: "~~到底啦~~",
-            type: "warning"
-          });
-        }
-      },
-      getWeiYan() {
-        this.$http.post(this.$constant.baseURL + "/weiYan/listWeiYan", this.weiYanPagination)
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              res.data.records.forEach(c => {
-                c.content = c.content.replace(/\n{2,}/g, '<div style="height: 12px"></div>');
-                c.content = c.content.replace(/\n/g, '<br/>');
-                c.content = this.$common.faceReg(c.content);
-                c.content = this.$common.pictureReg(c.content);
-              });
-              this.treeHoleList = this.treeHoleList.concat(res.data.records);
-              this.weiYanPagination.total = res.data.total;
-            }
           })
           .catch((error) => {
             this.$message({
@@ -780,476 +815,445 @@
               type: "error"
             });
           });
-      },
-      deleteTreeHole(id) {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
-          this.$message({
-            message: "请先登录！",
-            type: "error"
-          });
-          return;
-        }
-
-        this.$confirm('确认删除？', '提示', {
-          confirmButtonText: '确定',
-          cancelButtonText: '取消',
+      }).catch(() => {
+        this.$message({
           type: 'success',
-          center: true
-        }).then(() => {
-          this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", {id: id})
-            .then((res) => {
-              this.$message({
-                type: 'success',
-                message: '删除成功!'
-              });
-              this.weiYanPagination.current = 1;
-              this.getWeiYan();
-            })
-            .catch((error) => {
-              this.$message({
-                message: error.message,
-                type: "error"
-              });
-            });
-        }).catch(() => {
-          this.$message({
-            type: 'success',
-            message: '已取消删除!'
-          });
+          message: '已取消删除!'
         });
-      }
+      });
     }
   }
+}
 </script>
 
 <style scoped>
 
-  .love-container {
-    background-image: linear-gradient(to right, rgba(37, 82, 110, 0.1) 1px, var(--background) 1px), linear-gradient(to bottom, rgba(37, 82, 110, 0.1) 1px, var(--background) 1px);
-    background-size: 3rem 3rem;
-    /*background: var(--background);*/
-  }
+.love-container {
+  background-image: linear-gradient(to right, rgba(37, 82, 110, 0.1) 1px, var(--background) 1px), linear-gradient(to bottom, rgba(37, 82, 110, 0.1) 1px, var(--background) 1px);
+  background-size: 3rem 3rem;
+  /*background: var(--background);*/
+}
 
-  .bg-wrap {
-    height: 55vh;
-    position: relative;
-    overflow: hidden;
-  }
+.bg-wrap {
+  height: 55vh;
+  position: relative;
+  overflow: hidden;
+}
 
-  .love-image::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: var(--miniMask);
-  }
+.love-image::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--miniMask);
+}
 
+.love-wrap {
+  width: 90%;
+  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.1);
+  max-width: 950px;
+  border-radius: 3em;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 50px 70px 30px 70px;
+}
+
+.love-avatar {
+  border: rgba(255, 255, 255, 0.2) 4px solid;
+  width: 180px;
+  height: 180px;
+}
+
+.love-title {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.love-img {
+  animation: imgScale 2s linear infinite;
+  width: 120px;
+  height: 120px;
+}
+
+#bannerWave1 {
+  height: 84px;
+  background: var(--bannerWave1);
+  position: absolute;
+  width: 200%;
+  bottom: 0;
+  z-index: 10;
+  animation: gradientBG 120s linear infinite;
+}
+
+#bannerWave2 {
+  height: 100px;
+  background: var(--bannerWave2);
+  position: absolute;
+  width: 400%;
+  bottom: 0;
+  z-index: 5;
+  animation: gradientBG 120s linear infinite;
+}
+
+.love-content {
+  max-width: 1200px;
+  overflow: hidden;
+  margin: 20px auto 0;
+  user-select: none;
+}
+
+.love-time-title1 {
+  font-size: 2rem;
+  font-weight: 600;
+  letter-spacing: 0.2rem;
+  line-height: 4rem;
+  text-align: center;
+  background-image: linear-gradient(270deg, #ff4500, #ffa500, #ffd700, #90ee90, #00ffff, #1e90ff, #9370db, #ff69b4, #ff4500);
+  -webkit-background-clip: text;
+  animation: jianBian 60s linear infinite;
+  width: 3000px;
+  color: rgba(0, 0, 0, 0);
+}
+
+.love-time-title2 {
+  text-align: center;
+  font-size: 1.5rem;
+  line-height: 4rem;
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+
+.love-time1 {
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.love-time1-item {
+  font-size: 4rem;
+  font-weight: 700;
+}
+
+.card-wrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  padding: 20px 0;
+}
+
+.card-content {
+  display: flex;
+  padding: 25px;
+  margin: 25px auto;
+  border-radius: 20px;
+  max-width: 780px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: var(--background);
+}
+
+.card-content:hover,
+.family-button:hover,
+.family-wrap:hover {
+  transform: translateY(-6px);
+}
+
+.card-right {
+  margin-left: 20px;
+}
+
+.card-title {
+  font-size: 1.6rem;
+  letter-spacing: 0.2rem;
+  line-height: 3.5rem;
+  font-weight: 700;
+}
+
+.card-desc {
+  font-size: 1.1rem;
+  letter-spacing: 0.2rem;
+  color: #777777;
+}
+
+.card-container {
+  max-width: 1500px;
+  margin: 20px auto 40px;
+}
+
+.pagination-wrap {
+  display: flex;
+  justify-content: center;
+  margin-top: 40px;
+}
+
+.pagination {
+  padding: 13px 15px;
+  border: 1px solid var(--lightGray);
+  border-radius: 3rem;
+  color: var(--greyFont);
+  width: 100px;
+  user-select: none;
+  cursor: pointer;
+  text-align: center;
+}
+
+.pagination:hover {
+  border: 1px solid var(--themeBackground);
+  color: var(--themeBackground);
+  box-shadow: 0 0 5px var(--themeBackground);
+}
+
+.comment-content {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.photo-title {
+  text-align: center;
+  font-size: 30px;
+  font-weight: 700;
+  line-height: 80px;
+  letter-spacing: 2px;
+}
+
+.photo-title-warp {
+  max-width: 1150px;
+  margin: 50px auto;
+  padding: 20px;
+  border-radius: 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.isActive {
+  animation: scale 2.5s ease-in-out infinite;
+}
+
+.family-button {
+  position: relative;
+  overflow: hidden;
+  height: 150px;
+  color: var(--white);
+  margin: 50px auto 15px;
+  border-radius: 20px;
+  max-width: 350px;
+  cursor: pointer;
+  transition: all 0.3s;
+  background: var(--love) center center / cover no-repeat;
+  user-select: none;
+}
+
+.family-button::before {
+  content: "";
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--miniMask);
+}
+
+.family-button-title {
+  position: absolute;
+  line-height: 150px;
+  margin-left: 20px;
+  font-size: 25px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.family-button-car {
+  position: absolute;
+  margin-left: 220px;
+  margin-top: 55px;
+  animation: passing 4s linear infinite;
+}
+
+.family-container {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin-bottom: 40px;
+}
+
+.family-wrap {
+  cursor: pointer;
+  width: 350px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  padding: 15px 25px 5px 25px;
+  margin: 20px;
+  transition: all 0.3s;
+  user-select: none;
+}
+
+.family-avatar {
+  border: rgba(255, 255, 255, 0.2) 4px solid;
+  width: 90px;
+  height: 90px;
+}
+
+.family-title {
+  margin-top: 15px;
+  text-align: center;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--white);
+}
+
+.family-img {
+  animation: imgScale 2s linear infinite;
+  width: 60px;
+  height: 60px;
+}
+
+.family-bottom-wrap {
+  display: flex;
+  justify-content: space-around;
+  margin: 0 0 40px;
+}
+
+.family-bottom {
+  color: var(--white);
+  border-radius: 3rem;
+  width: 150px;
+  text-align: center;
+  height: 50px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.form-main {
+  animation: hideToShow 2s;
+  border-radius: 12px;
+  overflow: hidden;
+}
+
+.user-content > div {
+  height: 65px;
+  display: flex;
+  align-items: center;
+}
+
+.user-content >>> .el-input__inner {
+  border: none;
+  height: 40px;
+  width: 250px;
+  background: var(--whiteMask);
+}
+
+.user-content >>> .el-textarea__inner {
+  border: none;
+  width: 250px;
+  background: var(--whiteMask);
+}
+
+.user-content >>> .el-input__count {
+  background: var(--transparent);
+  user-select: none;
+}
+
+.form-friend {
+  background-color: #eeeeee;
+  padding: 20px 0;
+}
+
+.form-title {
+  margin: 10px;
+  text-align: center;
+}
+
+@media screen and (max-width: 1200px) {
+  .user-content > div {
+    display: unset;
+    align-items: unset;
+  }
+}
+
+@media screen and (max-width: 800px) {
   .love-wrap {
-    width: 90%;
-    backdrop-filter: blur(10px);
-    background: rgba(255, 255, 255, 0.1);
-    max-width: 950px;
-    border-radius: 3em;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 50px 70px 30px 70px;
+    border-radius: 1.5em;
+    padding: 40px 30px 10px 30px;
   }
 
   .love-avatar {
-    border: rgba(255, 255, 255, 0.2) 4px solid;
-    width: 180px;
-    height: 180px;
-  }
-
-  .love-title {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 25px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
-  .love-img {
-    animation: imgScale 2s linear infinite;
     width: 120px;
     height: 120px;
   }
 
-  #bannerWave1 {
-    height: 84px;
-    background: var(--bannerWave1);
-    position: absolute;
-    width: 200%;
-    bottom: 0;
-    z-index: 10;
-    animation: gradientBG 120s linear infinite;
-  }
-
-  #bannerWave2 {
+  .love-img {
+    width: 100px;
     height: 100px;
-    background: var(--bannerWave2);
-    position: absolute;
-    width: 400%;
-    bottom: 0;
-    z-index: 5;
-    animation: gradientBG 120s linear infinite;
-  }
-
-  .love-content {
-    max-width: 1200px;
-    overflow: hidden;
-    margin: 20px auto 0;
-    user-select: none;
-  }
-
-  .love-time-title1 {
-    font-size: 2rem;
-    font-weight: 600;
-    letter-spacing: 0.2rem;
-    line-height: 4rem;
-    text-align: center;
-    background-image: linear-gradient(270deg, #ff4500, #ffa500, #ffd700, #90ee90, #00ffff, #1e90ff, #9370db, #ff69b4, #ff4500);
-    -webkit-background-clip: text;
-    animation: jianBian 60s linear infinite;
-    width: 3000px;
-    color: rgba(0, 0, 0, 0);
-  }
-
-  .love-time-title2 {
-    text-align: center;
-    font-size: 1.5rem;
-    line-height: 4rem;
-    font-weight: 600;
-    letter-spacing: 2px;
   }
 
   .love-time1 {
-    text-align: center;
-    font-size: 2rem;
-    font-weight: 700;
+    font-size: 1.4rem;
   }
 
   .love-time1-item {
-    font-size: 4rem;
-    font-weight: 700;
+    font-size: 3rem;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .love-wrap {
+    padding: 30px 20px 10px 20px;
   }
 
-  .card-wrap {
-    max-width: 1200px;
-    margin: 0 auto;
-    display: flex;
-    justify-content: center;
-    padding: 20px 0;
-  }
-
-  .card-content {
-    display: flex;
-    padding: 25px;
-    margin: 25px auto;
-    border-radius: 20px;
-    max-width: 780px;
-    cursor: pointer;
-    transition: all 0.3s;
-    background: var(--background);
-  }
-
-  .card-content:hover,
-  .family-button:hover,
-  .family-wrap:hover {
-    transform: translateY(-6px);
-  }
-
-  .card-right {
-    margin-left: 20px;
-  }
-
-  .card-title {
-    font-size: 1.6rem;
-    letter-spacing: 0.2rem;
-    line-height: 3.5rem;
-    font-weight: 700;
-  }
-
-  .card-desc {
-    font-size: 1.1rem;
-    letter-spacing: 0.2rem;
-    color: #777777;
-  }
-
-  .card-container {
-    max-width: 1500px;
-    margin: 20px auto 40px;
-  }
-
-  .pagination-wrap {
-    display: flex;
-    justify-content: center;
-    margin-top: 40px;
-  }
-
-  .pagination {
-    padding: 13px 15px;
-    border: 1px solid var(--lightGray);
-    border-radius: 3rem;
-    color: var(--greyFont);
+  .love-avatar {
     width: 100px;
-    user-select: none;
-    cursor: pointer;
-    text-align: center;
+    height: 100px;
   }
 
-  .pagination:hover {
-    border: 1px solid var(--themeBackground);
-    color: var(--themeBackground);
-    box-shadow: 0 0 5px var(--themeBackground);
+  .love-img {
+    width: 80px;
+    height: 80px;
   }
 
-  .comment-content {
-    max-width: 1000px;
-    margin: 0 auto;
+  .love-time1 {
+    font-size: 1rem;
   }
 
-  .photo-title {
-    text-align: center;
-    font-size: 30px;
-    font-weight: 700;
-    line-height: 80px;
-    letter-spacing: 2px;
+  .love-time1-item {
+    font-size: 1.8rem;
   }
 
-  .photo-title-warp {
-    max-width: 1150px;
-    margin: 50px auto;
-    padding: 20px;
-    border-radius: 10px;
-    display: flex;
-    flex-wrap: wrap;
-  }
-
-  .isActive {
-    animation: scale 2.5s ease-in-out infinite;
-  }
-
-  .family-button {
-    position: relative;
-    overflow: hidden;
-    height: 150px;
-    color: var(--white);
-    margin: 50px auto 15px;
-    border-radius: 20px;
-    max-width: 350px;
-    cursor: pointer;
-    transition: all 0.3s;
-    background: var(--love) center center / cover no-repeat;
-    user-select: none;
-  }
-
-  .family-button::before {
-    content: "";
-    position: absolute;
-    width: 100%;
-    height: 100%;
-    background-color: var(--miniMask);
-  }
-
-  .family-button-title {
-    position: absolute;
-    line-height: 150px;
-    margin-left: 20px;
-    font-size: 25px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
-  .family-button-car {
-    position: absolute;
-    margin-left: 220px;
-    margin-top: 55px;
-    animation: passing 4s linear infinite;
-  }
-
-  .family-container {
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    margin-bottom: 40px;
-  }
-
-  .family-wrap {
-    cursor: pointer;
-    width: 350px;
-    border-radius: 20px;
-    display: flex;
-    align-items: center;
-    justify-content: space-around;
-    padding: 15px 25px 5px 25px;
-    margin: 20px;
-    transition: all 0.3s;
-    user-select: none;
-  }
-
-  .family-avatar {
-    border: rgba(255, 255, 255, 0.2) 4px solid;
-    width: 90px;
-    height: 90px;
-  }
-
-  .family-title {
-    margin-top: 15px;
-    text-align: center;
-    font-size: 20px;
-    font-weight: 700;
-    color: var(--white);
-  }
-
-  .family-img {
-    animation: imgScale 2s linear infinite;
-    width: 60px;
-    height: 60px;
-  }
-
-  .family-bottom-wrap {
-    display: flex;
-    justify-content: space-around;
-    margin: 0 0 40px;
-  }
-
-  .family-bottom {
-    color: var(--white);
-    border-radius: 3rem;
-    width: 150px;
-    text-align: center;
-    height: 50px;
-    cursor: pointer;
-    user-select: none;
-  }
-
-  .form-main {
-    animation: hideToShow 2s;
-    border-radius: 12px;
-    overflow: hidden;
-  }
-
-  .user-content > div {
-    height: 65px;
-    display: flex;
-    align-items: center;
-  }
-
-  .user-content >>> .el-input__inner {
-    border: none;
-    height: 40px;
-    width: 250px;
-    background: var(--whiteMask);
+  .love-time-title2 {
+    font-size: 1.2rem;
   }
 
   .user-content >>> .el-textarea__inner {
-    border: none;
-    width: 250px;
-    background: var(--whiteMask);
+    width: 100%;
   }
 
-  .user-content >>> .el-input__count {
-    background: var(--transparent);
-    user-select: none;
+  .user-content >>> .el-input__inner {
+    width: 190px;
   }
 
-  .form-friend {
-    background-color: #eeeeee;
-    padding: 20px 0;
+  .card-container .tree-hole-container {
+    padding: 0;
+  }
+}
+
+@media screen and (max-width: 1150px) {
+  .card-wrap {
+    display: unset;
+    justify-content: unset;
   }
 
-  .form-title {
-    margin: 10px;
-    text-align: center;
+  .photo-title-warp {
+    max-width: 780px;
   }
 
-  @media screen and (max-width: 1200px) {
-    .user-content > div {
-      display: unset;
-      align-items: unset;
-    }
+  .family-button {
+    max-width: 780px;
   }
-
-  @media screen and (max-width: 800px) {
-    .love-wrap {
-      border-radius: 1.5em;
-      padding: 40px 30px 10px 30px;
-    }
-
-    .love-avatar {
-      width: 120px;
-      height: 120px;
-    }
-
-    .love-img {
-      width: 100px;
-      height: 100px;
-    }
-
-    .love-time1 {
-      font-size: 1.4rem;
-    }
-
-    .love-time1-item {
-      font-size: 3rem;
-    }
-  }
-
-  @media screen and (max-width: 600px) {
-    .love-wrap {
-      padding: 30px 20px 10px 20px;
-    }
-
-    .love-avatar {
-      width: 100px;
-      height: 100px;
-    }
-
-    .love-img {
-      width: 80px;
-      height: 80px;
-    }
-
-    .love-time1 {
-      font-size: 1rem;
-    }
-
-    .love-time1-item {
-      font-size: 1.8rem;
-    }
-
-    .love-time-title2 {
-      font-size: 1.2rem;
-    }
-
-    .user-content >>> .el-textarea__inner {
-      width: 100%;
-    }
-
-    .user-content >>> .el-input__inner {
-      width: 190px;
-    }
-
-    .card-container .tree-hole-container {
-      padding: 0;
-    }
-  }
-
-  @media screen and (max-width: 1150px) {
-    .card-wrap {
-      display: unset;
-      justify-content: unset;
-    }
-
-    .photo-title-warp {
-      max-width: 780px;
-    }
-
-    .family-button {
-      max-width: 780px;
-    }
-  }
+}
 
 </style>

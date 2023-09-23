@@ -39,7 +39,7 @@
             <div>
               <span class="commentInfo-username">{{ item.coderName }}</span>
               <span class="commentInfo-master"
-                v-if="item.coderNo === (userId === undefined ? 'YA238192378218' : userId)">主人翁</span>
+                v-if="item.coderNo === 'YA238192378218'">主人翁</span>
               <span class="commentInfo-other">{{ $common.getDateDiff(item.createTime) }}</span>
             </div>
             <div class="commentInfo-reply" @click="replyDialog(item, item)">
@@ -62,7 +62,7 @@
                   <div>
                     <span class="commentInfo-username-small">{{ childItem.coderName }}</span>
                     <span class="commentInfo-master"
-                      v-if="childItem.coderNo === (userId === undefined ? 'YA238192378218' : userId)">主人翁</span>
+                      v-if="childItem.coderNo === 'YA238192378218'">主人翁</span>
                     <span class="commentInfo-other">{{ $common.getDateDiff(childItem.createTime) }}</span>
                   </div>
                   <div>

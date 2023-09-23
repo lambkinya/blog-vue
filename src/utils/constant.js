@@ -25,7 +25,7 @@ export default {
   loveWeiYan: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
   loveMessage: "https://s1.ax1x.com/2022/12/04/zsKgDs.jpg",
   lovePhoto: "https://s1.ax1x.com/2022/12/04/zsKh5V.jpg",
-  loveLike: "https://cdn.cbd.int//hexo-butterfly-envelope/lib/violet.jpg",
+  loveLike: "http://s10nnt6yg.hb-bkt.clouddn.com/2023/09/15/Sara11673172190854838.svg",
   loveSortId: 1,
   loveLabelId: 1,
 
