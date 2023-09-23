@@ -151,7 +151,7 @@
 
         <!-- 评论 -->
         <div v-if="article.commentStatus === 1">
-          <comment :type="'article'" :source="article.no" :coderNo="article.coderNo"></comment>
+          <comment :type="$constant.ARTICLE_COMMENT" :articleNo="article.no" :coderNo="article.coderNo"></comment>
         </div>
       </div>
 

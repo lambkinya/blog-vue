@@ -120,6 +120,7 @@
           });
           return;
         }
+
         this.$emit("submitComment", this.commentContent.trim());
         this.commentContent = "";
       }

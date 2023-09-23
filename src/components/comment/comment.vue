@@ -124,14 +124,14 @@
       proPage
     },
     props: {
-      source: {
+      coderNo: {
+        type: String
+      },
+      articleNo: {
         type: String
       },
       type: {
-        type: String
-      },
-      userId: {
-        type: String
+        type: Number
       }
     },
     data () {
@@ -146,8 +146,8 @@
           current: 1,
           size: 10,
           total: 0,
-          articleNo: this.source,
-          type: this.type === "article" ? 1 : 2,
+          articleNo: this.articleNo,
+          type: this.type,
           floorCommentId: null
         }
       };
@@ -170,7 +170,7 @@
 
       // 计算该文章下总共有多少评论
       getTotal () {
-        this.$http.get(this.$constant.baseURL + "/comments/total", { articleNo: this.source })
+        this.$http.get(this.$constant.baseURL + "/comments/total", { articleNo: this.articleNo, type: this.type })
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.total = res.data;
@@ -250,8 +250,8 @@
       // 发布评论
       submitComment (commentContent) {
         let comment = {
-          articleNo: this.source,
-          type: this.type == "article" ? 1 : 0,
+          articleNo: this.articleNo,
+          type: this.type,
           content: commentContent,
           coderNo: this.$store.state.loginCoder.no
         };
@@ -267,7 +267,7 @@
               size: 10,
               total: 0,
               articleNo: this.source,
-              type: this.type === 'atricle' ? 1 : 0,
+              type: this.type,
               floorCommentId: null
             }
             this.getComments(this.pagination);
@@ -285,7 +285,7 @@
       submitReply (commentContent) {
         let comment = {
           articleNo: this.source,
-          type: this.type == "article" ? 1 : 0,
+          type: this.type,
           rootCommentNo: this.floorComment.no,
           content: commentContent,
           toCommentNo: this.replyComment.no,
@@ -302,7 +302,7 @@
               size: 5,
               total: 0,
               articleNo: this.source,
-              type: this.type === 'atricle' ? 1 : 0,
+              type: this.type,
               rootCommentNo: floorComment.no
             }
             this.getComments(pagination, floorComment);
