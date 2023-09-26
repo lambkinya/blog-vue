@@ -1,5 +1,6 @@
 export default {
   baseURL: "http://127.0.0.1:12138",
+  adminBaseURL: "http://127.0.0.1:12831",
   imBaseURL: "http://127.0.0.1:81",
   webURL: "http://127.0.0.1",
 

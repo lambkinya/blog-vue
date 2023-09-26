@@ -118,7 +118,7 @@
           isPublic: this.isPublic
         };
 
-        this.$http.post(this.$constant.baseURL + "/weiYan/saveWeiYan", weiYan)
+        this.$http.post(this.$constant.baseURL + "/weiYan/list", weiYan)
           .then((res) => {
             this.getWeiYan();
           })
@@ -168,7 +168,7 @@
         });
       },
       getWeiYan() {
-        this.$http.post(this.$constant.baseURL + "/weiYan/listWeiYan", this.pagination)
+        this.$http.post(this.$constant.baseURL + "/weiYan/list", this.pagination)
           .then((res) => {
             this.showFooter = false;
             if (!this.$common.isEmpty(res.data)) {

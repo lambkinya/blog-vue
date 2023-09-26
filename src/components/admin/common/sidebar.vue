@@ -45,7 +45,7 @@
   export default {
     data() {
       return {
-        isBoss: this.$store.state.currentAdmin.isBoss,
+        isBoss: this.$store.state.loginCoder.type === 0,
         items: [{
           icon: "el-icon-s-home",
           index: "/main",

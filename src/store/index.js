@@ -15,16 +15,17 @@ export default new Vuex.Store({
     webInfo: JSON.parse(localStorage.getItem("webInfo") || '{"name": "", "title": [], "notices": [], "footer": "", "backgroundImage": "", "avatar": ""}')
   },
   getters: {
+    // 根据分类信息获取文章总数量
     articleTotal: state => {
       if (state.sortInfo !== null && state.sortInfo.length !== 0) {
         if (state.sortInfo.length === 1) {
-          return state.sortInfo[0].countOfSort;
+          return state.sortInfo[0].articleCount;
         } else {
           return state.sortInfo.reduce((prev, curr) => {
             if (typeof prev === "number") {
-              return prev + curr.countOfSort;
+              return prev + curr.articleCount;
             } else {
-              return prev.countOfSort + curr.countOfSort;
+              return prev.articleCount + curr.articleCount;
             }
           });
         }
@@ -32,6 +33,7 @@ export default new Vuex.Store({
         return 0;
       }
     },
+
     navigationBar: state => {
       if (state.sortInfo !== null && state.sortInfo.length !== 0) {
         return state.sortInfo.filter(f => f.sortType === 0);

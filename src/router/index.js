@@ -69,7 +69,8 @@ const routes = [
   {
     path: '/admin',
     redirect: '/welcome',
-    meta: {requiresAuth: true},
+    // 后台管理系统权限认证
+    // meta: {requiresAuth: true},
     component: () => import('../components/admin/admin'),
     children: [{
       path: '/welcome',

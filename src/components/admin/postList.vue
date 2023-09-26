@@ -5,70 +5,76 @@
         <el-option key="1" label="是" :value="true"></el-option>
         <el-option key="2" label="否" :value="false"></el-option>
       </el-select>
-      <el-select style="width: 140px" class="mrb10" v-model="pagination.sortId" placeholder="请选择分类">
+      <el-select style="width: 140px" class="mrb10" v-model="pagination.categoryNo" placeholder="请选择分类">
         <el-option
-          v-for="item in sorts"
-          :key="item.id"
-          :label="item.sortName"
-          :value="item.id">
+          v-for="item in categoryList"
+          :key="item.no"
+          :label="item.name"
+          :value="item.no">
         </el-option>
       </el-select>
-      <el-select style="width: 140px" class="mrb10" v-model="pagination.labelId" placeholder="请选择标签">
+      <el-select style="width: 140px" class="mrb10" v-model="pagination.tagNo" placeholder="请选择标签">
         <el-option
-          v-for="item in labelsTemp"
-          :key="item.id"
-          :label="item.labelName"
-          :value="item.id">
+          v-for="item in tagList"
+          :key="item.no"
+          :label="item.name"
+          :value="item.no">
         </el-option>
       </el-select>
-      <el-input v-model="pagination.searchKey" placeholder="文章标题" class="handle-input mrb10"></el-input>
+      <el-input v-model="pagination.key" placeholder="文章标题" class="handle-input mrb10"></el-input>
       <el-button type="primary" icon="el-icon-search" @click="searchArticles()">搜索</el-button>
       <el-button type="danger" @click="clearSearch()">清除参数</el-button>
       <el-button type="primary" @click="$router.push({path: '/postEdit'})">新增文章</el-button>
     </div>
     <el-table :data="articles" border class="table" header-cell-class-name="table-header">
-      <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-      <el-table-column prop="username" label="作者" align="center"></el-table-column>
-      <el-table-column prop="articleTitle" label="文章标题" align="center"></el-table-column>
-      <el-table-column prop="sort.sortName" label="分类" align="center"></el-table-column>
-      <el-table-column prop="label.labelName" label="标签" align="center"></el-table-column>
-      <el-table-column prop="viewCount" label="浏览量" align="center"></el-table-column>
-      <el-table-column prop="likeCount" label="点赞数" align="center"></el-table-column>
-      <el-table-column label="是否可见" align="center">
-        <template slot-scope="scope">
-          <el-tag :type="scope.row.viewStatus === false ? 'danger' : 'success'"
-                  disable-transitions>
-            {{scope.row.viewStatus === false ? '不可见' : '可见'}}
-          </el-tag>
-          <el-switch @click.native="changeStatus(scope.row, 1)" v-model="scope.row.viewStatus"></el-switch>
-        </template>
-      </el-table-column>
+
+      <el-table-column prop="no" label="编号" width="55" align="center"></el-table-column>
+      <el-table-column prop="coderName" label="作者" align="center"></el-table-column>
+      <el-table-column prop="title" label="标题" align="center"></el-table-column>
       <el-table-column label="封面" align="center">
         <template slot-scope="scope">
           <el-image lazy class="table-td-thumb" :src="scope.row.articleCover" fit="cover"></el-image>
         </template>
       </el-table-column>
+
+      <el-table-column prop="categoryName" label="分类" align="center"></el-table-column>
+      <el-table-column prop="tagName" label="标签" align="center"></el-table-column>
+
+      <el-table-column prop="viewCount" label="浏览量" align="center"></el-table-column>
+      <el-table-column prop="likeCount" label="点赞数" align="center"></el-table-column>
+      <el-table-column prop="commentCount" label="评论数" align="center"></el-table-column>
+
+      <el-table-column label="是否可见" align="center">
+        <template slot-scope="scope">
+          <el-tag :type="scope.row.viewStatus === 2 || scope.row.viewStatus === 0 ? 'danger' : 'success'"
+                  disable-transitions>
+            {{ scope.row.viewStatus === 2 || scope.row.viewStatus === 0 ? '不可见' : '可见'}}
+          </el-tag>
+          <el-switch @click.native="changeStatus(scope.row, 1)" v-model="scope.row.viewStatus"></el-switch>
+        </template>
+      </el-table-column>
       <el-table-column label="是否启用评论" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.commentStatus === false ? 'danger' : 'success'"
+          <el-tag :type="scope.row.commentStatus === 0 ? 'danger' : 'success'"
                   disable-transitions>
-            {{scope.row.commentStatus === false ? '否' : '是'}}
+            {{scope.row.commentStatus === 0 ? '否' : '是'}}
           </el-tag>
           <el-switch @click.native="changeStatus(scope.row, 2)" v-model="scope.row.commentStatus"></el-switch>
         </template>
       </el-table-column>
       <el-table-column label="是否推荐" align="center">
         <template slot-scope="scope">
-          <el-tag :type="scope.row.recommendStatus === false ? 'danger' : 'success'"
+          <el-tag :type="scope.row.recommendStatus === 0 ? 'danger' : 'success'"
                   disable-transitions>
-            {{scope.row.recommendStatus === false ? '否' : '是'}}
+            {{scope.row.recommendStatus === 0 ? '否' : '是'}}
           </el-tag>
           <el-switch @click.native="changeStatus(scope.row, 3)" v-model="scope.row.recommendStatus"></el-switch>
         </template>
       </el-table-column>
-      <el-table-column prop="commentCount" label="评论数" align="center"></el-table-column>
+
       <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
       <el-table-column prop="updateTime" label="最终修改时间" align="center"></el-table-column>
+
       <el-table-column label="操作" width="180" align="center">
         <template slot-scope="scope">
           <el-button type="text" icon="el-icon-edit" @click="handleEdit(scope.row)">编辑</el-button>
@@ -99,14 +105,14 @@
           current: 1,
           size: 10,
           total: 0,
-          searchKey: "",
+          key: "",
           recommendStatus: null,
-          sortId: null,
-          labelId: null
+          categoryNo: null,
+          tagNo: null
         },
         articles: [],
-        sorts: [],
-        labels: [],
+        categoryList: [],
+        tagList: [],
         labelsTemp: []
       }
     },
@@ -114,10 +120,10 @@
     computed: {},
 
     watch: {
-      'pagination.sortId'(newVal) {
-        this.pagination.labelId = null;
-        if (!this.$common.isEmpty(newVal) && !this.$common.isEmpty(this.labels)) {
-          this.labelsTemp = this.labels.filter(l => l.sortId === newVal);
+      'pagination.categoryNo'(newVal) {
+        this.pagination.tagNo = null;
+        if (!this.$common.isEmpty(newVal) && !this.$common.isEmpty(this.tagList)) {
+          this.labelsTemp = this.tagList.filter(l => l.categoryNo === newVal);
         }
       }
     },
@@ -131,12 +137,14 @@
     },
 
     methods: {
+
+      // 获取分类和标签列表
       getSortAndLabel() {
-        this.$http.get(this.$constant.baseURL + "/webInfo/listSortAndLabel")
+        this.$http.get(this.$constant.baseURL + "/category-tag-list-admin")
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
-              this.sorts = res.data.sorts;
-              this.labels = res.data.labels;
+              this.categoryList = res.data.categoryList;
+              this.tagList = res.data.tagList;
             }
           })
           .catch((error) => {
@@ -146,26 +154,29 @@
             });
           });
       },
+
       clearSearch() {
         this.pagination = {
           current: 1,
           size: 10,
           total: 0,
-          searchKey: "",
+          key: "",
           recommendStatus: null,
-          sortId: null,
-          labelId: null
+          categoryNo: null,
+          tagNo: null
         }
         this.getArticles();
       },
+
+      // 获取文章列表
       getArticles() {
         let url = "";
         if (this.isBoss) {
-          url = "/admin/article/boss/list";
+          url = "/articles/list-admin";
         } else {
-          url = "/admin/article/user/list";
+          url = "/articles/list-admin";
         }
-        this.$http.post(this.$constant.baseURL + url, this.pagination, true)
+        this.$http.post(this.$constant.baseURL + url, this.pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.articles = res.data.records;
@@ -179,15 +190,18 @@
             });
           });
       },
+
       handlePageChange(val) {
         this.pagination.current = val;
         this.getArticles();
       },
+
       searchArticles() {
         this.pagination.total = 0;
         this.pagination.current = 1;
         this.getArticles();
       },
+
       changeStatus(article, flag) {
         let param;
         if (flag === 1) {
@@ -229,6 +243,7 @@
             });
           });
       },
+
       handleDelete(item) {
         this.$confirm('确认删除？', '提示', {
           confirmButtonText: '确定',
@@ -258,6 +273,7 @@
           });
         });
       },
+
       handleEdit(item) {
         this.$router.push({path: '/postEdit', query: {id: item.id}});
       }

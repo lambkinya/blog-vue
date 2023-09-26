@@ -7,12 +7,13 @@ import store from "../store";
 
 
 axios.defaults.baseURL = constant.baseURL;
+axios.defaults.adminBaseURL = constant.adminBaseURL;
 
 
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
   let token = localStorage.getItem("token");
-  if (token !== null) { 
+  if (token !== null) {
     config.headers.Authorization = 'Bearer ' + token;
   }
   // 在发送请求之前做些什么

@@ -3,18 +3,18 @@
     <div style="margin-bottom: 20px">
       <el-button type="primary" @click="sortDialog = true">新增分类</el-button>
     </div>
-    <el-table :data="sortInfo" border class="table" header-cell-class-name="table-header">
-      <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-      <el-table-column prop="sortName" label="分类名称" align="center"></el-table-column>
-      <el-table-column prop="sortDescription" label="分类描述" align="center"></el-table-column>
-      <el-table-column label="分类类型" align="center">
+    <el-table :data="categoryInfoList" border class="table" header-cell-class-name="table-header">
+      <el-table-column prop="no" label="编号" width="55" align="center"></el-table-column>
+      <el-table-column prop="name" label="名称" align="center"></el-table-column>
+      <el-table-column prop="description" label="描述" align="center"></el-table-column>
+      <el-table-column label="类型" align="center">
         <template slot-scope="scope">
-          <span v-if="scope.row.sortType === 0">导航栏分类</span>
-          <span v-else-if="scope.row.sortType === 1">普通分类</span>
+          <span v-if="scope.row.type === 0">导航栏分类</span>
+          <span v-else-if="scope.row.type === 1">普通分类</span>
         </template>
       </el-table-column>
       <el-table-column prop="priority" label="分类优先级" align="center"></el-table-column>
-      <el-table-column prop="countOfSort" label="文章总数" align="center"></el-table-column>
+      <el-table-column prop="articleCount" label="文章总数" align="center"></el-table-column>
       <el-table-column label="操作" width="380" align="center">
         <template slot-scope="scope">
           <el-button type="text" icon="el-icon-edit" @click="editSort(scope.row)">
@@ -27,7 +27,7 @@
             新增标签
           </el-button>
           <el-button type="text" icon="el-icon-delete" style="color: var(--orangeRed)"
-                     @click="deleteHandle(scope.row.id, 1)">
+                     @click="deleteHandle(scope.row.no, 1)">
             删除
           </el-button>
         </template>
@@ -119,7 +119,7 @@
       return {
         sortDialog: false,
         labelDialog: false,
-        sortInfo: [],
+        categoryInfoList: [],
         sort: {},
         sortForHttp: {
           id: null,
@@ -293,11 +293,13 @@
       sayLabel(sort) {
         this.sort = sort;
       },
+
+      // 获取分类信息
       getSortInfo() {
-        this.$http.get(this.$constant.baseURL + "/webInfo/getSortInfo")
+        this.$http.get(this.$constant.baseURL + "/categories/list-admin")
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
-              this.sortInfo = res.data;
+              this.categoryInfoList = res.data;
             }
           })
           .catch((error) => {

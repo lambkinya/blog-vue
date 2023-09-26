@@ -1,24 +1,27 @@
 <template>
   <div>
     <div style="margin-bottom: 20px">
-      <el-select v-if="isBoss" v-model="pagination.commentType" placeholder="评论来源类型" style="margin-right: 10px">
-        <el-option key="1" label="文章评论" value="article"></el-option>
-        <el-option key="2" label="树洞留言" value="message"></el-option>
+      <el-select v-if="isBoss" v-model="pagination.type" placeholder="评论来源类型" style="margin-right: 10px">
+        <el-option key="1" label="文章评论" value="文章评论"></el-option>
+        <el-option key="2" label="恋爱祝福" value="恋爱祝福"></el-option>
+        <el-option key="3" label="树洞留言" value="树洞留言"></el-option>
       </el-select>
-      <el-input class="my-input" type="number" style="width: 140px;margin-right: 10px" v-model="pagination.source"
-                placeholder="评论来源标识"></el-input>
+      <el-input class="my-input" type="string" style="width: 140px;margin-right: 10px" v-model="pagination.sourceNo"
+                placeholder="评论来源编号"></el-input>
+      <el-input class="my-input" type="string" style="width: 140px;margin-right: 10px" v-model="pagination.coderNo"
+                placeholder="发布者编号"></el-input>
       <el-button type="primary" icon="el-icon-search" @click="searchComments()">搜索</el-button>
       <el-button type="danger" @click="clearSearch()">清除参数</el-button>
     </div>
     <el-table :data="comments" border class="table" header-cell-class-name="table-header">
-      <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
-      <el-table-column prop="source" label="评论来源标识" align="center"></el-table-column>
+      <el-table-column prop="no" label="编号" width="55" align="center"></el-table-column>
+      <el-table-column prop="sourceNo" label="评论来源编号" align="center"></el-table-column>
       <el-table-column prop="type" label="评论来源类型" align="center"></el-table-column>
-      <el-table-column prop="userId" label="发表用户ID" align="center"></el-table-column>
+      <el-table-column prop="coderNo" label="发表用户编号" align="center"></el-table-column>
       <el-table-column prop="likeCount" label="点赞数" align="center"></el-table-column>
-      <el-table-column prop="commentContent" label="评论内容" align="center"></el-table-column>
-      <el-table-column prop="commentInfo" label="评论额外信息" align="center"></el-table-column>
-      <el-table-column prop="createTime" label="创建时间" align="center"></el-table-column>
+      <el-table-column prop="content" label="评论内容" align="center"></el-table-column>
+      <el-table-column prop="otherInfo" label="评论额外信息" align="center"></el-table-column>
+      <el-table-column prop="createTime" label="发布时间" align="center"></el-table-column>
       <el-table-column label="操作" width="180" align="center">
         <template slot-scope="scope">
           <el-button type="text" icon="el-icon-delete" style="color: var(--orangeRed)" @click="handleDelete(scope.row)">
@@ -43,13 +46,14 @@
   export default {
     data() {
       return {
-        isBoss: this.$store.state.currentAdmin.isBoss,
+        isBoss: this.$store.state.loginCoder.type === 0,
         pagination: {
           current: 1,
           size: 10,
           total: 0,
-          source: null,
-          commentType: ""
+          sourceNo: "",
+          coderNo: "",
+          type: ""
         },
         comments: []
       }
@@ -72,19 +76,20 @@
           current: 1,
           size: 10,
           total: 0,
-          source: null,
-          commentType: ""
+          sourceNo: "",
+          coderNo: "",
+          type: ""
         }
         this.getComments();
       },
       getComments() {
         let url = "";
         if (this.isBoss) {
-          url = "/admin/comment/boss/list";
+          url = "/comments/list-admin";
         } else {
-          url = "/admin/comment/user/list";
+          url = "/comments/list-admin";
         }
-        this.$http.post(this.$constant.baseURL + url, this.pagination, true)
+        this.$http.post(this.$constant.baseURL + url, this.pagination)
           .then((res) => {
             if (!this.$common.isEmpty(res.data)) {
               this.comments = res.data.records;
