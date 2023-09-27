@@ -2,10 +2,10 @@
   <div>
     <div>
       <div class="handle-box">
-        <el-select v-model="pagination.userType" placeholder="用户类型" class="handle-select mrb10">
-          <el-option key="1" label="Boss" :value="0"></el-option>
-          <el-option key="2" label="管理员" :value="1"></el-option>
-          <el-option key="3" label="普通用户" :value="2"></el-option>
+        <el-select v-model="pagination.type" placeholder="用户类型" class="handle-select mrb10">
+          <el-option key="1" label="Admin" :value="0"></el-option>
+          <el-option key="2" label="Coder" :value="1"></el-option>
+          <el-option key="3" label="Visitor" :value="2"></el-option>
         </el-select>
         <el-select v-model="pagination.userStatus" placeholder="用户状态" class="handle-select mrb10">
           <el-option key="1" label="启用" :value="true"></el-option>
@@ -16,9 +16,9 @@
         <el-button type="danger" @click="clearSearch()">清除参数</el-button>
       </div>
       <el-table :data="users" border class="table" header-cell-class-name="table-header">
-        <el-table-column prop="id" label="ID" width="55" align="center"></el-table-column>
+        <el-table-column prop="no" label="编号" width="55" align="center"></el-table-column>
         <el-table-column prop="username" label="用户名" align="center"></el-table-column>
-        <el-table-column prop="phoneNumber" label="手机号" align="center"></el-table-column>
+        <el-table-column prop="phone" label="手机号" align="center"></el-table-column>
         <el-table-column prop="email" label="邮箱" align="center"></el-table-column>
         <el-table-column label="赞赏" width="100" align="center">
           <template slot-scope="scope">
@@ -26,20 +26,14 @@
                       @blur="changeUserAdmire(scope.row)"></el-input>
           </template>
         </el-table-column>
-        <el-table-column label="用户状态" align="center">
-          <template slot-scope="scope">
-            <el-tag :type="scope.row.userStatus === false ? 'danger' : 'success'"
-                    disable-transitions>
-              {{scope.row.userStatus === false ? '禁用' : '启用'}}
-            </el-tag>
-            <el-switch @click.native="changeUserStatus(scope.row)" v-model="scope.row.userStatus"></el-switch>
-          </template>
-        </el-table-column>
+
         <el-table-column label="头像" align="center">
           <template slot-scope="scope">
             <el-image lazy class="table-td-thumb" :src="scope.row.avatar" fit="cover"></el-image>
           </template>
         </el-table-column>
+        <el-table-column prop="saying" label="简介" align="center"></el-table-column>
+
         <el-table-column label="性别" align="center">
           <template slot-scope="scope">
             <el-tag type="success"
@@ -59,32 +53,41 @@
             </el-tag>
           </template>
         </el-table-column>
-        <el-table-column prop="introduction" label="简介" align="center"></el-table-column>
         <el-table-column label="用户类型" width="100" align="center">
           <template slot-scope="scope">
             <el-tag type="success"
-                    v-if="scope.row.userType === 0"
+                    v-if="scope.row.type === 0"
                     style="cursor: pointer"
                     @click.native="editUser(scope.row)"
                     disable-transitions>
-              Boss
+              Admin
             </el-tag>
             <el-tag type="success"
-                    v-else-if="scope.row.userType === 1"
+                    v-else-if="scope.row.type === 1"
                     style="cursor: pointer"
                     @click.native="editUser(scope.row)"
                     disable-transitions>
-              管理员
+              Coder
             </el-tag>
             <el-tag type="success"
                     v-else
                     style="cursor: pointer"
                     @click.native="editUser(scope.row)"
                     disable-transitions>
-              普通用户
+              Visitor
             </el-tag>
           </template>
         </el-table-column>
+        <el-table-column label="用户状态" align="center">
+          <template slot-scope="scope">
+            <el-tag :type="scope.row.status === 0 ? 'danger' : 'success'"
+                    disable-transitions>
+              {{ scope.row.userStatus === 0 ? '禁用' : '启用' }}
+            </el-tag>
+            <el-switch @click.native="changeUserStatus(scope.row)" v-model="scope.row.userStatus"></el-switch>
+          </template>
+        </el-table-column>
+
         <el-table-column prop="createTime" label="注册时间" align="center"></el-table-column>
       </el-table>
       <div class="pagination">
@@ -106,7 +109,7 @@
                destroy-on-close
                center>
       <div class="myCenter">
-        <el-radio-group v-model="changeUser.userType">
+        <el-radio-group v-model="changeUser.type">
           <el-radio-button :label="0">Boss</el-radio-button>
           <el-radio-button :label="1">管理员</el-radio-button>
           <el-radio-button :label="2">普通用户</el-radio-button>
@@ -123,197 +126,197 @@
 
 <script>
 
-  export default {
-    data() {
-      return {
-        pagination: {
-          current: 1,
-          size: 10,
-          total: 0,
-          searchKey: "",
-          userStatus: null,
-          userType: null
-        },
-        users: [],
-        changeUser: {
-          id: null,
-          userType: null
-        },
-        editVisible: false
+export default {
+  data() {
+    return {
+      pagination: {
+        current: 1,
+        size: 10,
+        total: 0,
+        searchKey: "",
+        userStatus: null,
+        type: null
+      },
+      users: [],
+      changeUser: {
+        id: null,
+        type: null
+      },
+      editVisible: false
+    }
+  },
+
+  computed: {},
+
+  watch: {},
+
+  created() {
+    this.getUsers();
+  },
+
+  mounted() {
+  },
+
+  methods: {
+    clearSearch() {
+      this.pagination = {
+        current: 1,
+        size: 10,
+        total: 0,
+        searchKey: "",
+        userStatus: null,
+        type: null
       }
-    },
-
-    computed: {},
-
-    watch: {},
-
-    created() {
       this.getUsers();
     },
-
-    mounted() {
+    getUsers() {
+      this.$http.post(this.$constant.baseURL + "/coders/list-admin", this.pagination, true)
+        .then((res) => {
+          if (!this.$common.isEmpty(res.data)) {
+            this.users = res.data.records;
+            this.pagination.total = res.data.total;
+          }
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
     },
-
-    methods: {
-      clearSearch() {
-        this.pagination = {
-          current: 1,
-          size: 10,
-          total: 0,
-          searchKey: "",
-          userStatus: null,
-          userType: null
-        }
-        this.getUsers();
-      },
-      getUsers() {
-        this.$http.post(this.$constant.baseURL + "/admin/user/list", this.pagination, true)
-          .then((res) => {
-            if (!this.$common.isEmpty(res.data)) {
-              this.users = res.data.records;
-              this.pagination.total = res.data.total;
-            }
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
+    changeUserStatus(user) {
+      this.$http.get(this.$constant.baseURL + "/admin/user/changeUserStatus", {
+        userId: user.id,
+        flag: user.userStatus
+      }, true)
+        .then((res) => {
+          this.$message({
+            message: "修改成功！",
+            type: "success"
           });
-      },
-      changeUserStatus(user) {
-        this.$http.get(this.$constant.baseURL + "/admin/user/changeUserStatus", {
-          userId: user.id,
-          flag: user.userStatus
-        }, true)
-          .then((res) => {
-            this.$message({
-              message: "修改成功！",
-              type: "success"
-            });
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
           });
-      },
-      changeUserAdmire(user) {
-        if (!this.$common.isEmpty(user.admire)) {
-          this.$confirm('确认保存？', '提示', {
-            confirmButtonText: '确定',
-            cancelButtonText: '取消',
-            type: 'success',
-            center: true
-          }).then(() => {
-            this.$http.get(this.$constant.baseURL + "/admin/user/changeUserAdmire", {
-              userId: user.id,
-              admire: user.admire
-            }, true)
-              .then((res) => {
-                this.$message({
-                  message: "修改成功！",
-                  type: "success"
-                });
-              })
-              .catch((error) => {
-                this.$message({
-                  message: error.message,
-                  type: "error"
-                });
+        });
+    },
+    changeUserAdmire(user) {
+      if (!this.$common.isEmpty(user.admire)) {
+        this.$confirm('确认保存？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'success',
+          center: true
+        }).then(() => {
+          this.$http.get(this.$constant.baseURL + "/admin/user/changeUserAdmire", {
+            userId: user.id,
+            admire: user.admire
+          }, true)
+            .then((res) => {
+              this.$message({
+                message: "修改成功！",
+                type: "success"
               });
-          }).catch(() => {
-            this.$message({
-              type: 'success',
-              message: '已取消保存!'
+            })
+            .catch((error) => {
+              this.$message({
+                message: error.message,
+                type: "error"
+              });
             });
+        }).catch(() => {
+          this.$message({
+            type: 'success',
+            message: '已取消保存!'
           });
-        }
-      },
-      editUser(user) {
-        this.changeUser.id = user.id;
-        this.changeUser.userType = user.userType;
-        this.editVisible = true;
-      },
-      handlePageChange(val) {
-        this.pagination.current = val;
-        this.getUsers();
-      },
-      searchUser() {
-        this.pagination.total = 0;
-        this.pagination.current = 1;
-        this.getUsers();
-      },
-      handleClose() {
-        this.changeUser = {
-          id: null,
-          userType: null
-        };
-        this.editVisible = false;
-      },
-      saveEdit() {
-        this.$http.get(this.$constant.baseURL + "/admin/user/changeUserType", {
-          userId: this.changeUser.id,
-          userType: this.changeUser.userType
-        }, true)
-          .then((res) => {
-            this.handleClose();
-            this.getUsers();
-            this.$message({
-              message: "修改成功！",
-              type: "success"
-            });
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
+        });
       }
+    },
+    editUser(user) {
+      this.changeUser.id = user.id;
+      this.changeUser.type = user.type;
+      this.editVisible = true;
+    },
+    handlePageChange(val) {
+      this.pagination.current = val;
+      this.getUsers();
+    },
+    searchUser() {
+      this.pagination.total = 0;
+      this.pagination.current = 1;
+      this.getUsers();
+    },
+    handleClose() {
+      this.changeUser = {
+        id: null,
+        type: null
+      };
+      this.editVisible = false;
+    },
+    saveEdit() {
+      this.$http.get(this.$constant.baseURL + "/admin/user/changeUserType", {
+        userId: this.changeUser.id,
+        type: this.changeUser.type
+      }, true)
+        .then((res) => {
+          this.handleClose();
+          this.getUsers();
+          this.$message({
+            message: "修改成功！",
+            type: "success"
+          });
+        })
+        .catch((error) => {
+          this.$message({
+            message: error.message,
+            type: "error"
+          });
+        });
     }
   }
+}
 </script>
 
 <style scoped>
 
-  .handle-box {
-    margin-bottom: 20px;
-  }
+.handle-box {
+  margin-bottom: 20px;
+}
 
-  .handle-select {
-    width: 120px;
-  }
+.handle-select {
+  width: 120px;
+}
 
-  .handle-input {
-    width: 160px;
-    display: inline-block;
-  }
+.handle-input {
+  width: 160px;
+  display: inline-block;
+}
 
-  .table {
-    width: 100%;
-    font-size: 14px;
-  }
+.table {
+  width: 100%;
+  font-size: 14px;
+}
 
-  .mrb10 {
-    margin-right: 10px;
-    margin-bottom: 10px;
-  }
+.mrb10 {
+  margin-right: 10px;
+  margin-bottom: 10px;
+}
 
-  .table-td-thumb {
-    display: block;
-    margin: auto;
-    width: 40px;
-    height: 40px;
-  }
+.table-td-thumb {
+  display: block;
+  margin: auto;
+  width: 40px;
+  height: 40px;
+}
 
-  .pagination {
-    margin: 20px 0;
-    text-align: right;
-  }
+.pagination {
+  margin: 20px 0;
+  text-align: right;
+}
 
-  .el-switch {
-    margin: 5px;
-  }
+.el-switch {
+  margin: 5px;
+}
 </style>
