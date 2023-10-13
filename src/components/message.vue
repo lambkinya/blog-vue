@@ -5,7 +5,7 @@
                 class="background-image"
                 v-once
                 lazy
-                :src="$constant.random_image+new Date()+Math.floor(Math.random()*10)"
+                :src="messageBG"
                 fit="cover">
         <div slot="error" class="image-slot background-image-error"></div>
       </el-image>
@@ -42,6 +42,8 @@
 </template>
 
 <script>
+import messageBG from "@/assets/file/ya002.jpg";
+
 const comment = () => import( "./comment/comment");
 const myFooter = () => import( "./common/myFooter");
 
@@ -52,6 +54,7 @@ export default {
   },
   data() {
     return {
+      messageBG: messageBG,
       show: false,
       messageContent: "",
       // background: {"background": "url(" + this.$store.state.webInfo.backgroundImage + ") center center / cover no-repeat"},
@@ -64,24 +67,24 @@ export default {
   methods: {
     getTreeHole() {
       this.$http.get(this.$constant.baseURL + "/treeHoles/all")
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            res.data.forEach(m => {
-              this.barrageList.push({
-                no: m.no,
-                avatar: m.avatar,
-                msg: m.message,
-                time: Math.floor(Math.random() * 10 + 5)
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              res.data.forEach(m => {
+                this.barrageList.push({
+                  no: m.no,
+                  avatar: m.avatar,
+                  msg: m.message,
+                  time: Math.floor(Math.random() * 10 + 5)
+                });
               });
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
             });
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
           });
-        });
     },
     submitMessage() {
       if (this.messageContent.trim() === "") {
@@ -102,22 +105,22 @@ export default {
 
 
       this.$http.post(this.$constant.baseURL + "/treeHoles/leaveMessage", treeHole)
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            this.barrageList.push({
-              no: res.data.no,
-              avatar: res.data.avatar,
-              msg: res.data.message,
-              time: Math.floor(Math.random() * 10 + 5)
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              this.barrageList.push({
+                no: res.data.no,
+                avatar: res.data.avatar,
+                msg: res.data.message,
+                time: Math.floor(Math.random() * 10 + 5)
+              });
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
             });
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
           });
-        });
 
       this.messageContent = "";
       this.show = false;

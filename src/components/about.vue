@@ -7,7 +7,7 @@
 
     <div style="background: var(--background)" class="my-animation-slide-bottom">
       <div class="about-wrap">
-        <h1 style="font-size: 40px;font-weight: 500;letter-spacing: 5px;">两只毛驴鸣翠柳</h1>
+        <h1 style="font-size: 40px;font-weight: 500;letter-spacing: 5px;">花灯随烟波铺江上</h1>
         <!-- 对话框 -->
         <div class="about-box">
           <h4>与 {{$store.state.webInfo.name}} 对话中...</h4>
