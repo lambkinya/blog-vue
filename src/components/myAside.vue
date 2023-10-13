@@ -180,7 +180,7 @@ export default {
       this.$emit("selectArticle", this.articleSearch);
     },
     showAdmire() {
-      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+      if (this.$common.isEmpty(this.$store.state.loginCoder)) {
         this.$message({
           message: "请先登录！",
           type: "error"

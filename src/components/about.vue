@@ -10,7 +10,7 @@
         <h1 style="font-size: 40px;font-weight: 500;letter-spacing: 5px;">两只毛驴鸣翠柳</h1>
         <!-- 对话框 -->
         <div class="about-box">
-          <h4>与 {{$store.state.webInfo.webName}} 对话中...</h4>
+          <h4>与 {{$store.state.webInfo.name}} 对话中...</h4>
           <div v-if="sayShow" id="say-container"></div>
         </div>
       </div>

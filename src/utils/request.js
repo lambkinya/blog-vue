@@ -25,7 +25,7 @@ axios.interceptors.request.use(function (config) {
 
 // 添加响应拦截器
 axios.interceptors.response.use(function (response) {
-  if (response.data !== null && response.data.hasOwnProperty("code") && response.data.code !== 200) {
+  if (response.data !== null && response.data.hasOwnProperty("code") && response.data.code !== 0) {
     if (response.data.code === 300) {
       store.commit("loadCurrentUser", {});
       localStorage.removeItem("userToken");

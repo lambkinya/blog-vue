@@ -238,7 +238,7 @@
         this.$emit("showComment");
       },
       getImage() {
-        if (this.$common.isEmpty(this.$store.state.currentUser)) {
+        if (this.$common.isEmpty(this.$store.state.loginCoder)) {
           this.$message({
             message: "请先登录！",
             type: "error"
@@ -265,7 +265,7 @@
           u8arr[n] = str.charCodeAt(n);
         }
         let obj = new Blob([u8arr], {type: mine});
-        let key = "graffiti" + "/" + this.$store.state.currentUser.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.currentUser.id + new Date().getTime() + Math.floor(Math.random() * 1000) + ".png";
+        let key = "graffiti" + "/" + this.$store.state.loginCoder.username.replace(/[^a-zA-Z]/g, '') + this.$store.state.loginCoder.id + new Date().getTime() + Math.floor(Math.random() * 1000) + ".png";
         let fd = new FormData();
         fd.append("file", obj);
         fd.append("key", key);

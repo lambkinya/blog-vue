@@ -227,7 +227,7 @@
             </div>
           </li>
 
-          <template v-if="$common.isEmpty($store.state.currentUser)">
+          <template v-if="$common.isEmpty($store.state.loginCoder)">
             <li @click="smallMenu({path: '/user'})">
               <div>
                 <i class="fa fa-sign-in" aria-hidden="true"></i>
@@ -353,7 +353,7 @@ export default {
     },
 
     goIm() {
-      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+      if (this.$common.isEmpty(this.$store.state.loginCoder)) {
         this.$message({
           message: "请先登录！",
           type: "error"

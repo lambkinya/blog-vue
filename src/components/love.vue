@@ -73,34 +73,34 @@
           <span class="family-button-car">
             <svg viewBox="0 0 1024 1024" width="40" height="40">
                 <path
-                  d="M399.502 655.103c0 7.902-6.665 14.311-14.88 14.311H72.188c-8.215 0-14.875-6.407-14.875-14.311v-28.634c0-7.913 6.66-14.315 14.875-14.315h312.435c8.217 0 14.88 6.402 14.88 14.315l-0.001 28.634zM968.167 655.103c0 7.902-6.664 14.311-14.882 14.311H640.851c-8.216 0-14.877-6.407-14.877-14.311v-28.634c0-7.913 6.661-14.315 14.877-14.315h312.436c8.218 0 14.882 6.402 14.882 14.315l-0.002 28.634z"
-                  fill="#EA0606"></path><path
-              d="M968.097 624.008c0 11.563-17.723 20.937-39.583 20.937H97.263c-21.858 0-39.579-9.372-39.579-20.937v-41.876c0-11.562 17.72-20.935 39.579-20.935h831.25c21.86 0 39.583 9.373 39.583 20.935v41.876zM855.003 526.553h-12c0-161.793-151.025-293.421-336.66-293.421-185.633 0-336.656 131.628-336.656 293.421h-12c0-41.334 9.261-81.425 27.527-119.161 17.612-36.384 42.807-69.046 74.886-97.079 65.813-57.509 153.264-89.181 246.243-89.181 92.981 0 180.434 31.672 246.247 89.181 32.079 28.032 57.274 60.693 74.887 97.079 18.264 37.734 27.526 77.826 27.526 119.161z"
-              fill="#EA0606"></path><path
-              d="M1001.996 588.091c-121.146 13.91-980.875 0-980.875 0s-30.62-203.887 241.944-144.555c171.281-1.178 273.436 0 489.644 0 193.07-59.332 283.186 108.642 249.287 144.555z"
-              fill="#EA0606"></path><path
-              d="M500.343 214.379h12v330.342h-12z"
-              fill="#EA0606"></path><path
-              d="M333.217 657.192c0 46.174-38.961 83.602-87.029 83.602-48.056 0-87.021-37.428-87.021-83.602 0-46.172 38.963-83.588 87.021-83.588 48.067 0 87.029 37.417 87.029 83.588z"
-              fill="#FFFFFF"></path><path
-              d="M246.188 743.794c-49.638 0-90.021-38.85-90.021-86.602 0-47.745 40.383-86.588 90.021-86.588 49.642 0 90.029 38.843 90.029 86.588 0 47.752-40.387 86.602-90.029 86.602z m0-167.19c-46.329 0-84.021 36.151-84.021 80.588 0 44.444 37.692 80.602 84.021 80.602 46.333 0 84.029-36.157 84.029-80.602 0-44.436-37.696-80.588-84.029-80.588z"
-              fill="#440A0A"></path><path
-              d="M309.872 656.757c0 33.159-27.986 60.035-62.491 60.035-34.51 0-62.487-26.876-62.487-60.035 0-33.16 27.977-60.022 62.487-60.022 34.505 0.001 62.491 26.862 62.491 60.022z"
-              fill="#440A0A"></path><path
-              d="M271.322 657.558c0 11.747-9.918 21.282-22.151 21.282-12.237 0-22.152-9.535-22.152-21.282 0-11.758 9.916-21.277 22.152-21.277 12.233-0.002 22.151 9.519 22.151 21.277z"
-              fill="#FFFFFF"></path><path
-              d="M875.521 642.811c0 46.175-38.963 83.603-87.027 83.603-48.061 0-87.021-37.428-87.021-83.603 0-46.173 38.962-83.587 87.021-83.587 48.066 0 87.027 37.414 87.027 83.587z"
-              fill="#FFFFFF"></path><path
-              d="M788.494 729.413c-49.638 0-90.021-38.85-90.021-86.603 0-47.744 40.384-86.587 90.021-86.587 49.642 0 90.027 38.843 90.027 86.587 0 47.753-40.385 86.603-90.027 86.603z m0-167.189c-46.33 0-84.021 36.151-84.021 80.587 0 44.444 37.691 80.603 84.021 80.603 46.333 0 84.027-36.158 84.027-80.603 0-44.436-37.694-80.587-84.027-80.587z"
-              fill="#440A0A"></path><path
-              d="M852.174 642.374c0 33.159-27.979 60.037-62.486 60.037-34.512 0-62.487-26.878-62.487-60.037 0-33.161 27.977-60.023 62.487-60.023 34.506-0.001 62.486 26.862 62.486 60.023z"
-              fill="#440A0A"></path><path
-              d="M813.628 643.173c0 11.75-9.919 21.278-22.153 21.278-12.233 0-22.151-9.528-22.151-21.278 0-11.759 9.919-21.275 22.151-21.275 12.235-0.002 22.153 9.516 22.153 21.275z"
-              fill="#FFFFFF"></path><path
-              d="M518.135 469.838h56.847v12.556h-56.847z"
-              fill="#FFFFFF"></path><path
-              d="M522.818 468.694c0 7.902-0.648 14.309-1.445 14.309h-30.37c-0.799 0-1.446-6.406-1.446-14.309V440.06c0-7.912 0.647-14.315 1.446-14.315h30.37c0.797 0 1.445 6.403 1.445 14.315v28.634z"
-              fill="#EA0606">
+                    d="M399.502 655.103c0 7.902-6.665 14.311-14.88 14.311H72.188c-8.215 0-14.875-6.407-14.875-14.311v-28.634c0-7.913 6.66-14.315 14.875-14.315h312.435c8.217 0 14.88 6.402 14.88 14.315l-0.001 28.634zM968.167 655.103c0 7.902-6.664 14.311-14.882 14.311H640.851c-8.216 0-14.877-6.407-14.877-14.311v-28.634c0-7.913 6.661-14.315 14.877-14.315h312.436c8.218 0 14.882 6.402 14.882 14.315l-0.002 28.634z"
+                    fill="#EA0606"></path><path
+                d="M968.097 624.008c0 11.563-17.723 20.937-39.583 20.937H97.263c-21.858 0-39.579-9.372-39.579-20.937v-41.876c0-11.562 17.72-20.935 39.579-20.935h831.25c21.86 0 39.583 9.373 39.583 20.935v41.876zM855.003 526.553h-12c0-161.793-151.025-293.421-336.66-293.421-185.633 0-336.656 131.628-336.656 293.421h-12c0-41.334 9.261-81.425 27.527-119.161 17.612-36.384 42.807-69.046 74.886-97.079 65.813-57.509 153.264-89.181 246.243-89.181 92.981 0 180.434 31.672 246.247 89.181 32.079 28.032 57.274 60.693 74.887 97.079 18.264 37.734 27.526 77.826 27.526 119.161z"
+                fill="#EA0606"></path><path
+                d="M1001.996 588.091c-121.146 13.91-980.875 0-980.875 0s-30.62-203.887 241.944-144.555c171.281-1.178 273.436 0 489.644 0 193.07-59.332 283.186 108.642 249.287 144.555z"
+                fill="#EA0606"></path><path
+                d="M500.343 214.379h12v330.342h-12z"
+                fill="#EA0606"></path><path
+                d="M333.217 657.192c0 46.174-38.961 83.602-87.029 83.602-48.056 0-87.021-37.428-87.021-83.602 0-46.172 38.963-83.588 87.021-83.588 48.067 0 87.029 37.417 87.029 83.588z"
+                fill="#FFFFFF"></path><path
+                d="M246.188 743.794c-49.638 0-90.021-38.85-90.021-86.602 0-47.745 40.383-86.588 90.021-86.588 49.642 0 90.029 38.843 90.029 86.588 0 47.752-40.387 86.602-90.029 86.602z m0-167.19c-46.329 0-84.021 36.151-84.021 80.588 0 44.444 37.692 80.602 84.021 80.602 46.333 0 84.029-36.157 84.029-80.602 0-44.436-37.696-80.588-84.029-80.588z"
+                fill="#440A0A"></path><path
+                d="M309.872 656.757c0 33.159-27.986 60.035-62.491 60.035-34.51 0-62.487-26.876-62.487-60.035 0-33.16 27.977-60.022 62.487-60.022 34.505 0.001 62.491 26.862 62.491 60.022z"
+                fill="#440A0A"></path><path
+                d="M271.322 657.558c0 11.747-9.918 21.282-22.151 21.282-12.237 0-22.152-9.535-22.152-21.282 0-11.758 9.916-21.277 22.152-21.277 12.233-0.002 22.151 9.519 22.151 21.277z"
+                fill="#FFFFFF"></path><path
+                d="M875.521 642.811c0 46.175-38.963 83.603-87.027 83.603-48.061 0-87.021-37.428-87.021-83.603 0-46.173 38.962-83.587 87.021-83.587 48.066 0 87.027 37.414 87.027 83.587z"
+                fill="#FFFFFF"></path><path
+                d="M788.494 729.413c-49.638 0-90.021-38.85-90.021-86.603 0-47.744 40.384-86.587 90.021-86.587 49.642 0 90.027 38.843 90.027 86.587 0 47.753-40.385 86.603-90.027 86.603z m0-167.189c-46.33 0-84.021 36.151-84.021 80.587 0 44.444 37.691 80.603 84.021 80.603 46.333 0 84.027-36.158 84.027-80.603 0-44.436-37.694-80.587-84.027-80.587z"
+                fill="#440A0A"></path><path
+                d="M852.174 642.374c0 33.159-27.979 60.037-62.486 60.037-34.512 0-62.487-26.878-62.487-60.037 0-33.161 27.977-60.023 62.487-60.023 34.506-0.001 62.486 26.862 62.486 60.023z"
+                fill="#440A0A"></path><path
+                d="M813.628 643.173c0 11.75-9.919 21.278-22.153 21.278-12.233 0-22.151-9.528-22.151-21.278 0-11.759 9.919-21.275 22.151-21.275 12.235-0.002 22.153 9.516 22.153 21.275z"
+                fill="#FFFFFF"></path><path
+                d="M518.135 469.838h56.847v12.556h-56.847z"
+                fill="#FFFFFF"></path><path
+                d="M522.818 468.694c0 7.902-0.648 14.309-1.445 14.309h-30.37c-0.799 0-1.446-6.406-1.446-14.309V440.06c0-7.912 0.647-14.315 1.446-14.315h30.37c0.797 0 1.445 6.403 1.445 14.315v28.634z"
+                fill="#EA0606">
                 </path>
             </svg>
           </span>
@@ -126,21 +126,21 @@
             </div>
           </div>
 
-<!--          <div class="card-content shadow-box-mini" @click="changeCard(2)">-->
-<!--            <div>-->
-<!--              <el-avatar :size="100"-->
-<!--                         :src="$constant.lovePhoto">-->
-<!--              </el-avatar>-->
-<!--            </div>-->
-<!--            <div class="card-right">-->
-<!--              <div class="card-title">-->
-<!--                时光相册-->
-<!--              </div>-->
-<!--              <div class="card-desc">-->
-<!--                📸记录美好瞬间-->
-<!--              </div>-->
-<!--            </div>-->
-<!--          </div>-->
+          <!--          <div class="card-content shadow-box-mini" @click="changeCard(2)">-->
+          <!--            <div>-->
+          <!--              <el-avatar :size="100"-->
+          <!--                         :src="$constant.lovePhoto">-->
+          <!--              </el-avatar>-->
+          <!--            </div>-->
+          <!--            <div class="card-right">-->
+          <!--              <div class="card-title">-->
+          <!--                时光相册-->
+          <!--              </div>-->
+          <!--              <div class="card-desc">-->
+          <!--                📸记录美好瞬间-->
+          <!--              </div>-->
+          <!--            </div>-->
+          <!--          </div>-->
 
           <div class="card-content shadow-box-mini" @click="changeCard(3)">
             <div>
@@ -232,8 +232,8 @@
               </span>
               <span style="vertical-align:middle">
                 <svg viewBox="0 0 1024 1024" width="30" height="30"><path
-                  d="M952 511.5L567.4 183v164.3s-251.3 30.3-369.1 131.2C76.4 582.9 73 840 73 840l20.4-2s72.9-164 258.5-162.3c99.9 0.9 171.3 0.8 215.6 0.6V840L952 511.5z"
-                  fill="#FF9D3A"></path>
+                    d="M952 511.5L567.4 183v164.3s-251.3 30.3-369.1 131.2C76.4 582.9 73 840 73 840l20.4-2s72.9-164 258.5-162.3c99.9 0.9 171.3 0.8 215.6 0.6V840L952 511.5z"
+                    fill="#FF9D3A"></path>
                 </svg>
               </span>
             </div>
@@ -243,12 +243,12 @@
               </span>
               <span style="vertical-align:middle">
                 <svg viewBox="0 0 1024 1024" width="30" height="30"><path
-                  d="M731.0848 143.7696c-125.0816-54.528-270.7456 2.6624-325.2736 127.7952l-3.7376 8.6016-8.6016-3.7376c-125.0816-54.5792-270.6944 2.6112-325.2224 127.744-54.528 125.0816 2.6624 270.7456 127.7952 325.2736l368.0256 160.4096c51.712 22.528 111.872-1.1264 134.4-52.7872l0.0512-0.1024c0-0.0512 0.0512-0.1024 0.0512-0.1536l160.3072-367.7696c54.528-125.1328-2.6624-270.7456-127.7952-325.2736z"
-                  fill="#F85F69"></path><path
-                  d="M586.9568 433.8688c72.2432-31.488 156.3136 1.536 187.8016 73.7792l2.1504 4.9664 4.9664-2.1504c72.2432-31.488 156.3136 1.536 187.8016 73.7792 31.488 72.2432-1.536 156.3136-73.7792 187.8016l-212.48 92.6208c-29.8496 13.0048-64.5632-0.6144-77.568-30.464v-0.0512c0-0.0512-0.0512-0.0512-0.0512-0.1024l-92.5696-212.3264c-31.488-72.2944 1.536-156.3648 73.728-187.8528z"
-                  fill="#F85F69"></path><path
-                  d="M781.8752 510.4128l-4.9664 2.1504-2.1504-4.9664c-31.488-72.2432-115.5584-105.2672-187.8016-73.7792s-105.2672 115.5584-73.7792 187.8016l92.5696 212.3264c0 0.0512 0.0512 0.0512 0.0512 0.1024v0.0512c12.3904 28.3648 44.3904 42.0864 73.1648 32.1536a101.4784 101.4784 0 0 0 19.4048-29.2352l0.0512-0.1024c0-0.0512 0.0512-0.1024 0.0512-0.1536l147.4048-338.0736c-21.248-1.024-43.1104 2.6624-64 11.7248z"
-                  fill="#F33B3D"></path>
+                    d="M731.0848 143.7696c-125.0816-54.528-270.7456 2.6624-325.2736 127.7952l-3.7376 8.6016-8.6016-3.7376c-125.0816-54.5792-270.6944 2.6112-325.2224 127.744-54.528 125.0816 2.6624 270.7456 127.7952 325.2736l368.0256 160.4096c51.712 22.528 111.872-1.1264 134.4-52.7872l0.0512-0.1024c0-0.0512 0.0512-0.1024 0.0512-0.1536l160.3072-367.7696c54.528-125.1328-2.6624-270.7456-127.7952-325.2736z"
+                    fill="#F85F69"></path><path
+                    d="M586.9568 433.8688c72.2432-31.488 156.3136 1.536 187.8016 73.7792l2.1504 4.9664 4.9664-2.1504c72.2432-31.488 156.3136 1.536 187.8016 73.7792 31.488 72.2432-1.536 156.3136-73.7792 187.8016l-212.48 92.6208c-29.8496 13.0048-64.5632-0.6144-77.568-30.464v-0.0512c0-0.0512-0.0512-0.0512-0.0512-0.1024l-92.5696-212.3264c-31.488-72.2944 1.536-156.3648 73.728-187.8528z"
+                    fill="#F85F69"></path><path
+                    d="M781.8752 510.4128l-4.9664 2.1504-2.1504-4.9664c-31.488-72.2432-115.5584-105.2672-187.8016-73.7792s-105.2672 115.5584-73.7792 187.8016l92.5696 212.3264c0 0.0512 0.0512 0.0512 0.0512 0.1024v0.0512c12.3904 28.3648 44.3904 42.0864 73.1648 32.1536a101.4784 101.4784 0 0 0 19.4048-29.2352l0.0512-0.1024c0-0.0512 0.0512-0.1024 0.0512-0.1536l147.4048-338.0736c-21.248-1.024-43.1104 2.6624-64 11.7248z"
+                    fill="#F33B3D"></path>
                 </svg>
               </span>
             </div>
@@ -337,11 +337,11 @@
                       </div>
                       <div>
                         <el-date-picker
-                          v-model="userLove.lovingTime"
-                          value-format="yyyy-MM-dd HH:mm:ss"
-                          type="datetime"
-                          align="center"
-                          placeholder="选择计时时间">
+                            v-model="userLove.lovingTime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            type="datetime"
+                            align="center"
+                            placeholder="选择计时时间">
                         </el-date-picker>
                       </div>
                     </div>
@@ -359,11 +359,11 @@
                       </div>
                       <div>
                         <el-date-picker
-                          v-model="userLove.countdownTime"
-                          value-format="yyyy-MM-dd HH:mm:ss"
-                          type="datetime"
-                          align="center"
-                          placeholder="选择倒计时时间">
+                            v-model="userLove.countdownTime"
+                            value-format="yyyy-MM-dd HH:mm:ss"
+                            type="datetime"
+                            align="center"
+                            placeholder="选择倒计时时间">
                         </el-date-picker>
                       </div>
                     </div>
@@ -575,23 +575,23 @@ export default {
       }
 
       this.$http.post(this.$constant.baseURL + "/family/saveFamily", this.userLove)
-        .then((res) => {
-          this.$message({
-            type: 'success',
-            message: '提交成功，待管理员审核！'
+          .then((res) => {
+            this.$message({
+              type: 'success',
+              message: '提交成功，待管理员审核！'
+            });
+            this.userLove = {};
+            this.loveDialogVisible = false;
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
           });
-          this.userLove = {};
-          this.loveDialogVisible = false;
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
-          });
-        });
     },
     addFamily() {
-      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+      if (this.$common.isEmpty(this.$store.state.loginCoder)) {
         this.$message({
           message: "请先登录！",
           type: "error"
@@ -600,17 +600,17 @@ export default {
       }
 
       this.$http.get(this.$constant.baseURL + "/family/getFamily")
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            this.userLove = res.data;
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              this.userLove = res.data;
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
           });
-        });
 
       this.loveDialogVisible = true;
     },
@@ -619,61 +619,61 @@ export default {
     },
     getPhotoTitles() {
       this.$http.get(this.$constant.baseURL + "/webInfo/listAdminLovePhoto")
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            this.photoTitleList = res.data;
-            this.photoPagination = {
-              current: 1,
-              size: 10,
-              total: 0,
-              resourceType: "lovePhoto",
-              classify: this.photoTitleList[0].classify
-            };
-            this.changePhoto();
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              this.photoTitleList = res.data;
+              this.photoPagination = {
+                current: 1,
+                size: 10,
+                total: 0,
+                resourceType: "lovePhoto",
+                classify: this.photoTitleList[0].classify
+              };
+              this.changePhoto();
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
           });
-        });
     },
     getAdminFamily() {
       this.$http.get(this.$constant.baseURL + "/sweethearts/admin" +
-        "")
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            this.love = res.data;
-            this.adminLove = res.data;
-            this.getLove();
-            this.countdown();
-            setInterval(() => {
+          "")
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              this.love = res.data;
+              this.adminLove = res.data;
               this.getLove();
               this.countdown();
-            }, 1000);
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
+              setInterval(() => {
+                this.getLove();
+                this.countdown();
+              }, 1000);
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
           });
-        });
     },
     getRandomFamily() {
       this.$http.get(this.$constant.baseURL + "/family/listRandomFamily")
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            this.randomFamily = res.data;
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              this.randomFamily = res.data;
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
           });
-        });
     },
     changePhotoTitle(classify) {
       if (classify !== this.photoPagination.classify) {
@@ -694,18 +694,18 @@ export default {
     },
     changePhoto() {
       this.$http.post(this.$constant.baseURL + "/webInfo/listResourcePath", this.photoPagination)
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            this.photoList = this.photoList.concat(res.data.records);
-            this.photoPagination.total = res.data.total;
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              this.photoList = this.photoList.concat(res.data.records);
+              this.photoPagination.total = res.data.total;
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
+            });
           });
-        });
     },
     changeCard(card) {
       if (card !== 4 || this.card !== card) {
@@ -765,28 +765,29 @@ export default {
       }
     },
     getWeiYan() {
-      this.$http.post(this.$constant.baseURL + "/weiYan/list", this.weiYanPagination)
-        .then((res) => {
-          if (!this.$common.isEmpty(res.data)) {
-            res.data.records.forEach(c => {
-              c.content = c.content.replace(/\n{2,}/g, '<div style="height: 12px"></div>');
-              c.content = c.content.replace(/\n/g, '<br/>');
-              c.content = this.$common.faceReg(c.content);
-              c.content = this.$common.pictureReg(c.content);
+      const currentCoderNo = this.$store.state.loginCoder.no;
+      this.$http.post(this.$constant.baseURL + "/weiYan/list/" + currentCoderNo + "/2", this.weiYanPagination)
+          .then((res) => {
+            if (!this.$common.isEmpty(res.data)) {
+              res.data.records.forEach(c => {
+                c.content = c.content.replace(/\n{2,}/g, '<div style="height: 12px"></div>');
+                c.content = c.content.replace(/\n/g, '<br/>');
+                c.content = this.$common.faceReg(c.content);
+                c.content = this.$common.pictureReg(c.content);
+              });
+              this.treeHoleList = this.treeHoleList.concat(res.data.records);
+              this.weiYanPagination.total = res.data.total;
+            }
+          })
+          .catch((error) => {
+            this.$message({
+              message: error.message,
+              type: "error"
             });
-            this.treeHoleList = this.treeHoleList.concat(res.data.records);
-            this.weiYanPagination.total = res.data.total;
-          }
-        })
-        .catch((error) => {
-          this.$message({
-            message: error.message,
-            type: "error"
           });
-        });
     },
     deleteTreeHole(id) {
-      if (this.$common.isEmpty(this.$store.state.currentUser)) {
+      if (this.$common.isEmpty(this.$store.state.loginCoder)) {
         this.$message({
           message: "请先登录！",
           type: "error"
@@ -801,20 +802,20 @@ export default {
         center: true
       }).then(() => {
         this.$http.get(this.$constant.baseURL + "/weiYan/deleteWeiYan", {id: id})
-          .then((res) => {
-            this.$message({
-              type: 'success',
-              message: '删除成功!'
+            .then((res) => {
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+              this.weiYanPagination.current = 1;
+              this.getWeiYan();
+            })
+            .catch((error) => {
+              this.$message({
+                message: error.message,
+                type: "error"
+              });
             });
-            this.weiYanPagination.current = 1;
-            this.getWeiYan();
-          })
-          .catch((error) => {
-            this.$message({
-              message: error.message,
-              type: "error"
-            });
-          });
       }).catch(() => {
         this.$message({
           type: 'success',

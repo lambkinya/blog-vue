@@ -248,7 +248,7 @@
               this.$router.push({ path: '/' });
 
               this.$http.get(this.$constant.baseURL + "/coders/t-info").then((res) => {
-                if (res.flag) {
+                if (res.success) {
                   this.$store.commit("loadLoginCoder", res.data);
                 }
               })
